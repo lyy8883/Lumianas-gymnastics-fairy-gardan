@@ -176,47 +176,51 @@ function showMove(name){let d=$('detail');d.classList.remove('hidden');let fs=[[
 
 function getWeeklyMove(){
  const names = [
-  {name:'體操直體站姿（直體控制）',focus:'力量與平衡',note:'這是體操基本身體線條練習。雙腳站穩、膝蓋自然伸直但不鎖死、腹部輕輕出力、手臂舉高，維持 5–8 秒並正常呼吸。只做站姿，不做倒立或翻轉。'},
-  {name:'體操弓箭步姿勢（Lunge）',focus:'體操技巧基礎',note:'這是常見的體操預備與結束姿勢。雙腳前後分開、前腳踩穩、後腳腳跟自然抬起，軀幹直立，維持 5 秒後換邊；不下壓、不彈震。'},
-  {name:'低幅度阿拉伯式平衡（Arabesque）',focus:'力量與平衡',note:'這是體操與舞蹈常見的平衡造型。站在平地、靠近穩固牆面並用一手輕扶，後腿只向後抬一小段，骨盆朝前、身體不扭轉，維持 3–5 秒後換邊；不追求抬高。'},
-  {name:'單腳平衡姿勢（Passé 預備）',focus:'力量與平衡',note:'體操和平衡訓練常見的單腳控制。靠近穩固牆面，單腳站穩，另一腳腳尖輕碰支撐腳腳踝旁（不頂膝），維持 5 秒後換邊；搖晃就雙腳落地。'},
-  {name:'韻律體操手臂波浪（無器械）',focus:'體操技巧基礎',note:'這是韻律體操常見的表現動作。雙腳站穩，讓肩、手肘、手腕依序柔和帶出手臂波浪，左右各 3 次；慢慢做，不甩動關節。'},
-  {name:'體操側平衡預備（扶牆）',focus:'力量與平衡',note:'體操平衡控制的基礎造型。側身站在穩固牆邊，一手輕扶，外側腿只向旁邊抬一小段，身體保持直立，維持 3–5 秒後換邊；不甩腿、不追求高度。'},
-  {name:'體操前踢腿控制（低幅度）',focus:'柔軟度',note:'這是體操常見的腿部控制練習。站在平地、手扶穩固支撐，膝蓋自然伸展，單腿向前輕抬到舒服高度再放下，左右各 3 次；不踢高、不甩腿、不拉到痛。'},
-  {name:'體操準備姿勢＋手臂上舉',focus:'體操技巧基礎',note:'這是體操動作前常見的基本姿勢。雙腳站穩，手臂從身側慢慢舉高，肩膀放鬆、身體保持直立，停 5 秒後放下，做 3 次。'}
+  {name:'仰躺直體收緊預備（Hollow-body 基礎）',focus:'競技體操地板基礎',note:'競技體操常用的身體張力基礎。躺在穩固平坦的墊子上，膝蓋先彎曲、手臂放身旁，輕輕收緊腹部讓腰背舒服地貼近墊子，維持 3–5 秒後放鬆。先不抬手腳、不憋氣；腰背不舒服就停止。'},
+  {name:'高位前支撐（Front support 基礎）',focus:'競技體操支撐基礎',note:'競技體操地板與器械訓練會用到的基本支撐形態。雙手放在穩固、不會滑動的高桌面或牆面推撐位置，身體保持直線，維持 5 秒正常呼吸。不要用會移動的家具；手腕不舒服就停止。'},
+  {name:'競技體操弓箭步預備姿勢（Lunge）',focus:'競技體操基本姿勢',note:'這是競技體操常見的基本姿勢之一。雙腳前後分開、前腳踩穩、後腳腳跟自然抬起，軀幹直立、手臂舉高，維持 3–5 秒後換邊；不下壓、不彈震。'},
+  {name:'屈膝落地預備姿勢（Landing shape）',focus:'競技體操落地基礎',note:'競技體操跳躍落地會練習的基本身體位置。站在防滑地面，雙腳與髖部差不多寬，臀部輕輕向後、膝蓋朝腳尖方向微彎，胸口自然抬起，手臂向前保持平衡，再站直。只做慢速屈膝，不跳、不跺地。'},
+  {name:'仰躺屈膝收腹控制（核心基礎）',focus:'競技體操核心基礎',note:'用於建立競技體操需要的軀幹控制。躺在墊子上、雙膝彎曲、雙腳踩地，輕輕收緊腹部並正常呼吸 3–5 秒，再放鬆；不憋氣、不硬壓腰背。'}
  ];
  const reviewDates=Object.keys(D.reviews||{}).sort((a,b)=>b.localeCompare(a));
  const latest=reviewDates.length?D.reviews[reviewDates[0]]:{};
- let pool=names.filter(x=>x.focus===(latest.focus||'柔軟度'));
  if(latest.feeling==='有疼痛或不舒服'||latest.energy==='很累'||latest.feeling==='疲勞或僵硬'){
-  pool=[{name:'溫和呼吸與站姿放鬆',focus:'輕鬆恢復',note:'本週先以恢復為主：舒服地坐著或站著，慢慢呼吸 1 分鐘，不做技巧或拉伸。若不適持續，請告訴可信任的大人。'}];
+  return {name:'本週恢復：休息與舒適呼吸',focus:'恢復優先',note:'本週先休息，不安排體操技巧。舒服地坐著或躺著，慢慢呼吸 1 分鐘；若不適持續，告訴可信任的大人。',weekKey:weeklyKey()};
  }
- if(!pool.length) pool=names;
+ let pool=names;
+ if(latest.focus==='競技體操地板基礎') pool=names.filter(x=>x.focus==='競技體操地板基礎'||x.focus==='競技體操核心基礎');
+ else if(latest.focus==='競技體操支撐基礎') pool=names.filter(x=>x.focus==='競技體操支撐基礎'||x.focus==='競技體操基本姿勢');
  const recentNames=(D.custom||[]).map(x=>x.name);
- pool=pool.filter(x=>!recentNames.includes(x.name));
- if(!pool.length) pool=names;
+ const fresh=pool.filter(x=>!recentNames.includes(x.name));
+ if(fresh.length) pool=fresh;
  const now=new Date(); const jan1=new Date(now.getFullYear(),0,1); const week=Math.floor((((now-jan1)/86400000)+jan1.getDay()+6)/7);
- const chosen=pool[week%pool.length];
- return {...chosen,week,weekKey:now.getFullYear()+'-W'+String(week).padStart(2,'0')};
+ return {...pool[week%pool.length],week,weekKey:now.getFullYear()+'-W'+String(week).padStart(2,'0')};
 }
+function weeklyKey(){const now=new Date();const jan1=new Date(now.getFullYear(),0,1);const week=Math.floor((((now-jan1)/86400000)+jan1.getDay()+6)/7);return now.getFullYear()+'-W'+String(week).padStart(2,'0');}
 let currentWeeklyMove=null;
 function weeklyMovePicture(name){
- const common='<circle cx="50" cy="18" r="8" fill="#ffd6b8" stroke="#735a8f" stroke-width="2"/>';
- const line=(x1,y1,x2,y2,w=4)=>'<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#735a8f" stroke-width="'+w+'" stroke-linecap="round"/>';
+ const head='<circle cx="50" cy="18" r="7" fill="#ffd6b8" stroke="#735a8f" stroke-width="2"/>';
+ const ln=(x1,y1,x2,y2,w=4,color="#735a8f")=>'<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+color+'" stroke-width="'+w+'" stroke-linecap="round"/>';
  let body='';
- if(name.includes('弓箭步')) body=common+line(50,27,50,54,5)+line(50,34,34,43)+line(50,34,65,43)+line(50,54,32,75,5)+line(32,75,17,75,5)+line(50,54,68,68,5)+line(68,68,83,68,5);
- else if(name.includes('阿拉伯式')) body=common+line(50,27,50,53,5)+line(50,34,34,43)+line(50,34,65,42)+line(50,53,40,76,5)+line(40,76,26,76,5)+line(50,53,69,65,5)+line(69,65,83,65,5);
- else if(name.includes('單腳')||name.includes('側平衡')) body=common+line(50,27,50,53,5)+line(50,34,35,43)+line(50,34,65,43)+line(50,53,50,76,5)+line(50,76,38,76,5)+line(50,53,68,62,5)+line(68,62,79,62,5);
- else if(name.includes('前踢腿')) body=common+line(50,27,50,53,5)+line(50,34,35,43)+line(50,34,65,43)+line(50,53,50,76,5)+line(50,76,38,76,5)+line(50,53,70,43,5)+line(70,43,82,43,5);
- else if(name.includes('手臂波浪')) body=common+line(50,27,50,54,5)+line(50,34,34,28)+line(34,28,25,35)+line(50,34,66,26)+line(66,26,76,33)+line(50,54,42,76,5)+line(42,76,34,76,5)+line(50,54,58,76,5)+line(58,76,66,76,5);
- else body=common+line(50,27,50,54,5)+line(50,34,32,22)+line(50,34,68,22)+line(50,54,42,76,5)+line(42,76,34,76,5)+line(50,54,58,76,5)+line(58,76,66,76,5);
- return '<div class="move-picture"><div class="move-picture-heading">🖼️ 動作示意圖</div><div class="move-picture-grid"><div class="move-frame"><svg viewBox="0 0 100 92" role="img" aria-label="動作姿勢示意">'+body+'<line x1="8" y1="79" x2="92" y2="79" stroke="#b8d9ca" stroke-width="2" stroke-linecap="round"/></svg><b>姿勢示意</b></div><div class="move-frame"><div class="move-arrow">➜</div><p>慢慢移動</p><small>保持穩定、正常呼吸</small></div><div class="move-frame"><svg viewBox="0 0 100 92" role="img" aria-label="保持平衡的示意">'+body+'<line x1="8" y1="79" x2="92" y2="79" stroke="#b8d9ca" stroke-width="2" stroke-linecap="round"/><circle cx="84" cy="15" r="7" fill="#ffe49a"/><path d="M80 15l3 3 5-6" fill="none" stroke="#9b7b36" stroke-width="2" stroke-linecap="round"/></svg><b>穩住定格</b></div></div><p class="picture-note">這是簡化示意圖，請依下方文字小幅度練習；不追求高度、不做翻轉。</p></div>';
+ if(name.includes('仰躺直體')||name.includes('仰躺屈膝')){
+  body='<circle cx="20" cy="61" r="7" fill="#ffd6b8" stroke="#735a8f" stroke-width="2"/>'+ln(27,61,53,61,5)+ln(38,61,42,73,4)+ln(42,73,53,73,4)+ln(48,61,52,72,4)+ln(52,72,62,72,4);
+  if(name.includes('直體')) body=body+ln(29,55,43,50,3)+ln(29,55,43,57,3);
+ } else if(name.includes('前支撐')){
+  body=head+ln(50,26,50,48,5)+ln(50,32,37,45,4)+ln(37,45,31,49,4)+ln(50,32,64,44,4)+ln(64,44,69,49,4)+ln(50,48,68,56,5)+ln(68,56,82,57,5)+ln(50,48,34,59,5)+ln(34,59,20,60,5);
+ } else if(name.includes('弓箭步')){
+  body=head+ln(50,27,50,49,5)+ln(50,33,36,42,4)+ln(50,33,64,42,4)+ln(50,49,34,68,5)+ln(34,68,20,68,5)+ln(50,49,67,62,5)+ln(67,62,82,62,5);
+ } else if(name.includes('落地')){
+  body=head+ln(50,27,50,47,5)+ln(50,33,36,43,4)+ln(50,33,64,43,4)+ln(50,47,39,61,5)+ln(39,61,29,69,5)+ln(50,47,61,61,5)+ln(61,61,71,69,5);
+ } else {
+  body=head+ln(50,27,50,52,5)+ln(50,34,35,43,4)+ln(50,34,65,43,4)+ln(50,52,42,75,5)+ln(42,75,34,75,5)+ln(50,52,58,75,5)+ln(58,75,66,75,5);
+ }
+ return '<div class="move-picture"><div class="move-picture-heading">🖼️ 競技體操動作示意</div><div class="move-picture-grid"><div class="move-frame"><svg viewBox="0 0 100 92" role="img" aria-label="起始姿勢示意">'+body+ln(8,79,92,79,2,"#b8d9ca")+'</svg><b>姿勢示意</b></div><div class="move-frame"><div class="move-arrow">➜</div><p>慢慢進入姿勢</p><small>不彈震、不憋氣</small></div><div class="move-frame"><svg viewBox="0 0 100 92" role="img" aria-label="穩定姿勢示意">'+body+ln(8,79,92,79,2,"#b8d9ca")+'<circle cx="84" cy="15" r="7" fill="#ffe49a"/><path d="M80 15l3 3 5-6" fill="none" stroke="#9b7b36" stroke-width="2" stroke-linecap="round"/></svg><b>穩定控制</b></div></div><p class="picture-note">簡化線稿只用來辨認身體位置，不是教練示範照；先練基本姿勢，不在家自行練翻轉、倒立或跳躍落地。</p></div>';
 }
 function renderWeeklyMove(){
  currentWeeklyMove=getWeeklyMove();
  const card=$('weeklyMoveCard');
  if(!card)return;
- card.innerHTML='<h3>🌟 本週推薦：'+esc(currentWeeklyMove.name)+'</h3>'+weeklyMovePicture(currentWeeklyMove.name)+'<p><b>學習方向：</b>'+esc(currentWeeklyMove.focus)+'</p><p>'+esc(currentWeeklyMove.note)+'</p><div class="item move-steps"><b>🪄 練習步驟</b><ol><li>先在平坦、防滑的地面站好，周圍留出空間。</li><li>慢慢進入圖示中的小幅度姿勢，不要甩腿或彈震。</li><li>穩定維持 3–5 秒，正常呼吸，再慢慢回到站姿。</li><li>每邊最多做 2–3 次；不舒服就停止。</li></ol></div><p class="status">📅 本週編號：'+esc(currentWeeklyMove.weekKey)+'</p>';
+ card.innerHTML='<h3>🌟 本週推薦：'+esc(currentWeeklyMove.name)+'</h3>'+weeklyMovePicture(currentWeeklyMove.name)+'<p><b>學習方向：</b>'+esc(currentWeeklyMove.focus)+'</p><p>'+esc(currentWeeklyMove.note)+'</p><div class="item move-steps"><b>🪄 練習步驟</b><ol><li>先看圖辨認身體位置，使用穩固、不會滑動的墊子或支撐面。</li><li>依動作說明慢慢進入姿勢，不跳、不翻、不甩動。</li><li>維持 3–5 秒並正常呼吸，再慢慢回到起始位置。</li><li>先做 2–3 次即可；疼痛、手腕不舒服或頭暈就立刻停止。</li></ol></div><p class="status">📅 本週編號：'+esc(currentWeeklyMove.weekKey)+'</p>';
 }
 $('copyWeeklyMove').onclick=async()=>{
  if(!currentWeeklyMove)renderWeeklyMove();
