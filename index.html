@@ -32,6 +32,7 @@
     <div class="grid">
       <button id="leftBtn" class="alt">⬅️ 左移</button><button id="jumpBtn" class="alt">✨ 跳躍</button><button id="rightBtn" class="alt">➡️ 右移</button>
     </div>
+    <button id="gameAction" class="alt" style="width:100%">🌟 特殊操作</button>
     <p id="gameStats" class="status">🌟 星星 0｜愛心 3</p>
     <p class="small">遊戲是安全的休閒小挑戰；不需要真的做翻轉或高難度體操動作。</p>
   </div>
@@ -151,7 +152,7 @@ $('extra').onchange=()=>{ensure(today()).extra=$('extra').value;save()};
 $('updatePlan').onclick=()=>{let p=ensure(today());p.items=planFor($('focus').value,$('energy').value,$('feeling').value);p.checked={};p.extra=$('extra').value;save();renderPlan()};
 $('saveReview').onclick=()=>{D.reviews[today()]=review();save();alert('今天的回顧已儲存！🌷')};
 $('tomorrow').onclick=()=>{let r=review();D.reviews[today()]=r;D.plans[next(today())]={items:planFor(r.focus,r.energy,r.feeling),checked:{},extra:'依前一天回顧調整'};save();$('tomorrowPlan').innerHTML='<div class="status"><b>🌸 '+next(today())+' 的課表已建立並保存</b><br>'+D.plans[next(today())].items.map(x=>esc(x[0]+' '+x[1]+'：'+x[2])).join('<br>')+'</div>'};
-function renderMoves(){$('moveList').innerHTML=all().map(m=>`<button class="alt" data-m="${esc(m[0])}" style="text-align:left;background:linear-gradient(135deg,#fff,#f4fff9 48%,#fff0f7);">${m[1]} ${esc(m[0])}<br><small>${esc(m[2])}</small></button>`).join('');document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>showMove(b.dataset.m))}
+function renderMoves(){$('moveList').innerHTML=all().map(m=>{let score=D.ratings[today()+'|'+m[0]]||0;return `<div class="item"><button class="alt" data-m="${esc(m[0])}" style="width:100%;text-align:left;background:linear-gradient(135deg,#fff,#f4fff9 48%,#fff0f7);">${m[1]} ${esc(m[0])}<br><small>${esc(m[2])}</small></button><button class="alt" data-rate="${esc(m[0])}" style="width:100%;margin-top:6px">⭐ 今日評分：${score?score+'/5 顆星':'尚未評分'}</button></div>`}).join('');document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>showMove(b.dataset.m));document.querySelectorAll('[data-rate]').forEach(b=>b.onclick=()=>{showMove(b.dataset.rate);$('detail').querySelector('[data-f="rating"]').click()})}
 function showMove(name){let d=$('detail');d.classList.remove('hidden');let fs=[['practice','📖 練法'],['rating','⭐ 每日評分'],['extend','🌈 延伸動作'],['warmup','🌤️ 練習前暖身'],['cooldown','🌸 練習後收操']];d.innerHTML=`<h2>${esc(name)}</h2><div class="grid">${fs.map(f=>`<button class="alt" data-f="${f[0]}">${f[1]}</button>`).join('')}</div><div id="fc" class="item"><p>選擇上方功能查看內容。</p></div>`;d.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{let c=$('fc'),f=b.dataset.f;if(f==='rating'){let k=today()+'|'+name,n=D.ratings[k]||0;c.innerHTML=`<h3>⭐ 每日評分｜${esc(name)}</h3><p>${today()}</p><div class="stars">${[1,2,3,4,5].map(i=>`<button class="${i<=n?'on':''}" data-s="${i}">★</button>`).join('')}</div><p id="st">${n}/5 顆星</p><label>熟練狀態</label><select id="ms"><option>尚在學習</option><option>練習中</option><option>已熟練</option></select><label>今天的心得</label><textarea id="mn">${esc(D.notes[k]||'')}</textarea><button id="sm">💾 儲存評分與心得</button>`;c.querySelector('#ms').value=D.statuses[name]||'練習中';c.querySelectorAll('[data-s]').forEach(s=>s.onclick=()=>{n=+s.dataset.s;c.querySelectorAll('[data-s]').forEach(z=>z.classList.toggle('on',+z.dataset.s<=n));$('st').textContent=n+'/5 顆星'});$('sm').onclick=()=>{D.ratings[k]=n;D.notes[k]=$('mn').value;D.statuses[name]=$('ms').value;save();c.insertAdjacentHTML('beforeend','<p class="status">✓ 已儲存</p>')}}else{let texts=f==='practice'?['先暖身並練習相關基礎控制。','在舒服範圍內練習，不追求極限。','高難度技巧由合格教練指導。']:f==='extend'?['先穩定目前動作基礎。','練習相關平衡、控制或活動度。','進階變化需教練評估。']:f==='warmup'?['輕鬆踏步 2–3 分鐘。','溫和活動手腕、肩膀與髖部。','從小幅度開始。']:['慢慢走動至呼吸平穩。','溫和放鬆當天使用的肌群。','不彈震、不硬拉。'];c.innerHTML='<h3>'+fs.find(x=>x[0]===f)[1]+'</h3>'+texts.map((t,i)=>`<p>${i+1}. ${t}</p>`).join('')}})}
 $('addMove').onclick=()=>{let n=$('newName').value.trim();if(!n){$('addMsg').textContent='先填入動作名稱喔！';return}if(all().some(x=>x[0]===n)){$('addMsg').textContent='這個動作已經在圖鑑裡了。';return}D.custom.push({name:n,note:$('newNote').value});save();$('newName').value='';$('newNote').value='';$('addMsg').textContent='✓ 已加入並儲存！';renderMoves()};
 function renderHistory(){let a=Object.entries(D.reviews).sort((x,y)=>y[0].localeCompare(x[0]));$('historyList').innerHTML=a.length?a.map(([d,r])=>`<div class="item"><h3>📅 ${esc(d)}</h3><p>精神：${esc(r.energy)}｜身體：${esc(r.feeling)}</p><p>今天練了：${esc(r.did)}</p><p>練習狀況：${esc(r.condition)}</p><p>滿意的地方：${esc(r.win)}</p><p>方向：${esc(r.focus)}</p></div>`).join(''):'還沒有每日紀錄，晚上儲存回顧後就會出現在這裡 🌸'}
@@ -273,29 +274,55 @@ document.getElementById('clearOutfit').onclick=()=>{gardenExtra.equipped={};gard
 renderRewards();
 const gc=document.getElementById('gameCanvas'), gx=gc.getContext('2d');
 let game={running:false,paused:false,kind:'garden',x:90,y:220,vy:0,stars:0,lives:3,frame:0,obstacles:[],sparkles:[],keys:{},last:0};
-const gameNames={garden:['🌷 花園大冒險','收集花園星星，避開花盆。'],classroom:['🪄 教室大改造','收集魔法貼紙，躲開飛來的橡皮擦。'],galaxy:['🌌 星河機關','在星河舞台上收集星光，注意移動平台。'],ribbon:['🎀 彩帶節奏','收集彩帶光點，掌握節奏與跳躍。'],pose:['🤸 體操造型工作室','按空白鍵切換可愛造型，收集星星。']};
-function chooseGame(k){game.kind=k;document.getElementById('gameTitle').textContent=gameNames[k][0];document.getElementById('gameDesc').textContent=gameNames[k][1];resetGame();drawGame()}
+const gameNames={
+ garden:['🌷 花園大冒險','目標：收集⭐、避開🪴。用⬅️➡️移動，按✨跳過花盆。每收集一顆星星就得分。'],
+ classroom:['🪄 教室大改造','目標：收集📎魔法貼紙，躲開🧽橡皮擦。移動到貼紙旁，再按「🪄 貼上貼紙」得分；碰到橡皮擦會失去愛心。'],
+ galaxy:['🌌 星河機關','目標：收集星光。星河重力會變化，按「🌌 切換重力」改變上下方向，躲開紫色星塵。'],
+ ribbon:['🎀 彩帶節奏','目標：彩帶光點接近舞台中央時按「🎀 跟上節拍」；太早或太晚會失去一次機會。'],
+ pose:['🤸 體操造型工作室','目標：畫面會提示一個造型圖示，按「🤸 切換造型」選擇相同圖示得星星。不需要真的做體操動作。']
+};
+let poseIndex=0,poseTarget=0,gravityDir=1;
+const poseIcons=['🤸','🧘','🌟','🩰'];
+function chooseGame(k){game.kind=k;document.getElementById('gameTitle').textContent=gameNames[k][0];document.getElementById('gameDesc').textContent=gameNames[k][1];document.getElementById('gameAction').textContent=({garden:'🌟 特殊操作（跳躍）',classroom:'🪄 貼上貼紙',galaxy:'🌌 切換重力',ribbon:'🎀 跟上節拍',pose:'🤸 切換造型'})[k];resetGame();drawGame()}
 document.querySelectorAll('.gamepick').forEach(b=>b.onclick=()=>chooseGame(b.dataset.game));
-function resetGame(){game.running=false;game.paused=false;game.x=90;game.y=220;game.vy=0;game.stars=0;game.lives=3;game.frame=0;game.obstacles=[];game.sparkles=[];game.keys={};updateGameStats()}
+function resetGame(){game.running=false;game.paused=false;game.x=90;game.y=220;game.vy=0;game.stars=0;game.lives=3;game.frame=0;game.obstacles=[];game.sparkles=[];game.keys={};poseIndex=0;poseTarget=Math.floor(Math.random()*poseIcons.length);gravityDir=1;updateGameStats();drawGame()}
 function updateGameStats(){document.getElementById('gameStats').textContent=`🌟 星星 ${game.stars}｜💗 愛心 ${game.lives}`}
 function drawGame(){
  gx.clearRect(0,0,gc.width,gc.height);
  const grad=gx.createLinearGradient(0,0,0,gc.height);grad.addColorStop(0,'#e8dcff');grad.addColorStop(.68,'#e5fff2');grad.addColorStop(1,'#ffdce9');gx.fillStyle=grad;gx.fillRect(0,0,gc.width,gc.height);
  gx.fillStyle='#ffffffaa';for(let i=0;i<24;i++){let x=(i*83+game.frame*.18)%gc.width,y=(i*37)%180;gx.beginPath();gx.arc(x,y,2+(i%3),0,Math.PI*2);gx.fill()}
- gx.fillStyle='#a5dfc3';gx.fillRect(0,260,gc.width,40);gx.fillStyle='#ffbad7';for(let i=0;i<gc.width;i+=48){gx.beginPath();gx.arc(i+10,262,7,0,Math.PI*2);gx.fill()}
- game.obstacles.forEach(o=>{gx.fillStyle=o.type==='star'?'#ffd45f':'#c69de9';if(o.type==='star'){gx.font='24px sans-serif';gx.fillText('⭐',o.x,o.y)}else{gx.font='25px sans-serif';gx.fillText(game.kind==='classroom'?'🧽':game.kind==='ribbon'?'🎀':'🪴',o.x,o.y)}});
- gx.font='36px sans-serif';gx.fillText(game.kind==='pose'?(game.frame%40<20?'🤸':'🌟'):'🧚',game.x,game.y);
+ gx.fillStyle='#a5dfc3';gx.fillRect(0,260,gc.width,40);
+ if(game.kind==='galaxy'){gx.fillStyle='#c69de9';gx.fillRect(0,game.y>150?35:255,gc.width,5);gx.font='18px sans-serif';gx.fillText(gravityDir===1?'重力：向下 ↓':'重力：向上 ↑',20,28)}
+ if(game.kind==='ribbon'){gx.fillStyle='#fff';gx.fillRect(350,35,60,225);gx.strokeStyle='#e6a2d1';gx.lineWidth=4;gx.strokeRect(350,35,60,225);gx.font='18px sans-serif';gx.fillStyle='#8e659f';gx.fillText('節奏區',355,25)}
+ if(game.kind==='pose'){gx.font='22px sans-serif';gx.fillStyle='#6f5488';gx.fillText('本回合目標：'+poseIcons[poseTarget],20,35);gx.fillText('你的造型：'+poseIcons[poseIndex],20,65)}
+ game.obstacles.forEach(o=>{gx.font='25px sans-serif';gx.fillText(o.type==='star'?'⭐':o.type==='sticker'?'📎':o.type==='eraser'?'🧽':o.type==='ribbon'?'🎀':'🪴',o.x,o.y)});
+ gx.font='36px sans-serif';gx.fillText(game.kind==='pose'?poseIcons[poseIndex]:game.kind==='classroom'?'🧚':game.kind==='galaxy'?'🌠':game.kind==='ribbon'?'🎀':'🧚',game.x,game.y);
  if(!game.running){gx.fillStyle='#51456c';gx.font='bold 18px sans-serif';gx.fillText(game.paused?'已暫停':'按「開始／繼續」開始遊戲',245,145)}
 }
 function gameTick(ts){
  if(game.running){
-  game.frame++;if(game.frame%52===0)game.obstacles.push({x:gc.width+20,y:game.frame%104===0?220:250,type:Math.random()<.65?'star':'obstacle'});
-  game.obstacles.forEach(o=>o.x-=game.kind==='galaxy'?4.3:3.4);
-  game.obstacles=game.obstacles.filter(o=>o.x>-35);
-  game.obstacles.forEach(o=>{if(!o.hit&&Math.abs(o.x-game.x)<28&&Math.abs(o.y-game.y)<34){o.hit=true;if(o.type==='star'){game.stars++;gardenExtra.points++;gardenExtra.earnedTotal++;gardenSave();renderRewards()}else{game.lives--;if(game.lives<=0){game.running=false;document.getElementById('gameDesc').textContent='遊戲結束！按開始重新挑戰，或換一款遊戲。'}}}});
-  game.x=Math.max(35,Math.min(gc.width-35,game.x+(game.keys.left?-4:0)+(game.keys.right?4:0)));
-  game.y+=game.vy;game.vy+=.55;if(game.y>220){game.y=220;game.vy=0}
-  if(game.kind==='pose'&&game.frame%80===0)game.stars++;
+  game.frame++;
+  if(game.kind==='garden'&&game.frame%52===0)game.obstacles.push({x:gc.width+20,y:game.frame%104===0?220:250,type:Math.random()<.65?'star':'obstacle'});
+  if(game.kind==='classroom'&&game.frame%45===0)game.obstacles.push({x:gc.width+20,y:90+Math.random()*150,type:Math.random()<.62?'sticker':'eraser'});
+  if(game.kind==='galaxy'&&game.frame%48===0)game.obstacles.push({x:gc.width+20,y:55+Math.random()*170,type:Math.random()<.7?'star':'dust'});
+  if(game.kind==='ribbon'&&game.frame%62===0)game.obstacles.push({x:gc.width+20,y:180,type:'ribbon'});
+  game.obstacles.forEach(o=>o.x-=game.kind==='galaxy'?4.4:game.kind==='ribbon'?3.2:3.5);
+  game.obstacles=game.obstacles.filter(o=>o.x>-40);
+  if(game.kind==='garden'||game.kind==='galaxy'){
+   game.obstacles.forEach(o=>{if(!o.hit&&Math.abs(o.x-game.x)<28&&Math.abs(o.y-game.y)<36){o.hit=true;if(o.type==='star'){game.stars++;gardenExtra.points++;gardenExtra.earnedTotal++;gardenSave();renderRewards()}else{game.lives--;if(game.lives<=0){game.running=false;document.getElementById('gameDesc').textContent='愛心用完啦！按開始可重新挑戰。'}}}});
+   game.x=Math.max(35,Math.min(gc.width-35,game.x+(game.keys.left?-4:0)+(game.keys.right?4:0)));
+   game.y+=game.vy;game.vy+=.55*gravityDir;
+   if(gravityDir===1&&game.y>220){game.y=220;game.vy=0}if(gravityDir===-1&&game.y<75){game.y=75;game.vy=0}
+  }else if(game.kind==='classroom'){
+   game.x=Math.max(35,Math.min(gc.width-35,game.x+(game.keys.left?-4:0)+(game.keys.right?4:0)));
+   game.y=90+Math.sin(game.frame/24)*95;
+   game.obstacles.forEach(o=>{if(!o.hit&&Math.abs(o.x-game.x)<25&&Math.abs(o.y-game.y)<30&&o.type==='eraser'){o.hit=true;game.lives--;if(game.lives<=0)game.running=false}});
+  }else if(game.kind==='ribbon'){
+   game.x=380;game.y=210;
+   game.obstacles.forEach(o=>{if(!o.hit&&Math.abs(o.x-380)<22){o.near=true;if(o.type==='ribbon')document.getElementById('gameDesc').textContent='現在按「🎀 跟上節拍」！光點到達節奏區時按下。'}});
+  }else if(game.kind==='pose'){
+   game.x=game.x||90;game.y=220;
+  }
   updateGameStats();
  }
  drawGame();requestAnimationFrame(gameTick)
@@ -304,12 +331,32 @@ document.getElementById('gameStart').onclick=()=>{if(game.lives<=0)resetGame();g
 let tickStarted=false;function gameTickStart(){if(!tickStarted){tickStarted=true;requestAnimationFrame(gameTick)}}
 document.getElementById('gamePause').onclick=()=>{game.running=false;game.paused=true;drawGame()};
 document.getElementById('gameEnd').onclick=()=>{game.running=false;game.paused=false;document.getElementById('gameDesc').textContent='本局結束！收集到 '+game.stars+' 顆星星。';drawGame()};
-function jumpGame(){if(game.y>=220){game.vy=-10}}
+function jumpGame(){if(game.kind==='galaxy'){gravityDir*=-1;game.vy=0}else if(game.kind==='garden'&&game.y>=220){game.vy=-10}}
 document.getElementById('jumpBtn').onclick=jumpGame;
+document.getElementById('gameAction').onclick=()=>{
+ if(game.kind==='garden'){jumpGame();return}
+ if(game.kind==='classroom'){
+  const target=game.obstacles.find(o=>!o.hit&&o.type==='sticker'&&Math.abs(o.x-game.x)<90);
+  if(target){target.hit=true;game.stars++;gardenExtra.points++;gardenExtra.earnedTotal++;gardenSave();renderRewards();document.getElementById('gameDesc').textContent='貼紙收集成功！再找下一張📎';}
+  else document.getElementById('gameDesc').textContent='還沒靠近貼紙喔！用左右鍵移動到📎附近再按。';
+ }else if(game.kind==='galaxy'){gravityDir*=-1;game.vy=0;document.getElementById('gameDesc').textContent=gravityDir===1?'重力切換成向下！':'重力切換成向上！';}
+ else if(game.kind==='ribbon'){
+  const target=game.obstacles.find(o=>!o.hit&&o.type==='ribbon'&&Math.abs(o.x-380)<32);
+  if(target){target.hit=true;game.stars++;gardenExtra.points++;gardenExtra.earnedTotal++;gardenSave();renderRewards();document.getElementById('gameDesc').textContent='節拍命中！+1 星星 🎉';}
+  else{game.lives--;document.getElementById('gameDesc').textContent='這次沒踩到節拍，等彩帶接近中間再按！';}
+  updateGameStats();
+ }else if(game.kind==='pose'){
+  poseIndex=(poseIndex+1)%poseIcons.length;
+  if(poseIndex===poseTarget){game.stars++;gardenExtra.points++;gardenExtra.earnedTotal++;gardenSave();renderRewards();poseTarget=Math.floor(Math.random()*poseIcons.length);document.getElementById('gameDesc').textContent='造型配對成功！下一題目標已出現。';}
+  else document.getElementById('gameDesc').textContent='再切換看看，配對畫面上的目標造型！';
+ }
+ drawGame();
+};
 document.getElementById('leftBtn').onpointerdown=()=>game.keys.left=true;document.getElementById('leftBtn').onpointerup=()=>game.keys.left=false;document.getElementById('leftBtn').onpointerleave=()=>game.keys.left=false;
 document.getElementById('rightBtn').onpointerdown=()=>game.keys.right=true;document.getElementById('rightBtn').onpointerup=()=>game.keys.right=false;document.getElementById('rightBtn').onpointerleave=()=>game.keys.right=false;
-document.addEventListener('keydown',e=>{if(e.code==='ArrowLeft')game.keys.left=true;if(e.code==='ArrowRight')game.keys.right=true;if(e.code==='Space'){e.preventDefault();jumpGame()}});
+document.addEventListener('keydown',e=>{if(e.code==='ArrowLeft')game.keys.left=true;if(e.code==='ArrowRight')game.keys.right=true;if(e.code==='Space'){e.preventDefault();if(game.kind==='ribbon'||game.kind==='classroom'||game.kind==='pose')document.getElementById('gameAction').click();else jumpGame()}});
 document.addEventListener('keyup',e=>{if(e.code==='ArrowLeft')game.keys.left=false;if(e.code==='ArrowRight')game.keys.right=false});
+chooseGame('garden');
 renderShop();drawGame();
 
 </script></main></html>
