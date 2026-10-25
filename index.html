@@ -37,20 +37,76 @@
   </div>
 </section>
 <section id="rewards" class="page hidden">
-  <h2>⭐ 集點收藏屋</h2>
-  <div class="item"><h3>🌟 我的點數：<span id="pointsTotal">0</span></h3><p>完成課表任務可領取點數；每個日期的每項任務只能領一次。</p>
-    <div class="grid">
-      <button data-award="warmup">🌤️ 暖身完成 +2</button>
-      <button data-award="practice">🤸 基礎練習完成 +3</button>
-      <button data-award="cooldown">🌸 收操完成 +2</button>
-      <button data-award="journal">📔 寫下今日紀錄 +2</button>
-    </div>
-    <p id="rewardMsg" class="status">每一點都是努力的小星星！</p>
+  <style>
+    .stamp-card{background:linear-gradient(135deg,#fffdf2,#fff0f7 48%,#edfff6);border:3px solid #d6b6d8;border-radius:22px;padding:16px;box-shadow:inset 0 0 0 3px #fff,0 5px 15px #8c63921a}
+    .stamp-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+    .stamp-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin:12px 0}
+    .stamp{min-height:58px;border:2px dashed #dfb9d0;border-radius:13px;background:#fffafc;color:#a27b9b;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:12px;padding:5px}
+    .stamp.filled{background:linear-gradient(145deg,#fff0a8,#ffd9e9);border:2px solid #e5a5c5;color:#a4507c;box-shadow:inset 0 0 0 2px #fff}
+    .girl-box{display:grid;grid-template-columns:minmax(105px, .8fr) minmax(0,1.5fr);gap:14px;align-items:center;background:linear-gradient(135deg,#e4fff2,#fff0f7,#eee8ff);border:2px solid #e4cce8;border-radius:23px;padding:14px;margin:12px 0}
+    .girl-avatar{background:#ffffffb8;border:2px solid #fff;border-radius:20px;min-height:145px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:8px}
+    .girl-face{font-size:58px;line-height:1.15}
+    .girl-decor{font-size:22px;min-height:28px}
+    .growth-track{height:13px;border-radius:20px;background:#e7dced;overflow:hidden;border:1px solid #d7c5e0}
+    .growth-fill{height:100%;background:linear-gradient(90deg,#80d7b0,#f6b5d1,#bba4f2);width:0;transition:width .25s}
+    .shop-filters{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
+    .shop-filters button{font-size:13px;padding:9px 10px}
+    .product-card{background:linear-gradient(145deg,#fff,#fff6fb 60%,#f0fff8);border:2px solid #ead7ed;border-radius:17px;padding:11px;min-width:0}
+    .product-icon{font-size:29px;text-align:center;background:#fff;border-radius:13px;padding:7px}
+    .product-card button{width:100%;font-size:14px;padding:9px 7px;margin-top:5px}
+    .vault-card{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .vault-card .vault-info{flex:1;min-width:120px}
+    .vault-card button{font-size:13px;padding:8px}
+    @media(max-width:430px){.girl-box{grid-template-columns:1fr}.girl-avatar{min-height:120px}.stamp{font-size:10px;min-height:51px;padding:3px}.stamp-grid{gap:4px}}
+  </style>
+  <h2>⭐ 夢幻集點卡・小女孩養成屋</h2>
+  <div class="stamp-card">
+    <div class="stamp-head"><b>🎟️ 小藍的星星集點卡</b><span>卡號 <span id="stampCardNo">001</span></span></div>
+    <p style="margin:6px 0">完成練習、暖身和回顧，就能蓋下星星印章！每累積 10 點蓋 1 格，集滿 10 格就完成一張卡。兌換商品不會拿走已蓋的印章。</p>
+    <div class="stamp-grid" id="stampGrid"></div>
+    <div class="stamp-head"><span>⭐ 本張卡：<b id="stampProgress">0 / 10 格</b></span><span>🎀 已完成 <b id="stampDone">0</b> 張</span></div>
+    <p class="status" style="margin-bottom:0">目前可用點數：⭐ <b id="pointsTotal">0</b>　｜　累積獲得：<b id="earnedTotal">0</b> 點</p>
   </div>
-  <h3>🎁 收藏商店</h3><div id="shopGrid" class="grid"></div>
-  <h3>🧸 我的收藏</h3><div id="ownedGrid" class="grid"></div>
-</section>
+  <div class="grid">
+    <button data-award="warmup">🌤️ 暖身完成 +10</button>
+    <button data-award="practice">🤸 基礎練習完成 +20</button>
+    <button data-award="cooldown">🌸 收操完成 +10</button>
+    <button data-award="journal">📔 寫下今日紀錄 +10</button>
+  </div>
+  <p id="rewardMsg" class="status">每一點都是努力的小星星！完成活動後記得領取，今天每種活動只能領一次。</p>
 
+  <h3>🌷 小女孩成長日記</h3>
+  <div class="girl-box">
+    <div class="girl-avatar">
+      <div class="girl-decor" id="girlTopDecor">✨ 🎀 ✨</div>
+      <div class="girl-face" id="girlFace">👧🏻</div>
+      <div class="girl-decor" id="girlPet">🐾</div>
+      <b id="girlStage">第 1 階段・初來花園</b>
+    </div>
+    <div>
+      <b id="girlGreeting">你好呀！一起把花園變得更漂亮吧！</b>
+      <p id="girlOutfitSummary" style="margin:8px 0">穿搭：花園新手裝</p>
+      <p style="margin:8px 0">🌱 成長值：<b id="growthValue">0</b>　｜　下一階段：<b id="growthNext">10</b></p>
+      <div class="growth-track"><div class="growth-fill" id="growthFill"></div></div>
+      <p class="muted">在商店買食物，再到「我的寶庫」餵她吃，就能增加成長值、解鎖新的成長階段。這是虛擬角色養成，不影響真實飲食喔。</p>
+      <button class="alt" id="goShop">🛍️ 去逛商品商店</button>
+      <button class="alt" id="goVault">🧸 打開我的寶庫</button>
+    </div>
+  </div>
+
+  <h3 id="shopHeading">🛍️ 夢幻商品商店｜500 種以上</h3>
+  <p>共有 10 大類、每類 50 件不同商品，共 500 件。商品價格分布在 10、20、30、40、50、60、70、80、90、100 點；買下後會放進寶庫。</p>
+  <label for="shopSearch">🔎 搜尋商品</label><input id="shopSearch" placeholder="輸入食物、蝴蝶結、寵物、鞋子……">
+  <div class="shop-filters" id="shopFilters"></div>
+  <p class="muted" id="shopCount"></p>
+  <div id="shopGrid" class="grid"></div>
+  <div class="row"><button class="alt" id="shopPrev">⬅️ 上一頁</button><button id="shopNext">更多商品 ➡️</button></div>
+
+  <h3 id="vaultHeading">🧸 我的寶庫｜收藏、餵食與打扮</h3>
+  <div class="shop-filters" id="vaultFilters"></div>
+  <div id="ownedGrid" class="grid"></div>
+  <div class="item"><h3>👗 我的穿搭方法</h3><p>先在寶庫把喜歡的衣服、髮飾、髮型、鞋子、包包或寵物設為「穿上／使用」，小女孩就會顯示目前搭配。食物則可以餵給她，已餵食的食物會從寶庫消耗。</p><div id="outfitSummary" class="status">還沒有裝備物品，去寶庫試試看吧！</div><button class="alt" id="clearOutfit">🧺 換回基本穿搭</button></div>
+</section>
 <section id="history" class="page hidden"><div class="panel"><h2>📔 每日紀錄</h2><div id="historyList"></div></div></section>
 <div class="panel"><h3>🦋 安全小提醒</h3><p>高難度翻轉、倒立及極限後彎需要合格教練與合適墊面；有疼痛或不舒服就停止並告訴可信任的大人。</p><p class="muted">瀏覽器資料仍可能因清除網站資料、換裝置或瀏覽器而消失。請定期按「備份紀錄」下載 JSON 檔，必要時用「還原備份」匯回。</p></div>
 </main><script>
@@ -84,28 +140,104 @@ const gardenKey='xiaolan_gym_garden_integrated_v1';
 let gardenExtra={};
 try{gardenExtra=JSON.parse(localStorage.getItem(gardenKey)||'{}')}catch(e){}
 gardenExtra.points=Number(gardenExtra.points||0);
-gardenExtra.owned=gardenExtra.owned||[];
+gardenExtra.owned=Array.isArray(gardenExtra.owned)?gardenExtra.owned:[];
 gardenExtra.claimed=gardenExtra.claimed||{};
 gardenExtra.best=gardenExtra.best||{};
-const gardenSave=()=>{try{localStorage.setItem(gardenKey,JSON.stringify(gardenExtra))}catch(e){}};
-const shopItems=[
- {id:'flower',name:'🌷 花園小花',cost:4,desc:'花園收藏'},
- {id:'bow',name:'🎀 星星蝴蝶結',cost:5,desc:'可愛配件'},
- {id:'sticker',name:'✨ 極光貼紙',cost:6,desc:'夢幻貼紙'},
- {id:'ribbon',name:'🌈 彩帶吊飾',cost:7,desc:'彩帶收藏'},
- {id:'medal',name:'🏅 努力徽章',cost:8,desc:'努力紀念'},
- {id:'bottle',name:'🧴 薄荷水壺',cost:10,desc:'花園小物'},
- {id:'leotard',name:'🤸 夢幻體操服',cost:14,desc:'角色裝扮收藏'},
- {id:'scene',name:'🌌 極光舞台',cost:20,desc:'舞台收藏'},
- {id:'trophy',name:'🏆 星光獎盃',cost:28,desc:'特別收藏'}
+gardenExtra.earnedTotal=Number(gardenExtra.earnedTotal===undefined?gardenExtra.points:gardenExtra.earnedTotal);
+gardenExtra.growth=Number(gardenExtra.growth||0);
+gardenExtra.equipped=gardenExtra.equipped||{};
+gardenExtra.cardNo=Number(gardenExtra.cardNo||Math.floor(gardenExtra.earnedTotal/100)+1);
+gardenExtra.vaultFilter=gardenExtra.vaultFilter||'all';
+let shopCategory='all',shopPage=0,shopQuery='';
+const categoryInfo=[
+ {id:'food',label:'🍓 食物',emoji:'🍓',themes:['草莓','藍莓','蜜桃','香草','檸檬','葡萄','櫻花','蜂蜜','薄荷','星河'],forms:['小蛋糕','果凍杯','水果塔','牛奶飲','餅乾盒'],costs:[10,20,30,40,50,60,70,80,90,100]},
+ {id:'hair',label:'🎀 髮飾',emoji:'🎀',themes:['星星','櫻花','蝴蝶','珍珠','月亮','極光','薄荷','奶油','水晶','雲朵'],forms:['蝴蝶結髮夾','花朵髮箍','水晶髮針','緞帶髮圈','星星側夾'],costs:[10,20,30,40,50,60,70,80,90,100]},
+ {id:'pets',label:'🐾 寵物',emoji:'🐾',themes:['奶油','棉花糖','星光','櫻花','薄荷','月光','莓果','雲朵','極光','蜂蜜'],forms:['小貓夥伴','小狗夥伴','兔兔夥伴','倉鼠夥伴','小狐狸夥伴'],costs:[20,30,40,50,60,70,80,90,100,50]},
+ {id:'shoes',label:'👟 鞋子',emoji:'👟',themes:['櫻花','薄荷','星星','珍珠','月光','莓果','雲朵','奶油','極光','蝴蝶'],forms:['芭蕾平底鞋','星光運動鞋','蝴蝶結短靴','花園涼鞋','緞帶舞鞋'],costs:[20,30,40,50,60,70,80,90,100,10]},
+ {id:'bags',label:'👜 包包',emoji:'👜',themes:['櫻花','薄荷','星河','奶油','珍珠','雲朵','莓果','月亮','蝴蝶','極光'],forms:['迷你側背包','星星手提包','兔兔斜背包','花園小提袋','緞帶肩背包'],costs:[20,30,40,50,60,70,80,90,100,10]},
+ {id:'outfits',label:'👗 服裝',emoji:'👗',themes:['櫻花','薄荷','星河','珍珠','奶油','月光','莓果','雲朵','極光','蝴蝶'],forms:['蓬蓬裙套裝','花園洋裝','星光外套組','緞帶日常裝','夢幻舞會裝'],costs:[30,40,50,60,70,80,90,100,20,10]},
+ {id:'hairstyles',label:'💇 髮型',emoji:'💇',themes:['櫻花','薄荷','星河','珍珠','奶油','月光','莓果','雲朵','極光','蝴蝶'],forms:['雙馬尾造型','長捲髮造型','短波波造型','側編髮造型','丸子頭造型'],costs:[20,30,40,50,60,70,80,90,100,10]},
+ {id:'accessories',label:'✨ 配件',emoji:'✨',themes:['星星','櫻花','薄荷','珍珠','月亮','極光','莓果','雲朵','奶油','蝴蝶'],forms:['閃亮項鍊','花朵手環','星光耳飾','珍珠胸針','緞帶腰飾'],costs:[10,20,30,40,50,60,70,80,90,100]},
+ {id:'decor',label:'🏡 花園小物',emoji:'🏡',themes:['櫻花','薄荷','星河','珍珠','奶油','月光','莓果','雲朵','極光','蝴蝶'],forms:['迷你花盆','星星夜燈','小花園椅','夢幻鏡子','彩虹音樂盒'],costs:[10,20,30,40,50,60,70,80,90,100]},
+ {id:'collectibles',label:'💎 收藏品',emoji:'💎',themes:['星星','櫻花','薄荷','珍珠','月亮','極光','莓果','雲朵','奶油','蝴蝶'],forms:['水晶紀念章','夢幻徽章','星河玻璃球','花朵紀念牌','彩虹收藏盒'],costs:[20,30,40,50,60,70,80,90,100,10]}
 ];
-function renderShop(){
- const pt=document.getElementById('pointsTotal');if(!pt)return;pt.textContent=gardenExtra.points;
- document.getElementById('shopGrid').innerHTML=shopItems.map(x=>`<div class="item"><b>${x.name}</b><p>${x.desc}｜⭐ ${x.cost} 點</p>${gardenExtra.owned.includes(x.id)?'<span class="status">已收藏 ✓</span>':`<button data-buy="${x.id}" ${gardenExtra.points<x.cost?'disabled':''}>兌換</button>`}</div>`).join('');
- document.getElementById('ownedGrid').innerHTML=gardenExtra.owned.length?gardenExtra.owned.map(id=>{let x=shopItems.find(y=>y.id===id);return `<div class="item">${x?x.name:id}<br><small>已放入收藏屋 ✨</small></div>`}).join(''):'還沒有收藏，完成任務賺點數再來逛逛吧 🌷';
- document.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{let x=shopItems.find(y=>y.id===b.dataset.buy);if(!x||gardenExtra.owned.includes(x.id)||gardenExtra.points<x.cost)return;gardenExtra.points-=x.cost;gardenExtra.owned.push(x.id);gardenSave();renderShop();document.getElementById('rewardMsg').textContent='兌換成功！已放進你的收藏屋 ✨'});
+const shopItems=categoryInfo.flatMap(cat=>cat.themes.flatMap((theme,ti)=>cat.forms.map((form,fi)=>({id:cat.id+'-'+ti+'-'+fi,category:cat.id,categoryLabel:cat.label,name:theme+form,emoji:cat.emoji,cost:cat.costs[(ti+fi)%cat.costs.length],desc:theme+'主題設計',growth:1+(ti+fi)%3}))));
+const categoryMap=Object.fromEntries(categoryInfo.map(x=>[x.id,x]));
+function gardenSave(){try{localStorage.setItem(gardenKey,JSON.stringify(gardenExtra))}catch(e){document.getElementById('rewardMsg').textContent='⚠️ 瀏覽器儲存空間不足，請先下載備份。'}}
+function getItem(id){return shopItems.find(x=>x.id===id)}
+function isOwned(id){return gardenExtra.owned.includes(id)}
+function currentCardStamps(){return Math.floor(gardenExtra.earnedTotal/10)%10}
+function renderStampCard(){
+ const total=Math.max(0,gardenExtra.earnedTotal),stamps=currentCardStamps();
+ document.getElementById('stampCardNo').textContent=String(Math.floor(total/100)+1).padStart(3,'0');
+ document.getElementById('stampDone').textContent=Math.floor(total/100);
+ document.getElementById('stampProgress').textContent=stamps+' / 10 格';
+ document.getElementById('stampGrid').innerHTML=Array.from({length:10},(_,i)=>'<div class="stamp '+(i<stamps?'filled':'')+'"><span>'+(i<stamps?'🌟':'☆')+'</span><b>'+(i<stamps?'已蓋章':'第 '+(i+1)+' 格')+'</b><small>'+(i<stamps?'集滿 10 點':'10 點／格')+'</small></div>').join('');
+ document.getElementById('pointsTotal').textContent=gardenExtra.points;
+ document.getElementById('earnedTotal').textContent=total;
 }
-document.querySelectorAll('[data-award]').forEach(b=>b.onclick=()=>{let k=new Date().toISOString().slice(0,10)+'|'+b.dataset.award;if(gardenExtra.claimed[k]){document.getElementById('rewardMsg').textContent='這項今天已經領過點數囉！明天再領 🌷';return}gardenExtra.claimed[k]=true;gardenExtra.points+=Number(({warmup:2,practice:3,cooldown:2,journal:2})[b.dataset.award]||0);gardenSave();renderShop();document.getElementById('rewardMsg').textContent='領取成功！努力星星 +'+({warmup:2,practice:3,cooldown:2,journal:2})[b.dataset.award]+' ⭐'});
+function growthLevel(){return Math.min(5,Math.floor(gardenExtra.growth/10))}
+function renderGirl(){
+ const level=growthLevel(),faces=['👧🏻','👧🏼','👧🏻','👩🏻','👩🏼','👩🏻'];
+ const stages=['第 1 階段・初來花園','第 2 階段・花園新朋友','第 3 階段・星星收藏家','第 4 階段・花園小主人','第 5 階段・夢幻造型師','第 6 階段・極光花園守護者'];
+ const next=(level+1)*10,progress=gardenExtra.growth%10;
+ document.getElementById('girlFace').textContent=faces[level];
+ document.getElementById('girlStage').textContent=stages[level];
+ document.getElementById('girlGreeting').textContent=level<2?'你好呀！一起把花園變得更漂亮吧！':level<4?'謝謝你陪我長大！今天也來試試新穿搭吧！':'哇！我們已經成為花園的好夥伴了！';
+ document.getElementById('growthValue').textContent=gardenExtra.growth;
+ document.getElementById('growthNext').textContent=level>=5?'已達最高階段':next;
+ document.getElementById('growthFill').style.width=(level>=5?100:progress*10)+'%';
+ const eq=gardenExtra.equipped;
+ const decor=getItem(eq.hair),pet=getItem(eq.pets),outfit=getItem(eq.outfits),shoes=getItem(eq.shoes),bag=getItem(eq.bags);
+ document.getElementById('girlTopDecor').textContent=(decor?decor.emoji+' ':'')+'🎀 ✨';
+ document.getElementById('girlPet').textContent=(pet?pet.emoji+' ':'')+'🐾';
+ document.getElementById('girlOutfitSummary').textContent='穿搭：'+[outfit&&outfit.name,shoes&&shoes.name,bag&&bag.name].filter(Boolean).join('・')+' '+(!outfit&&!shoes&&!bag?'花園新手裝':'');
+ const equipNames=Object.keys(eq).map(k=>getItem(eq[k])).filter(Boolean).map(x=>x.emoji+' '+x.name);
+ document.getElementById('outfitSummary').textContent=equipNames.length?equipNames.join('　｜　'):'還沒有裝備物品，去寶庫試試看吧！';
+}
+function renderFilters(){
+ const filters=[{id:'all',label:'🌈 全部 500 件'},...categoryInfo.map(x=>({id:x.id,label:x.label}))];
+ document.getElementById('shopFilters').innerHTML=filters.map(x=>'<button class="'+(shopCategory===x.id?'':'alt')+'" data-cat="'+x.id+'">'+x.label+'</button>').join('');
+ document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{shopCategory=b.dataset.cat;shopPage=0;renderFilters();renderShop()});
+ const vault=[{id:'all',label:'🧸 全部寶庫'},{id:'food',label:'🍓 可餵食'},{id:'equipped',label:'👗 已裝備'},...categoryInfo.filter(x=>x.id!=='food').map(x=>({id:x.id,label:x.label}))];
+ document.getElementById('vaultFilters').innerHTML=vault.map(x=>'<button class="'+(gardenExtra.vaultFilter===x.id?'':'alt')+'" data-vault="'+x.id+'">'+x.label+'</button>').join('');
+ document.querySelectorAll('[data-vault]').forEach(b=>b.onclick=()=>{gardenExtra.vaultFilter=b.dataset.vault;gardenSave();renderFilters();renderVault()});
+}
+function renderShop(){
+ renderStampCard();
+ const query=(document.getElementById('shopSearch').value||'').trim().toLowerCase();
+ const filtered=shopItems.filter(x=>(shopCategory==='all'||x.category===shopCategory)&&(!query||(x.name+' '+x.desc+' '+x.categoryLabel).toLowerCase().includes(query)));
+ const pages=Math.max(1,Math.ceil(filtered.length/30));shopPage=Math.min(shopPage,pages-1);
+ document.getElementById('shopCount').textContent='找到 '+filtered.length+' 件商品｜第 '+(shopPage+1)+' / '+pages+' 頁｜商品總數：'+shopItems.length+' 件';
+ document.getElementById('shopGrid').innerHTML=filtered.slice(shopPage*30,shopPage*30+30).map(x=>'<div class="product-card"><div class="product-icon">'+x.emoji+'</div><b>'+x.name+'</b><p class="muted">'+x.categoryLabel+'｜'+x.desc+'</p><p>⭐ <b>'+x.cost+' 點</b></p>'+(isOwned(x.id)?'<span class="status">已放入寶庫 ✓</span>':'<button data-buy="'+x.id+'" '+(gardenExtra.points<x.cost?'disabled':'')+'>🛍️ 購買</button>')+'</div>').join('')||'<p class="status">沒有找到符合的商品，試試別的關鍵字吧。</p>';
+ document.getElementById('shopPrev').disabled=shopPage<=0;document.getElementById('shopNext').disabled=shopPage>=pages-1;
+ document.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{const x=getItem(b.dataset.buy);if(!x||isOwned(x.id)||gardenExtra.points<x.cost)return;gardenExtra.points-=x.cost;gardenExtra.owned.push(x.id);gardenSave();renderShop();renderVault();document.getElementById('rewardMsg').textContent='買到「'+x.name+'」啦！已放進我的寶庫 🎁';});
+}
+function renderVault(){
+ const filter=gardenExtra.vaultFilter||'all';
+ const items=gardenExtra.owned.map(id=>getItem(id)||({id:id,name:({flower:'花園小花',bow:'星星蝴蝶結',sticker:'極光貼紙',ribbon:'彩帶吊飾',medal:'努力徽章',bottle:'薄荷水壺',leotard:'夢幻體操服',scene:'極光舞台',trophy:'星光獎盃'})[id]||'舊版收藏品',emoji:'🎁',category:'legacy',categoryLabel:'舊版收藏',cost:0,desc:'先前收藏的物品'}));
+ const list=items.filter(x=>filter==='all'||(filter==='equipped'?Object.values(gardenExtra.equipped).includes(x.id):filter==='food'?x.category==='food':x.category===filter));
+ document.getElementById('ownedGrid').innerHTML=list.map(x=>{
+  const eq=Object.values(gardenExtra.equipped).includes(x.id);
+  let action='';
+  if(x.category==='food')action='<button data-feed="'+x.id+'">🍓 餵她吃</button>';
+  else if(['hair','pets','shoes','bags','outfits','hairstyles','accessories','decor','collectibles'].includes(x.category))action='<button data-equip="'+x.id+'">'+(eq?'✓ 已裝備':'👗 穿上／使用')+'</button>';
+  else action='<span class="status">收藏紀念品</span>';
+  return '<div class="product-card vault-card"><div class="product-icon">'+x.emoji+'</div><div class="vault-info"><b>'+x.name+'</b><p class="muted">'+x.categoryLabel+'｜'+x.desc+'</p>'+(eq?'<span class="status">正在使用 ✓</span>':'')+'</div>'+action+'</div>';
+ }).join('')||'<p class="status">這個分類還沒有物品。去商店逛逛，把喜歡的收藏帶回家吧！</p>';
+ document.querySelectorAll('[data-feed]').forEach(b=>b.onclick=()=>{const x=getItem(b.dataset.feed),i=gardenExtra.owned.indexOf(b.dataset.feed);if(!x||i<0)return;gardenExtra.owned.splice(i,1);gardenExtra.growth+=x.growth;gardenSave();renderGirl();renderShop();renderVault();document.getElementById('rewardMsg').textContent='餵食成功！「'+x.name+'」讓小女孩增加 '+x.growth+' 點成長值 🌱';});
+ document.querySelectorAll('[data-equip]').forEach(b=>b.onclick=()=>{const x=getItem(b.dataset.equip);if(!x||!isOwned(x.id))return;gardenExtra.equipped[x.category]=x.id;gardenSave();renderGirl();renderVault();});
+ renderGirl();
+}
+function renderRewards(){renderFilters();renderShop();renderVault();renderGirl();}
+document.querySelectorAll('[data-award]').forEach(b=>b.onclick=()=>{const amount=({warmup:10,practice:20,cooldown:10,journal:10})[b.dataset.award]||0;const k=(document.getElementById('date').value||new Date().toISOString().slice(0,10))+'|'+b.dataset.award;if(gardenExtra.claimed[k]){document.getElementById('rewardMsg').textContent='這項今天已經領過點數囉！明天再領 🌷';return}gardenExtra.claimed[k]=true;gardenExtra.points+=amount;gardenExtra.earnedTotal+=amount;gardenExtra.cardNo=Math.floor(gardenExtra.earnedTotal/100)+1;gardenSave();renderRewards();document.getElementById('rewardMsg').textContent='領取成功！星星點數 +'+amount+' ⭐ 集點卡已更新！'});
+document.getElementById('shopSearch').oninput=()=>{shopPage=0;renderShop()};
+document.getElementById('shopPrev').onclick=()=>{shopPage=Math.max(0,shopPage-1);renderShop()};
+document.getElementById('shopNext').onclick=()=>{shopPage++;renderShop()};
+document.getElementById('goShop').onclick=()=>{document.getElementById('shopHeading').scrollIntoView({behavior:'smooth',block:'start'});document.getElementById('shopSearch').focus()};
+document.getElementById('goVault').onclick=()=>document.getElementById('vaultHeading').scrollIntoView({behavior:'smooth',block:'start'});
+document.getElementById('clearOutfit').onclick=()=>{gardenExtra.equipped={};gardenSave();renderVault();document.getElementById('rewardMsg').textContent='已換回基本穿搭！想換風格就去寶庫重新搭配吧 🌷'};
+renderRewards();
 const gc=document.getElementById('gameCanvas'), gx=gc.getContext('2d');
 let game={running:false,paused:false,kind:'garden',x:90,y:220,vy:0,stars:0,lives:3,frame:0,obstacles:[],sparkles:[],keys:{},last:0};
 const gameNames={garden:['🌷 花園大冒險','收集花園星星，避開花盆。'],classroom:['🪄 教室大改造','收集魔法貼紙，躲開飛來的橡皮擦。'],galaxy:['🌌 星河機關','在星河舞台上收集星光，注意移動平台。'],ribbon:['🎀 彩帶節奏','收集彩帶光點，掌握節奏與跳躍。'],pose:['🤸 體操造型工作室','按空白鍵切換可愛造型，收集星星。']};
@@ -127,7 +259,7 @@ function gameTick(ts){
   game.frame++;if(game.frame%52===0)game.obstacles.push({x:gc.width+20,y:game.frame%104===0?220:250,type:Math.random()<.65?'star':'obstacle'});
   game.obstacles.forEach(o=>o.x-=game.kind==='galaxy'?4.3:3.4);
   game.obstacles=game.obstacles.filter(o=>o.x>-35);
-  game.obstacles.forEach(o=>{if(!o.hit&&Math.abs(o.x-game.x)<28&&Math.abs(o.y-game.y)<34){o.hit=true;if(o.type==='star'){game.stars++;gardenExtra.points++;gardenSave();renderShop()}else{game.lives--;if(game.lives<=0){game.running=false;document.getElementById('gameDesc').textContent='遊戲結束！按開始重新挑戰，或換一款遊戲。'}}}});
+  game.obstacles.forEach(o=>{if(!o.hit&&Math.abs(o.x-game.x)<28&&Math.abs(o.y-game.y)<34){o.hit=true;if(o.type==='star'){game.stars++;gardenExtra.points++;gardenExtra.earnedTotal++;gardenSave();renderRewards()}else{game.lives--;if(game.lives<=0){game.running=false;document.getElementById('gameDesc').textContent='遊戲結束！按開始重新挑戰，或換一款遊戲。'}}}});
   game.x=Math.max(35,Math.min(gc.width-35,game.x+(game.keys.left?-4:0)+(game.keys.right?4:0)));
   game.y+=game.vy;game.vy+=.55;if(game.y>220){game.y=220;game.vy=0}
   if(game.kind==='pose'&&game.frame%80===0)game.stars++;
