@@ -87,7 +87,7 @@
   </div>
   <div class="grid">
     <button data-award="warmup">🌤️ 暖身完成 +1</button>
-    <button data-award="practice">🤸 基礎練習完成 +1</button>
+    <button data-award="practice">🤸 基礎練習完成 +2</button>
     <button data-award="cooldown">🌸 收操完成 +1</button>
     <button data-award="journal">📔 寫下今日紀錄 +1</button>
   </div>
@@ -174,12 +174,12 @@ function showMove(name){let d=$('detail');d.classList.remove('hidden');let fs=[[
 
 function getWeeklyMove(){
  const names = [
-  {name:'阿拉伯式平衡預備姿勢',focus:'力量與平衡',note:'扶著穩固的椅背或靠牆，後腿只輕輕向後伸，身體保持舒服、穩定；左右各試幾秒，不追求抬高。'},
-  {name:'弓箭步平衡定格',focus:'力量與平衡',note:'在平地做小幅度弓箭步，雙腳踩穩、軀幹直立，保持 5 秒後換邊；不下壓、不追求幅度。'},
-  {name:'站姿側伸展定格',focus:'柔軟度',note:'雙腳站穩，一手向上，身體輕輕側伸並正常呼吸，左右各 5 秒；只做舒服的幅度，不硬拉。'},
-  {name:'坐姿前伸活動',focus:'柔軟度',note:'坐在地面、雙腿自然伸直或微彎，背部拉長後輕輕向前伸手，停留 5 秒；不彈震、不追求碰到腳尖。'},
-  {name:'體操起始姿勢定格',focus:'體操技巧基礎',note:'雙腳站穩、膝蓋自然放鬆、手臂舉高，身體保持直立 5–10 秒；練習控制和姿勢，不加入翻轉。'},
-  {name:'單腳平衡手臂變化',focus:'力量與平衡',note:'靠近穩固牆面單腳站立，先站穩，再慢慢把手臂從側邊舉高；左右各 5 秒，失去平衡就雙腳落地。'}
+  {name:'體操直體站姿（Hollow-body 站姿預備）',focus:'力量與平衡',note:'體操常用的身體控制基礎：雙腳站穩、肋骨自然收好、腹部輕輕出力、手臂舉高，維持 5–8 秒並正常呼吸。只做站姿，不做倒立或翻轉。'},
+  {name:'芭蕾一位手姿＋體操站姿',focus:'體操技巧基礎',note:'舞蹈與體操的姿勢控制練習：雙腳自然站穩，手臂在身前圓弧擺成一位手，肩膀放鬆、背部自然挺直，維持 5–8 秒。'},
+  {name:'阿拉伯式平衡（低幅度預備）',focus:'力量與平衡',note:'體操／舞蹈常見的平衡造型。站在平地、靠近穩固牆面，一手輕扶支撐，後腿只向後伸一小段，軀幹保持穩定，停 3–5 秒；不追求腿抬高或身體前傾。'},
+  {name:'體操弓箭步預備姿勢',focus:'體操技巧基礎',note:'體操常見的起始／落地預備姿勢。雙腳前後分開到舒服距離、前腳踩穩、後腳腳跟自然抬起，軀幹直立，維持 5 秒後換邊；不彈震、不下壓。'},
+  {name:'韻律體操手臂波浪（無器械）',focus:'體操技巧基礎',note:'韻律體操常見的手臂表現動作。站穩後讓肩、手肘、手腕依序柔和地帶出波浪，左右各做 3 次；動作慢、幅度舒服，不甩動關節。'},
+  {name:'站姿側伸展（體操活動度基礎）',focus:'柔軟度',note:'體操熱身常用的溫和側伸展。雙腳站穩，一手向上，身體輕輕側伸並正常呼吸，左右各 5 秒；只做到舒服的幅度，不硬拉。'}
  ];
  const reviewDates=Object.keys(D.reviews||{}).sort((a,b)=>b.localeCompare(a));
  const latest=reviewDates.length?D.reviews[reviewDates[0]]:{};
@@ -325,7 +325,7 @@ function renderVault(){
  renderGirl();
 }
 function renderRewards(){renderFilters();renderShop();renderVault();renderGirl();}
-document.querySelectorAll('[data-award]').forEach(b=>b.onclick=()=>{const amount=({warmup:1,practice:1,cooldown:1,journal:1})[b.dataset.award]||0;const k=(document.getElementById('date').value||new Date().toISOString().slice(0,10))+'|'+b.dataset.award;if(gardenExtra.claimed[k]){document.getElementById('rewardMsg').textContent='這項今天已經領過點數囉！明天再領 🌷';return}gardenExtra.claimed[k]=true;gardenExtra.points+=amount;gardenExtra.earnedTotal+=amount;gardenExtra.cardNo=Math.floor(gardenExtra.earnedTotal/100)+1;gardenSave();renderRewards();document.getElementById('rewardMsg').textContent='領取成功！星星點數 +'+amount+' ⭐ 集點卡已更新！'});
+document.querySelectorAll('[data-award]').forEach(b=>b.onclick=()=>{const amount=({warmup:1,practice:2,cooldown:1,journal:1})[b.dataset.award]||0;const k=(document.getElementById('date').value||new Date().toISOString().slice(0,10))+'|'+b.dataset.award;if(gardenExtra.claimed[k]){document.getElementById('rewardMsg').textContent='這項今天已經領過點數囉！明天再領 🌷';return}gardenExtra.claimed[k]=true;gardenExtra.points+=amount;gardenExtra.earnedTotal+=amount;gardenExtra.cardNo=Math.floor(gardenExtra.earnedTotal/100)+1;gardenSave();renderRewards();document.getElementById('rewardMsg').textContent='領取成功！星星點數 +'+amount+' ⭐ 集點卡已更新！'});
 document.getElementById('shopSearch').oninput=()=>{shopPage=0;renderShop()};
 document.getElementById('shopPrev').onclick=()=>{shopPage=Math.max(0,shopPage-1);renderShop()};
 document.getElementById('shopNext').onclick=()=>{shopPage++;renderShop()};
