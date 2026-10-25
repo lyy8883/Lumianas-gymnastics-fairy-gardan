@@ -11,13 +11,23 @@
 </style><main>
 <header class="hero"><div style="font-size:30px">🌷 🦋 🎀 ⭐</div><h1>小藍的夢幻體操花園</h1><p>薄荷綠 × 櫻花粉｜今天練習、晚上回顧、明天再調整</p><small>自動儲存於此瀏覽器；記得定期下載備份。</small></header>
 <div class="row"><button id="export">⬇️ 備份紀錄</button><button class="alt" id="importBtn">⬆️ 還原備份</button><input id="file" type="file" accept=".json" class="hidden"></div><p id="saved" class="status">✓ 自動儲存已開啟</p>
-<nav><button class="tab active" data-page="today">📅 今日課表</button><button class="tab alt" data-page="moves">🌷 動作圖鑑</button><button class="tab alt" data-page="add">🎀 加入新動作</button><button class="tab alt" data-page="history">📔 每日紀錄</button></nav>
+<nav><button class="tab active" data-page="today">📅 今日課表</button><button class="tab alt" data-page="moves">🌷 動作圖鑑</button><button class="tab alt" data-page="add">🎀 加入新動作</button><button class="tab alt" data-page="explore">🆕 新動作探索</button><button class="tab alt" data-page="history">📔 每日紀錄</button></nav>
 <button class="tab" data-page="play">🤸 夢幻體操影片館</button><button class="tab" data-page="rewards">⭐ 集點收藏</button>
 <section id="today" class="page">
 <div class="panel"><h2>🌤️ 今天由我幫妳選課表</h2><label>日期</label><input id="date" type="date"><p>練完一項就點一下打勾！</p><div id="plan"></div><p id="progress" class="status"></p><label>今天想加上的項目（選填）</label><input id="extra" placeholder="例如：想多練平衡基礎"><button class="alt" id="updatePlan">✨ 依今天狀況更新建議課表</button></div>
 <div class="panel"><h2>🌙 晚上回顧今天</h2><label>今天的精神</label><select id="energy"><option>普通</option><option>精神很好</option><option>很累</option></select><label>身體感覺</label><select id="feeling"><option>正常</option><option>疲勞或僵硬</option><option>有疼痛或不舒服</option></select><label>今天實際練了什麼？</label><textarea id="did" placeholder="例如：橫劈基礎、平衡練習……"></textarea><label>今天練習狀況／遇到的困難</label><textarea id="condition" placeholder="哪個動作順利？哪個還不熟？練了多久？"></textarea><label>今天最滿意的地方</label><textarea id="win" placeholder="寫下一個小小的進步 ✨"></textarea><label>明天想練的方向</label><select id="focus"><option>柔軟度</option><option>力量與平衡</option><option>體操技巧基礎</option><option>輕鬆恢復</option></select><button id="saveReview">💾 儲存今天回顧</button> <button id="tomorrow" class="alt">🌸 依今天紀錄安排明天</button><div id="tomorrowPlan"></div></div></section>
 <section id="moves" class="page hidden"><div class="panel"><h2>🌷 動作圖鑑</h2><p>每個動作都有五個功能：練法、每日評分、延伸動作、練習前暖身、練習後收操。</p><div id="moveList" class="grid"></div></div><div id="detail" class="panel hidden"></div></section>
 <section id="add" class="page hidden"><div class="panel"><h2>🎀 加入新動作</h2><p>找到新動作時，把截圖直接傳到聊天中請我協助辨認；確認名稱後再加入圖鑑。</p><label>動作名稱</label><input id="newName" placeholder="例如：新動作（待確認）"><label>姿勢線索／備註</label><textarea id="newNote" placeholder="知道的線索可以寫在這裡"></textarea><button id="addMove">🌟 加入動作圖鑑</button><p id="addMsg"></p></div></section>
+
+<section id="explore" class="page hidden">
+<div class="panel">
+ <h2>🆕 新動作探索｜每週一個新發現</h2>
+ <p>每週會推薦一個適合目前學習方向的基礎動作，會參考你最近的練習方向、身體狀況和動作熟練度。這裡的推薦會每週更新；不舒服或疼痛時先休息，不需要硬練。🌿</p>
+ <div class="item" id="weeklyMoveCard"><p>正在挑選本週探索動作…</p></div>
+ <button id="copyWeeklyMove">📋 複製動作名稱</button>
+ <button class="alt" id="sendWeeklyMove">🎀 帶到「加入新動作」</button>
+ <p id="weeklyMoveMsg" class="status">你可以複製名稱，再貼到「加入新動作」的名稱欄。</p>
+</div></section>
 
 <section id="play" class="page hidden">
   <div class="panel video-hero">
@@ -76,10 +86,10 @@
     <p class="status" style="margin-bottom:0">目前可用點數：⭐ <b id="pointsTotal">0</b>　｜　累積獲得：<b id="earnedTotal">0</b> 點</p>
   </div>
   <div class="grid">
-    <button data-award="warmup">🌤️ 暖身完成 +10</button>
-    <button data-award="practice">🤸 基礎練習完成 +20</button>
-    <button data-award="cooldown">🌸 收操完成 +10</button>
-    <button data-award="journal">📔 寫下今日紀錄 +10</button>
+    <button data-award="warmup">🌤️ 暖身完成 +1</button>
+    <button data-award="practice">🤸 基礎練習完成 +1</button>
+    <button data-award="cooldown">🌸 收操完成 +1</button>
+    <button data-award="journal">📔 寫下今日紀錄 +1</button>
   </div>
   <p id="rewardMsg" class="status">每一點都是努力的小星星！完成活動後記得領取，今天每種活動只能領一次。</p>
 
@@ -161,6 +171,50 @@ $('saveReview').onclick=()=>{D.reviews[today()]=review();save();alert('今天的
 $('tomorrow').onclick=()=>{let r=review();D.reviews[today()]=r;D.plans[next(today())]={items:planFor(r.focus,r.energy,r.feeling),checked:{},extra:'依前一天回顧調整'};save();$('tomorrowPlan').innerHTML='<div class="status"><b>🌸 '+next(today())+' 的課表已建立並保存</b><br>'+D.plans[next(today())].items.map(x=>esc(x[0]+' '+x[1]+'：'+x[2])).join('<br>')+'</div>'};
 function renderMoves(){$('moveList').innerHTML=all().map(m=>{let score=D.ratings[today()+'|'+m[0]]||0;return `<div class="item"><button class="alt" data-m="${esc(m[0])}" style="width:100%;text-align:left;background:linear-gradient(135deg,#fff,#f4fff9 48%,#fff0f7);">${m[1]} ${esc(m[0])}<br><small>${esc(m[2])}</small></button><button class="alt" data-rate="${esc(m[0])}" style="width:100%;margin-top:6px">⭐ 今日評分：${score?score+'/5 顆星':'尚未評分'}</button></div>`}).join('');document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>showMove(b.dataset.m));document.querySelectorAll('[data-rate]').forEach(b=>b.onclick=()=>{showMove(b.dataset.rate);$('detail').querySelector('[data-f="rating"]').click()})}
 function showMove(name){let d=$('detail');d.classList.remove('hidden');let fs=[['practice','📖 練法'],['rating','⭐ 每日評分'],['extend','🌈 延伸動作'],['warmup','🌤️ 練習前暖身'],['cooldown','🌸 練習後收操']];d.innerHTML=`<h2>${esc(name)}</h2><div class="grid">${fs.map(f=>`<button class="alt" data-f="${f[0]}">${f[1]}</button>`).join('')}</div><div id="fc" class="item"><p>選擇上方功能查看內容。</p></div>`;d.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{let c=$('fc'),f=b.dataset.f;if(f==='rating'){let k=today()+'|'+name,n=D.ratings[k]||0;c.innerHTML=`<h3>⭐ 每日評分｜${esc(name)}</h3><p>${today()}</p><div class="stars">${[1,2,3,4,5].map(i=>`<button class="${i<=n?'on':''}" data-s="${i}">★</button>`).join('')}</div><p id="st">${n}/5 顆星</p><label>熟練狀態</label><select id="ms"><option>尚在學習</option><option>練習中</option><option>已熟練</option></select><label>今天的心得</label><textarea id="mn">${esc(D.notes[k]||'')}</textarea><button id="sm">💾 儲存評分與心得</button>`;c.querySelector('#ms').value=D.statuses[name]||'練習中';c.querySelectorAll('[data-s]').forEach(s=>s.onclick=()=>{n=+s.dataset.s;c.querySelectorAll('[data-s]').forEach(z=>z.classList.toggle('on',+z.dataset.s<=n));$('st').textContent=n+'/5 顆星'});$('sm').onclick=()=>{D.ratings[k]=n;D.notes[k]=$('mn').value;D.statuses[name]=$('ms').value;save();c.insertAdjacentHTML('beforeend','<p class="status">✓ 已儲存</p>')}}else{let texts=f==='practice'?['先暖身並練習相關基礎控制。','在舒服範圍內練習，不追求極限。','高難度技巧由合格教練指導。']:f==='extend'?['先穩定目前動作基礎。','練習相關平衡、控制或活動度。','進階變化需教練評估。']:f==='warmup'?['輕鬆踏步 2–3 分鐘。','溫和活動手腕、肩膀與髖部。','從小幅度開始。']:['慢慢走動至呼吸平穩。','溫和放鬆當天使用的肌群。','不彈震、不硬拉。'];c.innerHTML='<h3>'+fs.find(x=>x[0]===f)[1]+'</h3>'+texts.map((t,i)=>`<p>${i+1}. ${t}</p>`).join('')}})}
+
+function getWeeklyMove(){
+ const names = [
+  {name:'阿拉伯式平衡預備姿勢',focus:'力量與平衡',note:'扶著穩固的椅背或靠牆，後腿只輕輕向後伸，身體保持舒服、穩定；左右各試幾秒，不追求抬高。'},
+  {name:'弓箭步平衡定格',focus:'力量與平衡',note:'在平地做小幅度弓箭步，雙腳踩穩、軀幹直立，保持 5 秒後換邊；不下壓、不追求幅度。'},
+  {name:'站姿側伸展定格',focus:'柔軟度',note:'雙腳站穩，一手向上，身體輕輕側伸並正常呼吸，左右各 5 秒；只做舒服的幅度，不硬拉。'},
+  {name:'坐姿前伸活動',focus:'柔軟度',note:'坐在地面、雙腿自然伸直或微彎，背部拉長後輕輕向前伸手，停留 5 秒；不彈震、不追求碰到腳尖。'},
+  {name:'體操起始姿勢定格',focus:'體操技巧基礎',note:'雙腳站穩、膝蓋自然放鬆、手臂舉高，身體保持直立 5–10 秒；練習控制和姿勢，不加入翻轉。'},
+  {name:'單腳平衡手臂變化',focus:'力量與平衡',note:'靠近穩固牆面單腳站立，先站穩，再慢慢把手臂從側邊舉高；左右各 5 秒，失去平衡就雙腳落地。'}
+ ];
+ const reviewDates=Object.keys(D.reviews||{}).sort((a,b)=>b.localeCompare(a));
+ const latest=reviewDates.length?D.reviews[reviewDates[0]]:{};
+ let pool=names.filter(x=>x.focus===(latest.focus||'柔軟度'));
+ if(latest.feeling==='有疼痛或不舒服'||latest.energy==='很累'||latest.feeling==='疲勞或僵硬'){
+  pool=[{name:'溫和呼吸與站姿放鬆',focus:'輕鬆恢復',note:'本週以休息恢復為主：舒服地站立或坐著，慢慢呼吸 1 分鐘；不做拉伸或技巧，若不適持續請告訴可信任的大人。'}];
+ }
+ if(!pool.length) pool=names;
+ const statuses=Object.values(D.statuses||{});
+ if(statuses.includes('尚在學習')&&latest.focus==='體操技巧基礎') pool=names.filter(x=>x.name==='體操起始姿勢定格');
+ const now=new Date(); const jan1=new Date(now.getFullYear(),0,1); const week=Math.floor((((now-jan1)/86400000)+jan1.getDay()+6)/7);
+ const chosen=pool[week%pool.length];
+ return {...chosen,week,weekKey:now.getFullYear()+'-W'+String(week).padStart(2,'0')};
+}
+let currentWeeklyMove=null;
+function renderWeeklyMove(){
+ currentWeeklyMove=getWeeklyMove();
+ const card=$('weeklyMoveCard');
+ if(!card)return;
+ card.innerHTML='<h3>🌟 本週推薦：'+esc(currentWeeklyMove.name)+'</h3><p><b>學習方向：</b>'+esc(currentWeeklyMove.focus)+'</p><p>'+esc(currentWeeklyMove.note)+'</p><p class="status">📅 本週編號：'+esc(currentWeeklyMove.weekKey)+'</p>';
+}
+$('copyWeeklyMove').onclick=async()=>{
+ if(!currentWeeklyMove)renderWeeklyMove();
+ const name=currentWeeklyMove.name;
+ try{await navigator.clipboard.writeText(name);$('weeklyMoveMsg').textContent='✓ 已複製「'+name+'」！到「加入新動作」貼上就可以。';}
+ catch(e){$('newName').value=name;$('weeklyMoveMsg').textContent='已把名稱放進「加入新動作」欄位；如果複製權限被瀏覽器擋住，可以直接使用這個欄位。';}
+};
+$('sendWeeklyMove').onclick=()=>{
+ if(!currentWeeklyMove)renderWeeklyMove();
+ $('newName').value=currentWeeklyMove.name;$('newNote').value=currentWeeklyMove.note;
+ document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));$('add').classList.remove('hidden');
+ document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.page==='add'));
+ $('addMsg').textContent='已帶入本週探索動作；確認後按「加入動作圖鑑」即可。';
+};
+
 $('addMove').onclick=()=>{let n=$('newName').value.trim();if(!n){$('addMsg').textContent='先填入動作名稱喔！';return}if(all().some(x=>x[0]===n)){$('addMsg').textContent='這個動作已經在圖鑑裡了。';return}D.custom.push({name:n,note:$('newNote').value});save();$('newName').value='';$('newNote').value='';$('addMsg').textContent='✓ 已加入並儲存！';renderMoves()};
 function renderHistory(){let a=Object.entries(D.reviews).sort((x,y)=>y[0].localeCompare(x[0]));$('historyList').innerHTML=a.length?a.map(([d,r])=>`<div class="item"><h3>📅 ${esc(d)}</h3><p>精神：${esc(r.energy)}｜身體：${esc(r.feeling)}</p><p>今天練了：${esc(r.did)}</p><p>練習狀況：${esc(r.condition)}</p><p>滿意的地方：${esc(r.win)}</p><p>方向：${esc(r.focus)}</p></div>`).join(''):'還沒有每日紀錄，晚上儲存回顧後就會出現在這裡 🌸'}
 $('export').onclick=()=>{let b=new Blob([JSON.stringify(D,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='小藍夢幻體操花園備份.json';a.click();URL.revokeObjectURL(u)};
@@ -271,7 +325,7 @@ function renderVault(){
  renderGirl();
 }
 function renderRewards(){renderFilters();renderShop();renderVault();renderGirl();}
-document.querySelectorAll('[data-award]').forEach(b=>b.onclick=()=>{const amount=({warmup:10,practice:20,cooldown:10,journal:10})[b.dataset.award]||0;const k=(document.getElementById('date').value||new Date().toISOString().slice(0,10))+'|'+b.dataset.award;if(gardenExtra.claimed[k]){document.getElementById('rewardMsg').textContent='這項今天已經領過點數囉！明天再領 🌷';return}gardenExtra.claimed[k]=true;gardenExtra.points+=amount;gardenExtra.earnedTotal+=amount;gardenExtra.cardNo=Math.floor(gardenExtra.earnedTotal/100)+1;gardenSave();renderRewards();document.getElementById('rewardMsg').textContent='領取成功！星星點數 +'+amount+' ⭐ 集點卡已更新！'});
+document.querySelectorAll('[data-award]').forEach(b=>b.onclick=()=>{const amount=({warmup:1,practice:1,cooldown:1,journal:1})[b.dataset.award]||0;const k=(document.getElementById('date').value||new Date().toISOString().slice(0,10))+'|'+b.dataset.award;if(gardenExtra.claimed[k]){document.getElementById('rewardMsg').textContent='這項今天已經領過點數囉！明天再領 🌷';return}gardenExtra.claimed[k]=true;gardenExtra.points+=amount;gardenExtra.earnedTotal+=amount;gardenExtra.cardNo=Math.floor(gardenExtra.earnedTotal/100)+1;gardenSave();renderRewards();document.getElementById('rewardMsg').textContent='領取成功！星星點數 +'+amount+' ⭐ 集點卡已更新！'});
 document.getElementById('shopSearch').oninput=()=>{shopPage=0;renderShop()};
 document.getElementById('shopPrev').onclick=()=>{shopPage=Math.max(0,shopPage-1);renderShop()};
 document.getElementById('shopNext').onclick=()=>{shopPage++;renderShop()};
@@ -284,4 +338,5 @@ function initGymVideoHub(){
  if(el) el.textContent=new Intl.DateTimeFormat('zh-TW',{year:'numeric',month:'long',day:'numeric',weekday:'long'}).format(new Date());
 }
 initGymVideoHub();
+renderWeeklyMove();
 </script></main></html>
