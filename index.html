@@ -125,7 +125,15 @@ function planFor(f,e,s){
  else main=[['🎯','沿地面直線走｜來回 3 趟','慢慢走、腳步安靜，練方向感和身體控制。'],['🐻','四足支撐重心轉移｜前後各 6 次','雙手雙膝在瑜伽墊上，背部自然，輕輕把重心前後移；手腕不舒服就停止。'],['⭐','扶牆單腳平衡｜每側 15 秒 × 2','站在平地，手可輕扶牆；保持穩定再換邊。'],['🌱','靠牆站姿對齊｜3 次，每次 15 秒','後腦、上背自然靠近牆面，不要憋氣或用力頂腰。']];
  return [...warm,...main,['🌸','收操慢走｜2 分鐘','慢慢走動，讓呼吸平穩。'],['🌿','舒適肩膀伸展｜每側 10 秒 × 2','手臂輕輕橫過胸前，用另一手輔助，不拉到痛。']];
 }
-function ensure(d){if(!D.plans[d])D.plans[d]={items:planFor('柔軟度','普通','正常'),checked:{},extra:''};return D.plans[d]}
+function ensure(d){
+ if(!D.plans[d])D.plans[d]={items:planFor('柔軟度','普通','正常'),checked:{},extra:''};
+ const p=D.plans[d],names=(p.items||[]).map(x=>String(x[1]||'')).join('|');
+ if(/柔軟度基礎：橫劈或直劈擇一|輕柔活動與平衡基礎|體操技巧基礎準備|平衡與身體控制|輕量基礎力量/.test(names)){
+  const r=D.reviews[d]||{};
+  p.items=planFor(r.focus||'柔軟度',r.energy||'普通',r.feeling||'正常');p.checked={};p.extra=p.extra||'';save();
+ }
+ return p;
+}
 function renderPlan(){let p=ensure(today());$('extra').value=p.extra||'';$('plan').innerHTML=p.items.map((x,i)=>`<label class="check"><input type="checkbox" data-i="${i}" ${p.checked[i]?'checked':''}><span><b>${x[0]} ${esc(x[1])}</b><br><small>${esc(x[2])}</small></span></label>`).join('');document.querySelectorAll('[data-i]').forEach(c=>c.onchange=()=>{p.checked[c.dataset.i]=c.checked;save();progress()});progress();let t=D.plans[next(today())];$('tomorrowPlan').innerHTML=t?'<div class="status"><b>🌸 明日課表已保存</b><br>'+t.items.map(x=>esc(x[0]+' '+x[1])).join('<br>')+'</div>':''}
 function progress(){let p=ensure(today());$('progress').textContent=`🌟 完成進度：${p.items.filter((x,i)=>p.checked[i]).length} / ${p.items.length} 項`}
 function review(){return {energy:$('energy').value,feeling:$('feeling').value,did:$('did').value,condition:$('condition').value,win:$('win').value,focus:$('focus').value}}
