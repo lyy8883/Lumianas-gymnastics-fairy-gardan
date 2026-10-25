@@ -1,11 +1,18 @@
 <!doctype html><html lang="zh-Hant"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>小藍的夢幻體操花園</title>
 <style>
 :root{--g:#28785e;--m:#d8f8e9;--p:#ffdce9;--r:#bf5d8b;--l:#e9dcff;--blue:#d9f1ff;--yellow:#fff0b9;--peach:#ffe0ce;--ink:#574764}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;padding:14px;background:radial-gradient(ellipse at 0% 5%,#d8fff0 0,transparent 35%),radial-gradient(ellipse at 100% 20%,#ffe0ed 0,transparent 36%),radial-gradient(ellipse at 50% 100%,#e4e0ff 0,transparent 42%),#fffafd;font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:var(--ink);font-size:16px;line-height:1.55}main{max-width:820px;margin:auto}.hero,.panel,.item{background:linear-gradient(145deg,#ffffffef,#fffaffef);border:2px solid #ead9ed;border-radius:25px;padding:18px;margin:14px 0;box-shadow:0 5px 18px #9c72a511}.hero{background:linear-gradient(120deg,#d7f8e8 0%,#e9e5ff 48%,#ffdfeb 100%);text-align:center;padding:24px 18px}.hero h1{font-size:clamp(28px,6vw,42px);line-height:1.25;color:#28785e;margin:22px 0}.hero p{font-size:clamp(17px,3.5vw,23px);font-weight:650}.hero small{font-size:14px}h2{color:var(--g);font-size:clamp(22px,4.5vw,30px);line-height:1.35}h3{color:#98577e}nav,.row{display:flex;flex-wrap:wrap;gap:9px}button{border:0;border-radius:18px;padding:12px 14px;background:linear-gradient(135deg,#318366,#4b9b7d);color:white;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 3px 0 #24694f18;transition:transform .12s,filter .12s}button:active{transform:scale(.98)}button.alt{background:linear-gradient(135deg,#fff,#fff7fb);color:var(--r);border:2px solid #efc8dd;box-shadow:none}.tab{flex:1;min-width:calc(50% - 8px);min-height:72px;font-size:17px;line-height:1.3}.tab:nth-child(2){border-color:#bde8ed;color:#348c9b}.tab:nth-child(3){border-color:#e5c8ff;color:#9360bb}.tab:nth-child(4){border-color:#f6d9a8;color:#b47b37}.tab.active{background:linear-gradient(135deg,#c15e8e,#d27fa8);border-color:#c15e8e;color:white}.tab.active:nth-child(2){background:linear-gradient(135deg,#54a9b5,#7bc9cc)}.tab.active:nth-child(3){background:linear-gradient(135deg,#9670c8,#bd9ae5)}.tab.active:nth-child(4){background:linear-gradient(135deg,#e0a64c,#f2c779)}label{display:block;font-weight:750;margin:13px 0 5px}input,textarea,select{font:inherit;width:100%;padding:13px;border:2px solid #e0cce5;border-radius:16px;background:#fffefe;color:var(--ink);min-height:48px}textarea{min-height:88px}.check{display:flex;align-items:flex-start;gap:10px;background:linear-gradient(110deg,#e6f8ef,#f5fff9);border:1px solid #ccefe0;padding:13px;border-radius:17px;margin:10px 0}.check input{width:22px;height:22px;min-height:22px;flex:0 0 22px;accent-color:#bf5d8b;margin-top:3px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.grid button{min-height:72px}.muted{font-size:13px;color:#927b94}.status{background:linear-gradient(100deg,#e0f8ea,#e3f6ff);color:#28785e;border-radius:16px;padding:13px;font-weight:650}.hidden{display:none!important}.stars button{background:#fff9e3;color:#b18a23;border:2px solid #f0dba3;font-size:23px;padding:5px 9px}.stars .on{background:linear-gradient(135deg,#ffe58a,#ffd0e5);color:#9b6b23}.panel:nth-of-type(odd){border-color:#e7d7f0}.item{background:linear-gradient(135deg,#fff7fb,#f6f1ff)}#detail{scroll-margin-top:20px}#saved{font-size:16px}#progress{font-size:16px}@media(max-width:430px){body{padding:9px}.hero,.panel,.item{padding:14px;border-radius:22px}.hero{padding:22px 13px}.tab{padding:12px 7px;font-size:15px;min-height:68px}.grid{grid-template-columns:1fr}.row button{flex:1}.hero p{line-height:1.5}}
+
+.video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:16px}
+.video-card{display:block;text-decoration:none;color:var(--ink);border:2px solid #e8d7f0;border-radius:20px;padding:16px;background:linear-gradient(145deg,#fffdf5,#fff0f7 55%,#e8fff4);transition:transform .16s,box-shadow .16s}
+.video-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px #8465a51c}
+.video-card h3{margin:8px 0 5px}.video-card p{margin:5px 0 13px;font-size:14px;line-height:1.5}
+.video-emoji{font-size:34px}.video-cta{display:inline-block;border-radius:999px;background:#e7dcff;padding:8px 12px;font-weight:700;color:#684b85}
+.video-channel-links{display:flex;gap:10px;flex-wrap:wrap}.video-channel-links a{display:inline-block;padding:10px 14px;border-radius:14px;text-decoration:none}
 </style><main>
 <header class="hero"><div style="font-size:30px">🌷 🦋 🎀 ⭐</div><h1>小藍的夢幻體操花園</h1><p>薄荷綠 × 櫻花粉｜今天練習、晚上回顧、明天再調整</p><small>自動儲存於此瀏覽器；記得定期下載備份。</small></header>
 <div class="row"><button id="export">⬇️ 備份紀錄</button><button class="alt" id="importBtn">⬆️ 還原備份</button><input id="file" type="file" accept=".json" class="hidden"></div><p id="saved" class="status">✓ 自動儲存已開啟</p>
 <nav><button class="tab active" data-page="today">📅 今日課表</button><button class="tab alt" data-page="moves">🌷 動作圖鑑</button><button class="tab alt" data-page="add">🎀 加入新動作</button><button class="tab alt" data-page="history">📔 每日紀錄</button></nav>
-<button class="tab" data-page="play">🎮 休閒遊戲</button><button class="tab" data-page="rewards">⭐ 集點收藏</button>
+<button class="tab" data-page="play">🤸 夢幻體操影片館</button><button class="tab" data-page="rewards">⭐ 集點收藏</button>
 <section id="today" class="page">
 <div class="panel"><h2>🌤️ 今天由我幫妳選課表</h2><label>日期</label><input id="date" type="date"><p>練完一項就點一下打勾！</p><div id="plan"></div><p id="progress" class="status"></p><label>今天想加上的項目（選填）</label><input id="extra" placeholder="例如：想多練平衡基礎"><button class="alt" id="updatePlan">✨ 依今天狀況更新建議課表</button></div>
 <div class="panel"><h2>🌙 晚上回顧今天</h2><label>今天的精神</label><select id="energy"><option>普通</option><option>精神很好</option><option>很累</option></select><label>身體感覺</label><select id="feeling"><option>正常</option><option>疲勞或僵硬</option><option>有疼痛或不舒服</option></select><label>今天實際練了什麼？</label><textarea id="did" placeholder="例如：橫劈基礎、平衡練習……"></textarea><label>今天練習狀況／遇到的困難</label><textarea id="condition" placeholder="哪個動作順利？哪個還不熟？練了多久？"></textarea><label>今天最滿意的地方</label><textarea id="win" placeholder="寫下一個小小的進步 ✨"></textarea><label>明天想練的方向</label><select id="focus"><option>柔軟度</option><option>力量與平衡</option><option>體操技巧基礎</option><option>輕鬆恢復</option></select><button id="saveReview">💾 儲存今天回顧</button> <button id="tomorrow" class="alt">🌸 依今天紀錄安排明天</button><div id="tomorrowPlan"></div></div></section>
@@ -13,28 +20,28 @@
 <section id="add" class="page hidden"><div class="panel"><h2>🎀 加入新動作</h2><p>找到新動作時，把截圖直接傳到聊天中請我協助辨認；確認名稱後再加入圖鑑。</p><label>動作名稱</label><input id="newName" placeholder="例如：新動作（待確認）"><label>姿勢線索／備註</label><textarea id="newNote" placeholder="知道的線索可以寫在這裡"></textarea><button id="addMove">🌟 加入動作圖鑑</button><p id="addMsg"></p></div></section>
 
 <section id="play" class="page hidden">
-  <h2>🎮 夢幻體操遊樂園</h2>
-  <p>薄荷綠 × 櫻花粉 × 薰衣草紫｜選一個小遊戲開始吧！</p>
-  <div class="grid">
-    <button class="alt gamepick" data-game="garden">🌷 花園大冒險</button>
-    <button class="alt gamepick" data-game="classroom">🪄 教室大改造</button>
-    <button class="alt gamepick" data-game="galaxy">🌌 星河機關</button>
-    <button class="alt gamepick" data-game="ribbon">🎀 彩帶節奏</button>
-    <button class="alt gamepick" data-game="pose">🤸 體操造型工作室</button>
+  <div class="panel video-hero">
+    <h2>🤸 夢幻體操影片館</h2>
+    <p>每天打開都能查看 YouTube 最新的體操影片！點選主題後會依最新上傳時間搜尋，不必等我手動更新網站。💫</p>
+    <p class="status">📅 今日日期：<strong id="videoToday">載入中…</strong></p>
+    <div class="video-grid">
+      <a class="item video-card" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/results?search_query=artistic+gymnastics+floor+routine&sp=CAI%3D"><div class="video-emoji">🌟</div><h3>自由體操表演</h3><p>欣賞地板套路、音樂與編排</p><span class="video-cta">▶ 查看最新影片</span></a>
+      <a class="item video-card" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/results?search_query=artistic+gymnastics+balance+beam+competition&sp=CAI%3D"><div class="video-emoji">🌸</div><h3>平衡木比賽</h3><p>欣賞平衡、節奏與優美表現</p><span class="video-cta">▶ 查看最新影片</span></a>
+      <a class="item video-card" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/results?search_query=official+gymnastics+competition+highlights&sp=CAI%3D"><div class="video-emoji">🏆</div><h3>體操比賽精華</h3><p>觀看正式賽事與選手精彩片段</p><span class="video-cta">▶ 查看最新影片</span></a>
+      <a class="item video-card" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/results?search_query=rhythmic+gymnastics+ribbon+hoop+ball+performance&sp=CAI%3D"><div class="video-emoji">🎀</div><h3>韻律體操表演</h3><p>彩帶、球、圈與音樂編排</p><span class="video-cta">▶ 查看最新影片</span></a>
+      <a class="item video-card" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/results?search_query=gymnastics+beginner+warm+up+mobility+safe&sp=CAI%3D"><div class="video-emoji">🍃</div><h3>暖身與活動度</h3><p>以基礎暖身、活動度與身體照顧為主</p><span class="video-cta">▶ 查看最新影片</span></a>
+      <a class="item video-card" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/results?search_query=World+Gymnastics+official+highlights&sp=CAI%3D"><div class="video-emoji">🌍</div><h3>世界體操官方精華</h3><p>尋找官方賽事與體操專題影片</p><span class="video-cta">▶ 查看最新影片</span></a>
+    </div>
   </div>
-  <div class="item">
-    <h3 id="gameTitle">🌷 花園大冒險</h3>
-    <p id="gameDesc">按開始後，使用左右方向鍵移動、空白鍵跳躍，收集星星並避開花盆。</p>
-    <canvas id="gameCanvas" width="760" height="300" style="width:100%;max-width:760px;border-radius:18px;background:linear-gradient(#e7dcff,#e5fff2 70%,#ffdce9);border:2px solid #d5c6f4;touch-action:manipulation"></canvas>
-    <div class="grid">
-      <button id="gameStart">▶ 開始／繼續</button><button id="gamePause" class="alt">⏸ 暫停</button><button id="gameEnd" class="alt">⏹ 結束</button>
+  <div class="panel">
+    <h3>📺 官方體操頻道</h3>
+    <p>官方頻道會不定期上傳比賽、選手專訪和精彩片段。點進去即可查看頻道最新影片；如果當天沒有新片，影片列表也不會憑空新增。</p>
+    <div class="video-channel-links">
+      <a class="alt" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/@OlympicsGymnastics/videos">🏅 Olympics Gymnastics</a>
+      <a class="alt" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/@figchannel/videos">🌍 World Gymnastics / FIG</a>
+      <a class="alt" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/@usagymnastics/videos">🤸 USA Gymnastics</a>
     </div>
-    <div class="grid">
-      <button id="leftBtn" class="alt">⬅️ 左移</button><button id="jumpBtn" class="alt">✨ 跳躍</button><button id="rightBtn" class="alt">➡️ 右移</button>
-    </div>
-    <button id="gameAction" class="alt" style="width:100%">🌟 特殊操作</button>
-    <p id="gameStats" class="status">🌟 星星 0｜愛心 3</p>
-    <p class="small">遊戲是安全的休閒小挑戰；不需要真的做翻轉或高難度體操動作。</p>
+    <p class="small">小提醒：影片適合欣賞與了解體操；高風險翻騰或大幅度柔軟技巧不要只靠影片自行嘗試，應由合格教練在合適場地指導。</p>
   </div>
 </section>
 <section id="rewards" class="page hidden">
@@ -272,111 +279,9 @@ document.getElementById('goShop').onclick=()=>{document.getElementById('shopHead
 document.getElementById('goVault').onclick=()=>document.getElementById('vaultHeading').scrollIntoView({behavior:'smooth',block:'start'});
 document.getElementById('clearOutfit').onclick=()=>{gardenExtra.equipped={};gardenSave();renderVault();document.getElementById('rewardMsg').textContent='已換回基本穿搭！想換風格就去寶庫重新搭配吧 🌷'};
 renderRewards();
-const gc=document.getElementById('gameCanvas'), gx=gc.getContext('2d');
-let game={running:false,paused:false,kind:'garden',x:100,y:220,vy:0,stars:0,lives:3,frame:0,obstacles:[],keys:{},cooldown:0};
-const gameNames={
- garden:['🌷 花園大冒險','玩法：用⬅️➡️移動小精靈，按「✨跳躍」跳過花盆並碰到⭐收集。碰到花盆會扣愛心。'],
- classroom:['🪄 教室大改造','玩法：用⬅️➡️移動，靠近📎後按「🪄貼上貼紙」收集；碰到🧽橡皮擦會扣愛心。'],
- galaxy:['🌌 星河機關','玩法：用⬅️➡️移動，按「🌌切換重力」讓小精靈在上下星軌間切換，收集⭐並躲開☄️。'],
- ribbon:['🎀 彩帶節奏','玩法：等彩帶球進入中間的粉色節奏框，再按「🎀跟上節拍」。太早或太晚會扣愛心。'],
- pose:['🤸 體操造型工作室','玩法：記住上方目標圖示，按「🤸切換造型」切換角色，配對成功得⭐；這是圖示配對，不用真的做動作。']
-};
-const poseIcons=['🤸','🧘','🌟','🩰'];let poseIndex=0,poseTarget=0,gravityDir=1;
-function chooseGame(k){
- game.kind=k;
- document.getElementById('gameTitle').textContent=gameNames[k][0];
- document.getElementById('gameDesc').textContent=gameNames[k][1];
- document.getElementById('gameAction').textContent=({garden:'✨ 跳躍',classroom:'🪄 貼上貼紙',galaxy:'🌌 切換重力',ribbon:'🎀 跟上節拍',pose:'🤸 切換造型'})[k];
- document.querySelectorAll('.gamepick').forEach(b=>b.classList.toggle('active',b.dataset.game===k));
- resetGame();
+function initGymVideoHub(){
+ const el=document.getElementById('videoToday');
+ if(el) el.textContent=new Intl.DateTimeFormat('zh-TW',{year:'numeric',month:'long',day:'numeric',weekday:'long'}).format(new Date());
 }
-document.querySelectorAll('.gamepick').forEach(b=>b.onclick=()=>chooseGame(b.dataset.game));
-function resetGame(){
- game.running=false;game.paused=false;game.x=100;game.y=220;game.vy=0;game.stars=0;game.lives=3;game.frame=0;game.obstacles=[];game.keys={};game.cooldown=0;
- poseIndex=0;poseTarget=Math.floor(Math.random()*poseIcons.length);gravityDir=1;
- document.getElementById('gameDesc').textContent=gameNames[game.kind][1];
- updateGameStats();drawGame();
-}
-function updateGameStats(){document.getElementById('gameStats').textContent='⭐ 星星 '+game.stars+'｜💗 愛心 '+game.lives+'｜'+(game.running?'遊戲中':game.lives<=0?'挑戰結束':'準備開始')}
-function addGamePoint(){game.stars++;gardenExtra.points++;gardenExtra.earnedTotal++;gardenSave();renderRewards();updateGameStats()}
-function loseLife(msg){game.lives=Math.max(0,game.lives-1);document.getElementById('gameDesc').textContent=msg;if(game.lives<=0){game.running=false;document.getElementById('gameDesc').textContent+=' 挑戰結束！按「重新開始」再玩一次。'}updateGameStats()}
-function drawGame(){
- gx.clearRect(0,0,gc.width,gc.height);
- const grad=gx.createLinearGradient(0,0,0,gc.height);
- if(game.kind==='galaxy'){grad.addColorStop(0,'#33245f');grad.addColorStop(.6,'#8766bd');grad.addColorStop(1,'#d7c8ff')}
- else if(game.kind==='classroom'){grad.addColorStop(0,'#fff4c9');grad.addColorStop(1,'#d8f8e9')}
- else if(game.kind==='ribbon'){grad.addColorStop(0,'#fce4f1');grad.addColorStop(1,'#e6e0ff')}
- else{grad.addColorStop(0,'#e8dcff');grad.addColorStop(.68,'#e5fff2');grad.addColorStop(1,'#ffdce9')}
- gx.fillStyle=grad;gx.fillRect(0,0,gc.width,gc.height);
- for(let i=0;i<30;i++){gx.fillStyle='rgba(255,255,255,.7)';gx.beginPath();gx.arc((i*97+game.frame*.2)%gc.width,(i*43)%gc.height,1.5+(i%3),0,Math.PI*2);gx.fill()}
- if(game.kind==='garden'){gx.fillStyle='#a5dfc3';gx.fillRect(0,260,gc.width,40);gx.font='24px sans-serif';gx.fillText('🌼',20,258);gx.fillText('🌷',680,258)}
- if(game.kind==='classroom'){gx.fillStyle='#ffffffaa';gx.fillRect(0,75,gc.width,190);gx.font='18px sans-serif';gx.fillStyle='#78618d';gx.fillText('魔法教室：收集貼紙，避開橡皮擦！',20,35)}
- if(game.kind==='galaxy'){gx.fillStyle='#ffffff';gx.font='18px sans-serif';gx.fillText(gravityDir===1?'下方星軌 ↓':'上方星軌 ↑',20,30);gx.fillStyle='#e7d5ff';gx.fillRect(0,gravityDir===1?255:40,gc.width,4)}
- if(game.kind==='ribbon'){gx.fillStyle='#ffffff99';gx.fillRect(345,45,70,215);gx.strokeStyle='#e38bbd';gx.lineWidth=4;gx.strokeRect(345,45,70,215);gx.fillStyle='#76547e';gx.font='18px sans-serif';gx.fillText('節奏區',350,32)}
- if(game.kind==='pose'){gx.font='22px sans-serif';gx.fillStyle='#5b456e';gx.fillText('目標：'+poseIcons[poseTarget],20,35);gx.fillText('角色：'+poseIcons[poseIndex],20,67)}
- game.obstacles.forEach(o=>{gx.font='27px sans-serif';gx.fillText(o.type==='star'?'⭐':o.type==='pot'?'🪴':o.type==='sticker'?'📎':o.type==='eraser'?'🧽':o.type==='ribbon'?'🎀':'☄️',o.x,o.y)});
- gx.font='38px sans-serif';gx.fillText(game.kind==='pose'?poseIcons[poseIndex]:game.kind==='classroom'?'🧚':game.kind==='galaxy'?'🌠':game.kind==='ribbon'?'🎀':'🧚',game.x,game.y);
- if(!game.running){gx.fillStyle=game.kind==='galaxy'?'#fff':'#51456c';gx.font='bold 18px sans-serif';gx.fillText(game.lives<=0?'💫 挑戰結束｜重新開始吧':game.paused?'⏸ 已暫停':'▶ 按「開始／繼續」開玩',245,145)}
-}
-function gameTick(){
- if(game.running){
-  game.frame++;game.cooldown=Math.max(0,game.cooldown-1);
-  const spawn=(type,y)=>game.obstacles.push({x:gc.width+25,y,type,hit:false});
-  if(game.kind==='garden'&&game.frame%48===0)spawn(Math.random()<.62?'star':'pot',Math.random()<.5?220:250);
-  if(game.kind==='classroom'&&game.frame%42===0)spawn(Math.random()<.65?'sticker':'eraser',90+Math.random()*150);
-  if(game.kind==='galaxy'&&game.frame%43===0)spawn(Math.random()<.68?'star':'dust',gravityDir===1?215:90);
-  if(game.kind==='ribbon'&&game.frame%66===0)spawn('ribbon',180);
-  const speed=game.kind==='galaxy'?4.4:game.kind==='ribbon'?3.4:3.6;
-  game.obstacles.forEach(o=>o.x-=speed);
-  game.obstacles=game.obstacles.filter(o=>o.x>-45&&!o.hit);
-  if(game.kind==='garden'||game.kind==='galaxy'){
-   game.x=Math.max(35,Math.min(gc.width-35,game.x+(game.keys.left?-5:0)+(game.keys.right?5:0)));
-   game.y+=game.vy;game.vy+=.55*gravityDir;
-   if(gravityDir===1&&game.y>220){game.y=220;game.vy=0}
-   if(gravityDir===-1&&game.y<85){game.y=85;game.vy=0}
-   game.obstacles.forEach(o=>{if(!o.hit&&Math.abs(o.x-game.x)<30&&Math.abs(o.y-game.y)<35){o.hit=true;if(o.type==='star')addGamePoint();else if(o.type==='pot'||o.type==='dust')loseLife('碰到障礙了！看準時機躲開，再試一次。')}})
-  }else if(game.kind==='classroom'){
-   game.x=Math.max(35,Math.min(gc.width-35,game.x+(game.keys.left?-5:0)+(game.keys.right?5:0)));
-   game.y=170+Math.sin(game.frame/25)*65;
-   game.obstacles.forEach(o=>{if(!o.hit&&o.type==='eraser'&&Math.abs(o.x-game.x)<28&&Math.abs(o.y-game.y)<32){o.hit=true;loseLife('碰到橡皮擦啦！小心躲開。')}})
-  }else if(game.kind==='ribbon'){game.x=380;game.y=210}
-  if(game.frame%300===0&&game.kind!=='pose')document.getElementById('gameDesc').textContent='越來越快了！用你的專屬操作繼續挑戰 ✨';
-  updateGameStats();
- }
- drawGame();requestAnimationFrame(gameTick)
-}
-document.getElementById('gameStart').onclick=()=>{if(game.lives<=0)resetGame();game.running=true;game.paused=false;updateGameStats()};
-document.getElementById('gamePause').onclick=()=>{game.running=false;game.paused=true;updateGameStats();drawGame()};
-document.getElementById('gameEnd').onclick=()=>{game.running=false;game.paused=false;document.getElementById('gameDesc').textContent='本局結束！你收集到 '+game.stars+' 顆星星 ✨';updateGameStats();drawGame()};
-function jumpGame(){if(game.kind==='galaxy'){gravityDir*=-1;game.vy=0;document.getElementById('gameDesc').textContent=gravityDir===1?'已切換到下方星軌！':'已切換到上方星軌！'}else if(game.kind==='garden'&&game.y>=215){game.vy=-10}}
-document.getElementById('jumpBtn').onclick=jumpGame;
-document.getElementById('gameAction').onclick=()=>{
- if(game.kind==='garden'){jumpGame();return}
- if(game.kind==='classroom'){
-  const target=game.obstacles.find(o=>!o.hit&&o.type==='sticker'&&Math.abs(o.x-game.x)<100&&Math.abs(o.y-game.y)<65);
-  if(target){target.hit=true;addGamePoint();document.getElementById('gameDesc').textContent='貼紙收集成功！+1 ⭐ 找下一張📎';}
-  else document.getElementById('gameDesc').textContent='還沒靠近貼紙！用左右鍵移動到📎附近，再按一次。';
- }else if(game.kind==='galaxy'){jumpGame()}
- else if(game.kind==='ribbon'){
-  const target=game.obstacles.find(o=>!o.hit&&o.type==='ribbon'&&Math.abs(o.x-380)<36);
-  if(target){target.hit=true;addGamePoint();document.getElementById('gameDesc').textContent='節拍命中！+1 ⭐ 太棒了！'}
-  else loseLife('還沒進入節奏框！等🎀靠近中央再按。');
- }else if(game.kind==='pose'){
-  poseIndex=(poseIndex+1)%poseIcons.length;
-  if(poseIndex===poseTarget){addGamePoint();poseTarget=Math.floor(Math.random()*poseIcons.length);document.getElementById('gameDesc').textContent='配對成功！新的目標已出現 ✨'}
-  else document.getElementById('gameDesc').textContent='還沒配對喔！看上方「目標」圖示再切換。';
- }
- updateGameStats();drawGame();
-};
-document.getElementById('leftBtn').onpointerdown=()=>game.keys.left=true;
-document.getElementById('leftBtn').onpointerup=()=>game.keys.left=false;
-document.getElementById('leftBtn').onpointerleave=()=>game.keys.left=false;
-document.getElementById('rightBtn').onpointerdown=()=>game.keys.right=true;
-document.getElementById('rightBtn').onpointerup=()=>game.keys.right=false;
-document.getElementById('rightBtn').onpointerleave=()=>game.keys.right=false;
-document.addEventListener('keydown',e=>{if(e.code==='ArrowLeft')game.keys.left=true;if(e.code==='ArrowRight')game.keys.right=true;if(e.code==='Space'){e.preventDefault();if(game.kind==='ribbon'||game.kind==='classroom'||game.kind==='pose')document.getElementById('gameAction').click();else jumpGame()}});
-document.addEventListener('keyup',e=>{if(e.code==='ArrowLeft')game.keys.left=false;if(e.code==='ArrowRight')game.keys.right=false});
-chooseGame('garden');requestAnimationFrame(gameTick);
-
-
+initGymVideoHub();
 </script></main></html>
