@@ -10,11 +10,24 @@
 .video-channel-links{display:flex;gap:10px;flex-wrap:wrap}.video-channel-links a{display:inline-block;padding:10px 14px;border-radius:14px;text-decoration:none}
 
 .move-picture{margin:12px 0 16px;padding:14px;border-radius:18px;background:linear-gradient(135deg,#f3fff9,#fff5fb);border:1px solid #d7eee4}.move-picture-heading{font-weight:800;margin-bottom:10px;color:#65517d}.move-picture-grid{display:grid;grid-template-columns:1fr .8fr 1fr;gap:8px;align-items:center}.move-frame{min-width:0;text-align:center;padding:8px 4px;background:#fff;border:1px solid #e6dff0;border-radius:14px;color:#65517d}.move-frame svg{width:100%;max-width:120px;height:auto;display:block;margin:auto}.move-frame b{font-size:12px}.move-arrow{font-size:30px;color:#d884ad}.move-frame p{font-size:13px;font-weight:700;margin:3px 0}.move-frame small{font-size:11px;line-height:1.35;display:block}.picture-note{font-size:12px;color:#756b80;margin:10px 0 0}.move-steps{background:#fffafd}.move-steps ol{padding-left:22px;margin-bottom:0}.move-steps li{margin:5px 0;line-height:1.5}
+
+.hand-calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin:12px 0 18px}.hand-calendar .day-head{text-align:center;font-size:12px;font-weight:800;color:#8a7199;padding:5px 0}.hand-calendar .day-cell{min-width:0;min-height:54px;padding:5px 2px;border-radius:14px;border:2px solid #ecd9ed;background:linear-gradient(145deg,#fffdf7,#fff0f7);color:#6f587f;box-shadow:2px 3px 0 #e7d9ee;font-weight:750;font-size:14px}.hand-calendar .day-cell.empty{visibility:hidden}.hand-calendar .day-cell.selected{border-color:#b56bcb;background:linear-gradient(145deg,#eadfff,#ffe0ef);outline:2px dashed #bd91d4;outline-offset:1px}.hand-calendar .day-cell.extra{background:linear-gradient(145deg,#d8f8e9,#e5fff5);border-color:#8cccb2}.hand-calendar .day-cell.rest{background:linear-gradient(145deg,#f1eaff,#f9f1ff);border-color:#d2b7e7}.hand-calendar .day-cell small{display:block;font-size:10px;line-height:1.2}@media(max-width:430px){.hand-calendar{gap:4px}.hand-calendar .day-cell{min-height:48px;font-size:12px;border-radius:11px;padding:4px 1px}}
 </style><main>
 <header class="hero"><div style="font-size:30px">🌷 🦋 🎀 ⭐</div><h1>小藍的夢幻體操花園</h1><p>薄荷綠 × 櫻花粉｜今天練習、晚上回顧、明天再調整</p><small>自動儲存於此瀏覽器；記得定期下載備份。</small></header>
 <div class="row"><button id="export">⬇️ 備份紀錄</button><button class="alt" id="importBtn">⬆️ 還原備份</button><input id="file" type="file" accept=".json" class="hidden"></div><p id="saved" class="status">✓ 自動儲存已開啟</p>
-<nav><button class="tab active" data-page="today">📅 今日課表</button><button class="tab alt" data-page="moves">🌷 動作圖鑑</button><button class="tab alt" data-page="add">🎀 加入新動作</button><button class="tab alt" data-page="explore">🆕 新動作探索</button><button class="tab alt" data-page="history">📔 每日紀錄</button></nav>
+<nav><button class="tab active" data-page="today">📅 今日課表</button><button class="tab alt" data-page="calendar">🗓️ 行事曆安排</button><button class="tab alt" data-page="moves">🌷 動作圖鑑</button><button class="tab alt" data-page="add">🎀 加入新動作</button><button class="tab alt" data-page="explore">🆕 新動作探索</button><button class="tab alt" data-page="history">📔 每日紀錄</button></nav>
 <button class="tab" data-page="play">🤸 夢幻體操影片館</button><button class="tab" data-page="rewards">⭐ 集點收藏</button>
+<section id="calendar" class="page hidden">
+<div class="panel">
+ <h2>🗓️ 行事曆安排</h2>
+ <p>點選日期，再選擇今天要不要加練。選「加練」可獲得 2 點；每一天只能領取一次，安排也會自動保存。🌷</p>
+ <div class="row" style="align-items:center;justify-content:space-between">
+  <button class="alt" id="calPrev">‹ 上個月</button><h3 id="calMonth" style="margin:8px">手帳行事曆</h3><button class="alt" id="calNext">下個月 ›</button>
+ </div>
+ <div id="calendarGrid" class="hand-calendar" aria-label="手帳風月曆"></div>
+ <div class="item" id="calendarChoice"><b>🌸 請先點選一天</b><p class="muted">選好日期後，就會在這裡出現「加練」和「不加練」。</p></div>
+ <p id="calendarMsg" class="status">每一天最多領取一次加練點數。</p>
+</div></section>
 <section id="today" class="page">
 <div class="panel"><h2>🌤️ 今天由我幫妳選課表</h2><label>日期</label><input id="date" type="date"><p>練完一項就點一下打勾！</p><div id="plan"></div><p id="progress" class="status"></p><label>今天想加上的項目（選填）</label><input id="extra" placeholder="例如：想多練平衡基礎"><button class="alt" id="updatePlan">✨ 依今天狀況更新建議課表</button></div>
 <div class="panel"><h2>🌙 晚上回顧今天</h2><label>今天的精神</label><select id="energy"><option>普通</option><option>精神很好</option><option>很累</option></select><label>身體感覺</label><select id="feeling"><option>正常</option><option>疲勞或僵硬</option><option>有疼痛或不舒服</option></select><label>今天實際練了什麼？</label><textarea id="did" placeholder="例如：橫劈基礎、平衡練習……"></textarea><label>今天練習狀況／遇到的困難</label><textarea id="condition" placeholder="哪個動作順利？哪個還不熟？練了多久？"></textarea><label>今天最滿意的地方</label><textarea id="win" placeholder="寫下一個小小的進步 ✨"></textarea><label>明天想練的方向</label><select id="focus"><option>柔軟度</option><option>力量與平衡</option><option>體操技巧基礎</option><option>輕鬆恢復</option></select><button id="saveReview">💾 儲存今天回顧</button> <button id="tomorrow" class="alt">🌸 依今天紀錄安排明天</button><div id="tomorrowPlan"></div></div></section>
@@ -163,9 +176,56 @@ function ensure(d){
 }
 function renderPlan(){let p=ensure(today());$('extra').value=p.extra||'';$('plan').innerHTML=p.items.map((x,i)=>`<label class="check"><input type="checkbox" data-i="${i}" ${p.checked[i]?'checked':''}><span><b>${x[0]} ${esc(x[1])}</b><br><small>${esc(x[2])}</small></span></label>`).join('');document.querySelectorAll('[data-i]').forEach(c=>c.onchange=()=>{p.checked[c.dataset.i]=c.checked;save();progress()});progress();let t=D.plans[next(today())];$('tomorrowPlan').innerHTML=t?'<div class="status"><b>🌸 明日課表已保存</b><br>'+t.items.map(x=>esc(x[0]+' '+x[1])).join('<br>')+'</div>':''}
 function progress(){let p=ensure(today());$('progress').textContent=`🌟 完成進度：${p.items.filter((x,i)=>p.checked[i]).length} / ${p.items.length} 項`}
+function calendarDateKey(y,m){return y+'-'+String(m+1).padStart(2,'0');}
+let calendarView=new Date();calendarView=new Date(calendarView.getFullYear(),calendarView.getMonth(),1);
+let calendarSelected=new Date().toISOString().slice(0,10);
+function renderCalendar(){
+ const y=calendarView.getFullYear(),m=calendarView.getMonth();
+ $('calMonth').textContent=y+' 年 '+(m+1)+' 月 🌷';
+ const first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate();
+ const heads=['日','一','二','三','四','五','六'];
+ let html=heads.map(x=>'<div class="day-head">'+x+'</div>').join('');
+ for(let i=0;i<first;i++)html+='<div class="day-cell empty"></div>';
+ for(let d=1;d<=days;d++){
+  const key=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+  const state=(gardenExtra.calendarPlan||{})[key]||'';
+  const claimed=!!gardenExtra.claimed['extraTraining|'+key];
+  const cls=['day-cell',key===calendarSelected?'selected':'',state==='extra'?'extra':'',state==='rest'?'rest':''].filter(Boolean).join(' ');
+  const marker=state==='extra'?'🌟':state==='rest'?'☁️':'';
+  html+='<button class="'+cls+'" data-cal-date="'+key+'">'+d+'<small>'+marker+(claimed?'✓':'')+'</small></button>';
+ }
+ $('calendarGrid').innerHTML=html;
+ $('calendarGrid').querySelectorAll('[data-cal-date]').forEach(b=>b.onclick=()=>{calendarSelected=b.dataset.calDate;renderCalendar();renderCalendarChoice()});
+ renderCalendarChoice();
+}
+function renderCalendarChoice(){
+ const state=(gardenExtra.calendarPlan||{})[calendarSelected]||'';
+ const claimed=!!gardenExtra.claimed['extraTraining|'+calendarSelected];
+ const label=state==='extra'?'🌟 已安排加練':state==='rest'?'☁️ 已選擇不加練':'尚未安排';
+ $('calendarChoice').innerHTML='<h3>📅 '+calendarSelected+'</h3><p>'+label+'</p><div class="row"><button id="chooseExtra">🤸 加練 +2 分</button><button class="alt" id="chooseRest">🌙 不加練</button></div><p class="muted">'+(claimed?'這一天的加練點數已領取，不能重複領取。':state==='extra'?'選擇加練後會獲得 2 點；同一天不會重複加分。':'選擇「加練」會加 2 點；「不加練」不扣分。')+'</p>';
+ $('chooseExtra').onclick=()=>{
+  gardenExtra.calendarPlan=gardenExtra.calendarPlan||{};
+  gardenExtra.claimed=gardenExtra.claimed||{};
+  if(gardenExtra.claimed['extraTraining|'+calendarSelected]){
+   $('calendarMsg').textContent='這一天的 +2 點已經領過囉！🌷';return;
+  }
+  gardenExtra.calendarPlan[calendarSelected]='extra';
+  gardenExtra.claimed['extraTraining|'+calendarSelected]=true;
+  gardenExtra.points+=2;gardenExtra.earnedTotal+=2;gardenExtra.cardNo=Math.floor(gardenExtra.earnedTotal/100)+1;
+  gardenSave();renderCalendar();renderRewards();
+  $('calendarMsg').textContent='安排成功！'+calendarSelected+' 加練已記錄，星星點數 +2 ⭐';
+ };
+ $('chooseRest').onclick=()=>{
+  gardenExtra.calendarPlan=gardenExtra.calendarPlan||{};
+  gardenExtra.calendarPlan[calendarSelected]='rest';gardenSave();renderCalendar();
+  $('calendarMsg').textContent='已記錄 '+calendarSelected+' 不加練；不會扣分。☁️';
+ };
+}
+$('calPrev').onclick=()=>{calendarView=new Date(calendarView.getFullYear(),calendarView.getMonth()-1,1);renderCalendar()};
+$('calNext').onclick=()=>{calendarView=new Date(calendarView.getFullYear(),calendarView.getMonth()+1,1);renderCalendar()};
 function review(){return {energy:$('energy').value,feeling:$('feeling').value,did:$('did').value,condition:$('condition').value,win:$('win').value,focus:$('focus').value}}
 function loadReview(){let r=D.reviews[today()];if(r)Object.keys(r).forEach(k=>{if($(k))$(k).value=r[k]})}
-document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>{document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));$(b.dataset.page).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));if(b.dataset.page==='moves')renderMoves();if(b.dataset.page==='history')renderHistory()});
+document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>{document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));$(b.dataset.page).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));if(b.dataset.page==='moves')renderMoves();if(b.dataset.page==='history')renderHistory();if(b.dataset.page==='calendar')renderCalendar()});
 $('date').value=new Date().toISOString().slice(0,10);$('date').onchange=()=>{renderPlan();loadReview()};
 $('extra').onchange=()=>{ensure(today()).extra=$('extra').value;save()};
 $('updatePlan').onclick=()=>{let p=ensure(today());p.items=planFor($('focus').value,$('energy').value,$('feeling').value);p.checked={};p.extra=$('extra').value;save();renderPlan()};
