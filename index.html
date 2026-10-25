@@ -8,6 +8,8 @@
 .video-card h3{margin:8px 0 5px}.video-card p{margin:5px 0 13px;font-size:14px;line-height:1.5}
 .video-emoji{font-size:34px}.video-cta{display:inline-block;border-radius:999px;background:#e7dcff;padding:8px 12px;font-weight:700;color:#684b85}
 .video-channel-links{display:flex;gap:10px;flex-wrap:wrap}.video-channel-links a{display:inline-block;padding:10px 14px;border-radius:14px;text-decoration:none}
+
+.move-picture{margin:12px 0 16px;padding:14px;border-radius:18px;background:linear-gradient(135deg,#f3fff9,#fff5fb);border:1px solid #d7eee4}.move-picture-heading{font-weight:800;margin-bottom:10px;color:#65517d}.move-picture-grid{display:grid;grid-template-columns:1fr .8fr 1fr;gap:8px;align-items:center}.move-frame{min-width:0;text-align:center;padding:8px 4px;background:#fff;border:1px solid #e6dff0;border-radius:14px;color:#65517d}.move-frame svg{width:100%;max-width:120px;height:auto;display:block;margin:auto}.move-frame b{font-size:12px}.move-arrow{font-size:30px;color:#d884ad}.move-frame p{font-size:13px;font-weight:700;margin:3px 0}.move-frame small{font-size:11px;line-height:1.35;display:block}.picture-note{font-size:12px;color:#756b80;margin:10px 0 0}.move-steps{background:#fffafd}.move-steps ol{padding-left:22px;margin-bottom:0}.move-steps li{margin:5px 0;line-height:1.5}
 </style><main>
 <header class="hero"><div style="font-size:30px">🌷 🦋 🎀 ⭐</div><h1>小藍的夢幻體操花園</h1><p>薄荷綠 × 櫻花粉｜今天練習、晚上回顧、明天再調整</p><small>自動儲存於此瀏覽器；記得定期下載備份。</small></header>
 <div class="row"><button id="export">⬇️ 備份紀錄</button><button class="alt" id="importBtn">⬆️ 還原備份</button><input id="file" type="file" accept=".json" class="hidden"></div><p id="saved" class="status">✓ 自動儲存已開啟</p>
@@ -198,11 +200,23 @@ function getWeeklyMove(){
  return {...chosen,week,weekKey:now.getFullYear()+'-W'+String(week).padStart(2,'0')};
 }
 let currentWeeklyMove=null;
+function weeklyMovePicture(name){
+ const common='<circle cx="50" cy="18" r="8" fill="#ffd6b8" stroke="#735a8f" stroke-width="2"/>';
+ const line=(x1,y1,x2,y2,w=4)=>'<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#735a8f" stroke-width="'+w+'" stroke-linecap="round"/>';
+ let body='';
+ if(name.includes('弓箭步')) body=common+line(50,27,50,54,5)+line(50,34,34,43)+line(50,34,65,43)+line(50,54,32,75,5)+line(32,75,17,75,5)+line(50,54,68,68,5)+line(68,68,83,68,5);
+ else if(name.includes('阿拉伯式')) body=common+line(50,27,50,53,5)+line(50,34,34,43)+line(50,34,65,42)+line(50,53,40,76,5)+line(40,76,26,76,5)+line(50,53,69,65,5)+line(69,65,83,65,5);
+ else if(name.includes('單腳')||name.includes('側平衡')) body=common+line(50,27,50,53,5)+line(50,34,35,43)+line(50,34,65,43)+line(50,53,50,76,5)+line(50,76,38,76,5)+line(50,53,68,62,5)+line(68,62,79,62,5);
+ else if(name.includes('前踢腿')) body=common+line(50,27,50,53,5)+line(50,34,35,43)+line(50,34,65,43)+line(50,53,50,76,5)+line(50,76,38,76,5)+line(50,53,70,43,5)+line(70,43,82,43,5);
+ else if(name.includes('手臂波浪')) body=common+line(50,27,50,54,5)+line(50,34,34,28)+line(34,28,25,35)+line(50,34,66,26)+line(66,26,76,33)+line(50,54,42,76,5)+line(42,76,34,76,5)+line(50,54,58,76,5)+line(58,76,66,76,5);
+ else body=common+line(50,27,50,54,5)+line(50,34,32,22)+line(50,34,68,22)+line(50,54,42,76,5)+line(42,76,34,76,5)+line(50,54,58,76,5)+line(58,76,66,76,5);
+ return '<div class="move-picture"><div class="move-picture-heading">🖼️ 動作示意圖</div><div class="move-picture-grid"><div class="move-frame"><svg viewBox="0 0 100 92" role="img" aria-label="動作姿勢示意">'+body+'<line x1="8" y1="79" x2="92" y2="79" stroke="#b8d9ca" stroke-width="2" stroke-linecap="round"/></svg><b>姿勢示意</b></div><div class="move-frame"><div class="move-arrow">➜</div><p>慢慢移動</p><small>保持穩定、正常呼吸</small></div><div class="move-frame"><svg viewBox="0 0 100 92" role="img" aria-label="保持平衡的示意">'+body+'<line x1="8" y1="79" x2="92" y2="79" stroke="#b8d9ca" stroke-width="2" stroke-linecap="round"/><circle cx="84" cy="15" r="7" fill="#ffe49a"/><path d="M80 15l3 3 5-6" fill="none" stroke="#9b7b36" stroke-width="2" stroke-linecap="round"/></svg><b>穩住定格</b></div></div><p class="picture-note">這是簡化示意圖，請依下方文字小幅度練習；不追求高度、不做翻轉。</p></div>';
+}
 function renderWeeklyMove(){
  currentWeeklyMove=getWeeklyMove();
  const card=$('weeklyMoveCard');
  if(!card)return;
- card.innerHTML='<h3>🌟 本週推薦：'+esc(currentWeeklyMove.name)+'</h3><p><b>學習方向：</b>'+esc(currentWeeklyMove.focus)+'</p><p>'+esc(currentWeeklyMove.note)+'</p><p class="status">📅 本週編號：'+esc(currentWeeklyMove.weekKey)+'</p>';
+ card.innerHTML='<h3>🌟 本週推薦：'+esc(currentWeeklyMove.name)+'</h3>'+weeklyMovePicture(currentWeeklyMove.name)+'<p><b>學習方向：</b>'+esc(currentWeeklyMove.focus)+'</p><p>'+esc(currentWeeklyMove.note)+'</p><div class="item move-steps"><b>🪄 練習步驟</b><ol><li>先在平坦、防滑的地面站好，周圍留出空間。</li><li>慢慢進入圖示中的小幅度姿勢，不要甩腿或彈震。</li><li>穩定維持 3–5 秒，正常呼吸，再慢慢回到站姿。</li><li>每邊最多做 2–3 次；不舒服就停止。</li></ol></div><p class="status">📅 本週編號：'+esc(currentWeeklyMove.weekKey)+'</p>';
 }
 $('copyWeeklyMove').onclick=async()=>{
  if(!currentWeeklyMove)renderWeeklyMove();
