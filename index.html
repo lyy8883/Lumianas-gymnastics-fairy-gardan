@@ -196,13 +196,13 @@ const categoryInfo=[
 const shopItems=categoryInfo.flatMap(cat=>cat.themes.flatMap((theme,ti)=>cat.forms.map((form,fi)=>({id:cat.id+'-'+ti+'-'+fi,category:cat.id,categoryLabel:cat.label,name:theme+form,emoji:cat.emoji,cost:cat.costs[(ti+fi)%cat.costs.length],desc:theme+'主題設計',growth:1+(ti+fi)%3}))));
 const categoryMap=Object.fromEntries(categoryInfo.map(x=>[x.id,x]));
 function gardenSave(){try{localStorage.setItem(gardenKey,JSON.stringify(gardenExtra))}catch(e){document.getElementById('rewardMsg').textContent='⚠️ 瀏覽器儲存空間不足，請先下載備份。'}}
-/* One-time points reset: start the updated reward system with a clean 0-point card; preserve inventory and growth. */
-if(!gardenExtra.zeroPointStartApplied){
+/* Reset points and stamp-card progress once for this release; keep inventory, outfit and growth. */
+if(gardenExtra.pointsStampResetV2!==true){
  gardenExtra.points=0;
  gardenExtra.earnedTotal=0;
  gardenExtra.cardNo=1;
  gardenExtra.claimed={};
- gardenExtra.zeroPointStartApplied=true;
+ gardenExtra.pointsStampResetV2=true;
  gardenSave();
 }
 function getItem(id){return shopItems.find(x=>x.id===id)}
