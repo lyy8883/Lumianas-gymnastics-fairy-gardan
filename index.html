@@ -273,90 +273,110 @@ document.getElementById('goVault').onclick=()=>document.getElementById('vaultHea
 document.getElementById('clearOutfit').onclick=()=>{gardenExtra.equipped={};gardenSave();renderVault();document.getElementById('rewardMsg').textContent='已換回基本穿搭！想換風格就去寶庫重新搭配吧 🌷'};
 renderRewards();
 const gc=document.getElementById('gameCanvas'), gx=gc.getContext('2d');
-let game={running:false,paused:false,kind:'garden',x:90,y:220,vy:0,stars:0,lives:3,frame:0,obstacles:[],sparkles:[],keys:{},last:0};
+let game={running:false,paused:false,kind:'garden',x:100,y:220,vy:0,stars:0,lives:3,frame:0,obstacles:[],keys:{},cooldown:0};
 const gameNames={
- garden:['🌷 花園大冒險','目標：收集⭐、避開🪴。用⬅️➡️移動，按✨跳過花盆。每收集一顆星星就得分。'],
- classroom:['🪄 教室大改造','目標：收集📎魔法貼紙，躲開🧽橡皮擦。移動到貼紙旁，再按「🪄 貼上貼紙」得分；碰到橡皮擦會失去愛心。'],
- galaxy:['🌌 星河機關','目標：收集星光。星河重力會變化，按「🌌 切換重力」改變上下方向，躲開紫色星塵。'],
- ribbon:['🎀 彩帶節奏','目標：彩帶光點接近舞台中央時按「🎀 跟上節拍」；太早或太晚會失去一次機會。'],
- pose:['🤸 體操造型工作室','目標：畫面會提示一個造型圖示，按「🤸 切換造型」選擇相同圖示得星星。不需要真的做體操動作。']
+ garden:['🌷 花園大冒險','玩法：用⬅️➡️移動小精靈，按「✨跳躍」跳過花盆並碰到⭐收集。碰到花盆會扣愛心。'],
+ classroom:['🪄 教室大改造','玩法：用⬅️➡️移動，靠近📎後按「🪄貼上貼紙」收集；碰到🧽橡皮擦會扣愛心。'],
+ galaxy:['🌌 星河機關','玩法：用⬅️➡️移動，按「🌌切換重力」讓小精靈在上下星軌間切換，收集⭐並躲開☄️。'],
+ ribbon:['🎀 彩帶節奏','玩法：等彩帶球進入中間的粉色節奏框，再按「🎀跟上節拍」。太早或太晚會扣愛心。'],
+ pose:['🤸 體操造型工作室','玩法：記住上方目標圖示，按「🤸切換造型」切換角色，配對成功得⭐；這是圖示配對，不用真的做動作。']
 };
-let poseIndex=0,poseTarget=0,gravityDir=1;
-const poseIcons=['🤸','🧘','🌟','🩰'];
-function chooseGame(k){game.kind=k;document.getElementById('gameTitle').textContent=gameNames[k][0];document.getElementById('gameDesc').textContent=gameNames[k][1];document.getElementById('gameAction').textContent=({garden:'🌟 特殊操作（跳躍）',classroom:'🪄 貼上貼紙',galaxy:'🌌 切換重力',ribbon:'🎀 跟上節拍',pose:'🤸 切換造型'})[k];resetGame();drawGame()}
+const poseIcons=['🤸','🧘','🌟','🩰'];let poseIndex=0,poseTarget=0,gravityDir=1;
+function chooseGame(k){
+ game.kind=k;
+ document.getElementById('gameTitle').textContent=gameNames[k][0];
+ document.getElementById('gameDesc').textContent=gameNames[k][1];
+ document.getElementById('gameAction').textContent=({garden:'✨ 跳躍',classroom:'🪄 貼上貼紙',galaxy:'🌌 切換重力',ribbon:'🎀 跟上節拍',pose:'🤸 切換造型'})[k];
+ document.querySelectorAll('.gamepick').forEach(b=>b.classList.toggle('active',b.dataset.game===k));
+ resetGame();
+}
 document.querySelectorAll('.gamepick').forEach(b=>b.onclick=()=>chooseGame(b.dataset.game));
-function resetGame(){game.running=false;game.paused=false;game.x=90;game.y=220;game.vy=0;game.stars=0;game.lives=3;game.frame=0;game.obstacles=[];game.sparkles=[];game.keys={};poseIndex=0;poseTarget=Math.floor(Math.random()*poseIcons.length);gravityDir=1;updateGameStats();drawGame()}
-function updateGameStats(){document.getElementById('gameStats').textContent=`🌟 星星 ${game.stars}｜💗 愛心 ${game.lives}`}
+function resetGame(){
+ game.running=false;game.paused=false;game.x=100;game.y=220;game.vy=0;game.stars=0;game.lives=3;game.frame=0;game.obstacles=[];game.keys={};game.cooldown=0;
+ poseIndex=0;poseTarget=Math.floor(Math.random()*poseIcons.length);gravityDir=1;
+ document.getElementById('gameDesc').textContent=gameNames[game.kind][1];
+ updateGameStats();drawGame();
+}
+function updateGameStats(){document.getElementById('gameStats').textContent='⭐ 星星 '+game.stars+'｜💗 愛心 '+game.lives+'｜'+(game.running?'遊戲中':game.lives<=0?'挑戰結束':'準備開始')}
+function addGamePoint(){game.stars++;gardenExtra.points++;gardenExtra.earnedTotal++;gardenSave();renderRewards();updateGameStats()}
+function loseLife(msg){game.lives=Math.max(0,game.lives-1);document.getElementById('gameDesc').textContent=msg;if(game.lives<=0){game.running=false;document.getElementById('gameDesc').textContent+=' 挑戰結束！按「重新開始」再玩一次。'}updateGameStats()}
 function drawGame(){
  gx.clearRect(0,0,gc.width,gc.height);
- const grad=gx.createLinearGradient(0,0,0,gc.height);grad.addColorStop(0,'#e8dcff');grad.addColorStop(.68,'#e5fff2');grad.addColorStop(1,'#ffdce9');gx.fillStyle=grad;gx.fillRect(0,0,gc.width,gc.height);
- gx.fillStyle='#ffffffaa';for(let i=0;i<24;i++){let x=(i*83+game.frame*.18)%gc.width,y=(i*37)%180;gx.beginPath();gx.arc(x,y,2+(i%3),0,Math.PI*2);gx.fill()}
- gx.fillStyle='#a5dfc3';gx.fillRect(0,260,gc.width,40);
- if(game.kind==='galaxy'){gx.fillStyle='#c69de9';gx.fillRect(0,game.y>150?35:255,gc.width,5);gx.font='18px sans-serif';gx.fillText(gravityDir===1?'重力：向下 ↓':'重力：向上 ↑',20,28)}
- if(game.kind==='ribbon'){gx.fillStyle='#fff';gx.fillRect(350,35,60,225);gx.strokeStyle='#e6a2d1';gx.lineWidth=4;gx.strokeRect(350,35,60,225);gx.font='18px sans-serif';gx.fillStyle='#8e659f';gx.fillText('節奏區',355,25)}
- if(game.kind==='pose'){gx.font='22px sans-serif';gx.fillStyle='#6f5488';gx.fillText('本回合目標：'+poseIcons[poseTarget],20,35);gx.fillText('你的造型：'+poseIcons[poseIndex],20,65)}
- game.obstacles.forEach(o=>{gx.font='25px sans-serif';gx.fillText(o.type==='star'?'⭐':o.type==='sticker'?'📎':o.type==='eraser'?'🧽':o.type==='ribbon'?'🎀':'🪴',o.x,o.y)});
- gx.font='36px sans-serif';gx.fillText(game.kind==='pose'?poseIcons[poseIndex]:game.kind==='classroom'?'🧚':game.kind==='galaxy'?'🌠':game.kind==='ribbon'?'🎀':'🧚',game.x,game.y);
- if(!game.running){gx.fillStyle='#51456c';gx.font='bold 18px sans-serif';gx.fillText(game.paused?'已暫停':'按「開始／繼續」開始遊戲',245,145)}
+ const grad=gx.createLinearGradient(0,0,0,gc.height);
+ if(game.kind==='galaxy'){grad.addColorStop(0,'#33245f');grad.addColorStop(.6,'#8766bd');grad.addColorStop(1,'#d7c8ff')}
+ else if(game.kind==='classroom'){grad.addColorStop(0,'#fff4c9');grad.addColorStop(1,'#d8f8e9')}
+ else if(game.kind==='ribbon'){grad.addColorStop(0,'#fce4f1');grad.addColorStop(1,'#e6e0ff')}
+ else{grad.addColorStop(0,'#e8dcff');grad.addColorStop(.68,'#e5fff2');grad.addColorStop(1,'#ffdce9')}
+ gx.fillStyle=grad;gx.fillRect(0,0,gc.width,gc.height);
+ for(let i=0;i<30;i++){gx.fillStyle='rgba(255,255,255,.7)';gx.beginPath();gx.arc((i*97+game.frame*.2)%gc.width,(i*43)%gc.height,1.5+(i%3),0,Math.PI*2);gx.fill()}
+ if(game.kind==='garden'){gx.fillStyle='#a5dfc3';gx.fillRect(0,260,gc.width,40);gx.font='24px sans-serif';gx.fillText('🌼',20,258);gx.fillText('🌷',680,258)}
+ if(game.kind==='classroom'){gx.fillStyle='#ffffffaa';gx.fillRect(0,75,gc.width,190);gx.font='18px sans-serif';gx.fillStyle='#78618d';gx.fillText('魔法教室：收集貼紙，避開橡皮擦！',20,35)}
+ if(game.kind==='galaxy'){gx.fillStyle='#ffffff';gx.font='18px sans-serif';gx.fillText(gravityDir===1?'下方星軌 ↓':'上方星軌 ↑',20,30);gx.fillStyle='#e7d5ff';gx.fillRect(0,gravityDir===1?255:40,gc.width,4)}
+ if(game.kind==='ribbon'){gx.fillStyle='#ffffff99';gx.fillRect(345,45,70,215);gx.strokeStyle='#e38bbd';gx.lineWidth=4;gx.strokeRect(345,45,70,215);gx.fillStyle='#76547e';gx.font='18px sans-serif';gx.fillText('節奏區',350,32)}
+ if(game.kind==='pose'){gx.font='22px sans-serif';gx.fillStyle='#5b456e';gx.fillText('目標：'+poseIcons[poseTarget],20,35);gx.fillText('角色：'+poseIcons[poseIndex],20,67)}
+ game.obstacles.forEach(o=>{gx.font='27px sans-serif';gx.fillText(o.type==='star'?'⭐':o.type==='pot'?'🪴':o.type==='sticker'?'📎':o.type==='eraser'?'🧽':o.type==='ribbon'?'🎀':'☄️',o.x,o.y)});
+ gx.font='38px sans-serif';gx.fillText(game.kind==='pose'?poseIcons[poseIndex]:game.kind==='classroom'?'🧚':game.kind==='galaxy'?'🌠':game.kind==='ribbon'?'🎀':'🧚',game.x,game.y);
+ if(!game.running){gx.fillStyle=game.kind==='galaxy'?'#fff':'#51456c';gx.font='bold 18px sans-serif';gx.fillText(game.lives<=0?'💫 挑戰結束｜重新開始吧':game.paused?'⏸ 已暫停':'▶ 按「開始／繼續」開玩',245,145)}
 }
-function gameTick(ts){
+function gameTick(){
  if(game.running){
-  game.frame++;
-  if(game.kind==='garden'&&game.frame%52===0)game.obstacles.push({x:gc.width+20,y:game.frame%104===0?220:250,type:Math.random()<.65?'star':'obstacle'});
-  if(game.kind==='classroom'&&game.frame%45===0)game.obstacles.push({x:gc.width+20,y:90+Math.random()*150,type:Math.random()<.62?'sticker':'eraser'});
-  if(game.kind==='galaxy'&&game.frame%48===0)game.obstacles.push({x:gc.width+20,y:55+Math.random()*170,type:Math.random()<.7?'star':'dust'});
-  if(game.kind==='ribbon'&&game.frame%62===0)game.obstacles.push({x:gc.width+20,y:180,type:'ribbon'});
-  game.obstacles.forEach(o=>o.x-=game.kind==='galaxy'?4.4:game.kind==='ribbon'?3.2:3.5);
-  game.obstacles=game.obstacles.filter(o=>o.x>-40);
+  game.frame++;game.cooldown=Math.max(0,game.cooldown-1);
+  const spawn=(type,y)=>game.obstacles.push({x:gc.width+25,y,type,hit:false});
+  if(game.kind==='garden'&&game.frame%48===0)spawn(Math.random()<.62?'star':'pot',Math.random()<.5?220:250);
+  if(game.kind==='classroom'&&game.frame%42===0)spawn(Math.random()<.65?'sticker':'eraser',90+Math.random()*150);
+  if(game.kind==='galaxy'&&game.frame%43===0)spawn(Math.random()<.68?'star':'dust',gravityDir===1?215:90);
+  if(game.kind==='ribbon'&&game.frame%66===0)spawn('ribbon',180);
+  const speed=game.kind==='galaxy'?4.4:game.kind==='ribbon'?3.4:3.6;
+  game.obstacles.forEach(o=>o.x-=speed);
+  game.obstacles=game.obstacles.filter(o=>o.x>-45&&!o.hit);
   if(game.kind==='garden'||game.kind==='galaxy'){
-   game.obstacles.forEach(o=>{if(!o.hit&&Math.abs(o.x-game.x)<28&&Math.abs(o.y-game.y)<36){o.hit=true;if(o.type==='star'){game.stars++;gardenExtra.points++;gardenExtra.earnedTotal++;gardenSave();renderRewards()}else{game.lives--;if(game.lives<=0){game.running=false;document.getElementById('gameDesc').textContent='愛心用完啦！按開始可重新挑戰。'}}}});
-   game.x=Math.max(35,Math.min(gc.width-35,game.x+(game.keys.left?-4:0)+(game.keys.right?4:0)));
+   game.x=Math.max(35,Math.min(gc.width-35,game.x+(game.keys.left?-5:0)+(game.keys.right?5:0)));
    game.y+=game.vy;game.vy+=.55*gravityDir;
-   if(gravityDir===1&&game.y>220){game.y=220;game.vy=0}if(gravityDir===-1&&game.y<75){game.y=75;game.vy=0}
+   if(gravityDir===1&&game.y>220){game.y=220;game.vy=0}
+   if(gravityDir===-1&&game.y<85){game.y=85;game.vy=0}
+   game.obstacles.forEach(o=>{if(!o.hit&&Math.abs(o.x-game.x)<30&&Math.abs(o.y-game.y)<35){o.hit=true;if(o.type==='star')addGamePoint();else if(o.type==='pot'||o.type==='dust')loseLife('碰到障礙了！看準時機躲開，再試一次。')}})
   }else if(game.kind==='classroom'){
-   game.x=Math.max(35,Math.min(gc.width-35,game.x+(game.keys.left?-4:0)+(game.keys.right?4:0)));
-   game.y=90+Math.sin(game.frame/24)*95;
-   game.obstacles.forEach(o=>{if(!o.hit&&Math.abs(o.x-game.x)<25&&Math.abs(o.y-game.y)<30&&o.type==='eraser'){o.hit=true;game.lives--;if(game.lives<=0)game.running=false}});
-  }else if(game.kind==='ribbon'){
-   game.x=380;game.y=210;
-   game.obstacles.forEach(o=>{if(!o.hit&&Math.abs(o.x-380)<22){o.near=true;if(o.type==='ribbon')document.getElementById('gameDesc').textContent='現在按「🎀 跟上節拍」！光點到達節奏區時按下。'}});
-  }else if(game.kind==='pose'){
-   game.x=game.x||90;game.y=220;
-  }
+   game.x=Math.max(35,Math.min(gc.width-35,game.x+(game.keys.left?-5:0)+(game.keys.right?5:0)));
+   game.y=170+Math.sin(game.frame/25)*65;
+   game.obstacles.forEach(o=>{if(!o.hit&&o.type==='eraser'&&Math.abs(o.x-game.x)<28&&Math.abs(o.y-game.y)<32){o.hit=true;loseLife('碰到橡皮擦啦！小心躲開。')}})
+  }else if(game.kind==='ribbon'){game.x=380;game.y=210}
+  if(game.frame%300===0&&game.kind!=='pose')document.getElementById('gameDesc').textContent='越來越快了！用你的專屬操作繼續挑戰 ✨';
   updateGameStats();
  }
  drawGame();requestAnimationFrame(gameTick)
 }
-document.getElementById('gameStart').onclick=()=>{if(game.lives<=0)resetGame();game.running=true;game.paused=false;gameTickStart()};
-let tickStarted=false;function gameTickStart(){if(!tickStarted){tickStarted=true;requestAnimationFrame(gameTick)}}
-document.getElementById('gamePause').onclick=()=>{game.running=false;game.paused=true;drawGame()};
-document.getElementById('gameEnd').onclick=()=>{game.running=false;game.paused=false;document.getElementById('gameDesc').textContent='本局結束！收集到 '+game.stars+' 顆星星。';drawGame()};
-function jumpGame(){if(game.kind==='galaxy'){gravityDir*=-1;game.vy=0}else if(game.kind==='garden'&&game.y>=220){game.vy=-10}}
+document.getElementById('gameStart').onclick=()=>{if(game.lives<=0)resetGame();game.running=true;game.paused=false;updateGameStats()};
+document.getElementById('gamePause').onclick=()=>{game.running=false;game.paused=true;updateGameStats();drawGame()};
+document.getElementById('gameEnd').onclick=()=>{game.running=false;game.paused=false;document.getElementById('gameDesc').textContent='本局結束！你收集到 '+game.stars+' 顆星星 ✨';updateGameStats();drawGame()};
+function jumpGame(){if(game.kind==='galaxy'){gravityDir*=-1;game.vy=0;document.getElementById('gameDesc').textContent=gravityDir===1?'已切換到下方星軌！':'已切換到上方星軌！'}else if(game.kind==='garden'&&game.y>=215){game.vy=-10}}
 document.getElementById('jumpBtn').onclick=jumpGame;
 document.getElementById('gameAction').onclick=()=>{
  if(game.kind==='garden'){jumpGame();return}
  if(game.kind==='classroom'){
-  const target=game.obstacles.find(o=>!o.hit&&o.type==='sticker'&&Math.abs(o.x-game.x)<90);
-  if(target){target.hit=true;game.stars++;gardenExtra.points++;gardenExtra.earnedTotal++;gardenSave();renderRewards();document.getElementById('gameDesc').textContent='貼紙收集成功！再找下一張📎';}
-  else document.getElementById('gameDesc').textContent='還沒靠近貼紙喔！用左右鍵移動到📎附近再按。';
- }else if(game.kind==='galaxy'){gravityDir*=-1;game.vy=0;document.getElementById('gameDesc').textContent=gravityDir===1?'重力切換成向下！':'重力切換成向上！';}
+  const target=game.obstacles.find(o=>!o.hit&&o.type==='sticker'&&Math.abs(o.x-game.x)<100&&Math.abs(o.y-game.y)<65);
+  if(target){target.hit=true;addGamePoint();document.getElementById('gameDesc').textContent='貼紙收集成功！+1 ⭐ 找下一張📎';}
+  else document.getElementById('gameDesc').textContent='還沒靠近貼紙！用左右鍵移動到📎附近，再按一次。';
+ }else if(game.kind==='galaxy'){jumpGame()}
  else if(game.kind==='ribbon'){
-  const target=game.obstacles.find(o=>!o.hit&&o.type==='ribbon'&&Math.abs(o.x-380)<32);
-  if(target){target.hit=true;game.stars++;gardenExtra.points++;gardenExtra.earnedTotal++;gardenSave();renderRewards();document.getElementById('gameDesc').textContent='節拍命中！+1 星星 🎉';}
-  else{game.lives--;document.getElementById('gameDesc').textContent='這次沒踩到節拍，等彩帶接近中間再按！';}
-  updateGameStats();
+  const target=game.obstacles.find(o=>!o.hit&&o.type==='ribbon'&&Math.abs(o.x-380)<36);
+  if(target){target.hit=true;addGamePoint();document.getElementById('gameDesc').textContent='節拍命中！+1 ⭐ 太棒了！'}
+  else loseLife('還沒進入節奏框！等🎀靠近中央再按。');
  }else if(game.kind==='pose'){
   poseIndex=(poseIndex+1)%poseIcons.length;
-  if(poseIndex===poseTarget){game.stars++;gardenExtra.points++;gardenExtra.earnedTotal++;gardenSave();renderRewards();poseTarget=Math.floor(Math.random()*poseIcons.length);document.getElementById('gameDesc').textContent='造型配對成功！下一題目標已出現。';}
-  else document.getElementById('gameDesc').textContent='再切換看看，配對畫面上的目標造型！';
+  if(poseIndex===poseTarget){addGamePoint();poseTarget=Math.floor(Math.random()*poseIcons.length);document.getElementById('gameDesc').textContent='配對成功！新的目標已出現 ✨'}
+  else document.getElementById('gameDesc').textContent='還沒配對喔！看上方「目標」圖示再切換。';
  }
- drawGame();
+ updateGameStats();drawGame();
 };
-document.getElementById('leftBtn').onpointerdown=()=>game.keys.left=true;document.getElementById('leftBtn').onpointerup=()=>game.keys.left=false;document.getElementById('leftBtn').onpointerleave=()=>game.keys.left=false;
-document.getElementById('rightBtn').onpointerdown=()=>game.keys.right=true;document.getElementById('rightBtn').onpointerup=()=>game.keys.right=false;document.getElementById('rightBtn').onpointerleave=()=>game.keys.right=false;
+document.getElementById('leftBtn').onpointerdown=()=>game.keys.left=true;
+document.getElementById('leftBtn').onpointerup=()=>game.keys.left=false;
+document.getElementById('leftBtn').onpointerleave=()=>game.keys.left=false;
+document.getElementById('rightBtn').onpointerdown=()=>game.keys.right=true;
+document.getElementById('rightBtn').onpointerup=()=>game.keys.right=false;
+document.getElementById('rightBtn').onpointerleave=()=>game.keys.right=false;
 document.addEventListener('keydown',e=>{if(e.code==='ArrowLeft')game.keys.left=true;if(e.code==='ArrowRight')game.keys.right=true;if(e.code==='Space'){e.preventDefault();if(game.kind==='ribbon'||game.kind==='classroom'||game.kind==='pose')document.getElementById('gameAction').click();else jumpGame()}});
 document.addEventListener('keyup',e=>{if(e.code==='ArrowLeft')game.keys.left=false;if(e.code==='ArrowRight')game.keys.right=false});
-chooseGame('garden');
-renderShop();drawGame();
+chooseGame('garden');requestAnimationFrame(gameTick);
+
 
 </script></main></html>
