@@ -459,8 +459,8 @@ function renderStampCard(){
 }
 function growthLevel(){return Math.min(5,Math.floor(gardenExtra.growth/10))}
 function renderGirl(){
- const level=growthLevel(),faces=['👧🏻','👧🏼','👧🏻','👩🏻','👩🏼','👩🏻'];
- const stages=['第 1 階段・初來花園','第 2 階段・花園新朋友','第 3 階段・星星收藏家','第 4 階段・花園小主人','第 5 階段・夢幻造型師','第 6 階段・極光花園守護者'];
+ const level=growthLevel(),faces=['👧🏻','👧🏼🎀','👧🏻🌷','👧🏼🦋','👩🏻✨','👩🏼👑'];
+ const stages=['第 1 階段・初來花園 🌱','第 2 階段・花園新朋友 🎀','第 3 階段・星星收藏家 🌷','第 4 階段・花園小主人 🦋','第 5 階段・夢幻造型師 ✨','第 6 階段・極光花園守護者 👑'];
  const next=(level+1)*10,progress=gardenExtra.growth%10;
  document.getElementById('girlFace').textContent=faces[level];
  document.getElementById('girlStage').textContent=stages[level];
@@ -563,7 +563,31 @@ renderRewards();
 {id:'waterfall',e:'🏞️',n:'薄荷瀑布',cost:26,d:'清新的瀑布景觀。',cat:'水景'},
 {id:'cloudhouse',e:'🏡',n:'薄荷花園小屋',cost:21,d:'一座溫柔可愛的小屋。',cat:'建築'},
 {id:'firefly',e:'🪲',n:'螢火蟲夜景',cost:15,d:'夜晚有小小光點飛舞。',cat:'燈光'},
-{id:'music',e:'🎶',n:'花園音樂角',cost:14,d:'為花園加上輕快旋律。',cat:'裝飾'}
+{id:'music',e:'🎶',n:'花園音樂角',cost:14,d:'為花園加上輕快旋律。',cat:'裝飾'},
+{id:'lavender',e:'🪻',n:'薰衣草花海',cost:9,d:'紫色花海隨微風輕輕搖曳。',cat:'花草'},
+{id:'cherry',e:'🌸',n:'粉櫻小樹',cost:12,d:'粉色花瓣飄落在小徑旁。',cat:'花草'},
+{id:'lily',e:'🪷',n:'夢幻睡蓮',cost:10,d:'水面上盛開柔粉色睡蓮。',cat:'花草'},
+{id:'daisy',e:'🌼',n:'奶油雛菊',cost:6,d:'小小雛菊為花園添上奶油黃。',cat:'花草'},
+{id:'hydrangea',e:'💠',n:'藍紫繡球花',cost:11,d:'一團團藍紫色花朵點亮角落。',cat:'花草'},
+{id:'fence',e:'🪵',n:'花園木柵欄',cost:8,d:'為花園圍出溫柔的小邊界。',cat:'家具'},
+{id:'arch',e:'🌿',n:'藤蔓花拱',cost:16,d:'綠色藤蔓與花朵交織成拱門。',cat:'建築'},
+{id:'gazebo',e:'🏛️',n:'夢幻涼亭',cost:23,d:'花園中央多了一座休息涼亭。',cat:'建築'},
+{id:'tent',e:'⛺',n:'星夜露營帳篷',cost:18,d:'可以在花園裡想像星夜露營。',cat:'建築'},
+{id:'bridge',e:'🌉',n:'月光小橋',cost:19,d:'跨過池塘的小橋在夜裡發光。',cat:'水景'},
+{id:'water',e:'💧',n:'水晶噴水池',cost:15,d:'清透水滴在陽光下閃亮。',cat:'水景'},
+{id:'rain',e:'🌦️',n:'彩虹細雨',cost:13,d:'花園偶爾飄起夢幻小雨。',cat:'天空'},
+{id:'comet',e:'☄️',n:'星星流光',cost:17,d:'夜空有一顆流星劃過。',cat:'天空'},
+{id:'aurora',e:'🌌',n:'薄荷極光',cost:25,d:'薄荷綠與淡紫色極光照亮天空。',cat:'天空'},
+{id:'butterflies',e:'🦋',n:'蝴蝶派對',cost:14,d:'更多彩色蝴蝶在花叢間飛舞。',cat:'生物'},
+{id:'hedgehog',e:'🦔',n:'刺蝟小訪客',cost:12,d:'害羞的小刺蝟來花園散步。',cat:'生物'},
+{id:'deer',e:'🦌',n:'森林小鹿',cost:20,d:'溫柔的小鹿來到花園邊。',cat:'生物'},
+{id:'cat',e:'🐈',n:'奶油貓咪',cost:16,d:'一隻奶油色貓咪來曬太陽。',cat:'生物'},
+{id:'panda',e:'🐼',n:'棉花糖熊貓',cost:22,d:'圓滾滾熊貓在竹林旁休息。',cat:'生物'},
+{id:'piano',e:'🎹',n:'星光小鋼琴',cost:21,d:'花園裡有一台夢幻小鋼琴。',cat:'裝飾'},
+{id:'balloons',e:'🎈',n:'粉彩氣球串',cost:10,d:'粉彩氣球讓花園充滿慶祝氣氛。',cat:'裝飾'},
+{id:'cake',e:'🎂',n:'花園慶祝蛋糕',cost:13,d:'為重要的成長時刻準備小蛋糕。',cat:'裝飾'},
+{id:'crown',e:'👑',n:'花園小皇冠',cost:18,d:'一頂小皇冠代表努力與成長。',cat:'魔法'},
+{id:'potion',e:'🧪',n:'星光魔法藥水',cost:16,d:'裝著閃閃星光的奇妙小瓶。',cat:'魔法'}
 ];
  gardenExtra.wheel=gardenExtra.wheel||{};gardenExtra.quests=gardenExtra.quests||{};gardenExtra.pet=gardenExtra.pet||{name:'薄荷兔兔',bond:0,care:{}};gardenExtra.pet.care=gardenExtra.pet.care||{};gardenExtra.moveBook=gardenExtra.moveBook||{};gardenExtra.gardenItems=Array.isArray(gardenExtra.gardenItems)?gardenExtra.gardenItems:[];
  function addGardenPoints(amount){gardenExtra.points+=amount;gardenExtra.earnedTotal+=amount;gardenExtra.cardNo=Math.floor(gardenExtra.earnedTotal/100)+1;gardenSave();renderRewards();renderGarden();}
@@ -571,7 +595,7 @@ renderRewards();
  $('spinWheel').onclick=()=>{const rec=gardenExtra.wheel[today()];if(rec){$('wheelMsg').textContent=rec.claimed?'今天已完成並領過獎勵，明天再來抽新的任務吧！':'今天已經抽過任務囉，完成目前這一項就好！';renderWheel();return}const task=Math.floor(Math.random()*magicTasks.length);gardenExtra.wheel[today()]={task,claimed:false};gardenSave();renderWheel();$('completeWheel').disabled=false;$('wheelMsg').textContent='抽到了！完成後按下方按鈕領取 2 點。'};
  $('completeWheel').onclick=()=>{const r=gardenExtra.wheel[today()];if(!r||r.claimed)return;r.claimed=true;addGardenPoints(2);renderWheel();$('wheelMsg').textContent='完成任務！星星點數 +2 ⭐';};
  function renderAdventure(){const total=Object.values(gardenExtra.quests).reduce((n,x)=>n+Object.keys(x||{}).filter(k=>x[k]).length,0);const level=Math.min(5,1+Math.floor(total/3));$('questLevel').innerHTML='🏆 冒險等級：'+level+'／5　｜　累積完成 '+total+' 個任務';const bs=[['🌱','新手冒險家',1],['⭐','星星收集者',3],['🦋','花園守護者',6],['🎀','體操小隊長',9],['👑','夢幻大師',15]];$('questBadges').innerHTML=bs.map(b=>'<div class="item" style="text-align:center;opacity:'+(total>=b[2]?'1':'.55')+'"><div style="font-size:32px">'+b[0]+'</div><b>'+b[1]+'</b><p class="muted">'+(total>=b[2]?'已解鎖 ✓':'完成 '+b[2]+' 個任務解鎖')+'</p></div>').join('');const day=gardenExtra.quests[today()]||{};$('questList').innerHTML=questDaily.map(q=>'<label class="check"><input type="checkbox" data-quest="'+q.id+'" '+(day[q.id]?'checked':'')+' '+(gardenExtra.claimed['quest|'+today()+'|'+q.id]?'disabled':'')+'><span><b>'+q.e+' '+q.n+'（+'+q.p+' 點）</b><br><small>'+q.d+'</small></span></label>').join('');document.querySelectorAll('[data-quest]').forEach(c=>c.onchange=()=>{const id=c.dataset.quest,q=questDaily.find(x=>x.id===id);gardenExtra.quests[today()]=gardenExtra.quests[today()]||{};gardenExtra.quests[today()][id]=c.checked;if(c.checked&&!gardenExtra.claimed['quest|'+today()+'|'+id]){gardenExtra.claimed['quest|'+today()+'|'+id]=true;addGardenPoints(q.p);$('questMsg').textContent='關卡完成！星星點數 +'+q.p+' ⭐';}else gardenSave();renderAdventure();});}
- function renderPet(){const p=gardenExtra.pet,level=Math.min(5,1+Math.floor(p.bond/5));$('petFace').textContent=level>=5?'🐇':'🐰';$('petName').textContent=p.name||'薄荷兔兔';$('petStats').textContent='親密度 '+p.bond+' 💗　｜　成長階段 '+level+'／5';$('petScene').textContent=level>=5?'兔兔已成為花園裡的星光守護者！👑':level>=3?'兔兔和妳越來越熟悉了！🌷':'兔兔正在熟悉牠的新家。🌿';document.querySelectorAll('[data-petcare]').forEach(b=>{b.disabled=!!p.care[today()+'|'+b.dataset.petcare];});}
+ function renderPet(){const p=gardenExtra.pet,level=Math.min(5,1+Math.floor(p.bond/5)),faces=['🐰🌱','🐰🎀','🐰🌷','🐰🦋','🐇👑'];$('petFace').textContent=faces[level-1];$('petName').textContent=p.name||'薄荷兔兔';$('petStats').textContent='親密度 '+p.bond+' 💗　｜　成長階段 '+level+'／5　｜　距離下一階段 '+(level>=5?'已滿級':(5-(p.bond%5))+' 點');$('petScene').textContent=['兔兔剛搬進薄荷花園，正在探索新家！🌿','兔兔戴上了可愛蝴蝶結，開始認得妳了！🎀','兔兔身邊開滿小花，最喜歡和妳玩耍！🌷','兔兔長出夢幻蝴蝶光翼，花園變得閃閃發亮！🦋','兔兔進化成花園星光守護者，戴上皇冠啦！👑'][level-1];document.querySelectorAll('[data-petcare]').forEach(b=>{b.disabled=!!p.care[today()+'|'+b.dataset.petcare];});}
  document.querySelectorAll('[data-petcare]').forEach(b=>b.onclick=()=>{const p=gardenExtra.pet,k=today()+'|'+b.dataset.petcare;if(p.care[k])return;p.care[k]=true;p.bond+=1;gardenSave();renderPet();$('petMsg').textContent=({feed:'🥕 兔兔吃得很開心！',brush:'🪮 毛毛整理好了！',play:'🦋 陪伴時間完成！'})[b.dataset.petcare]+' 親密度 +1 💗';});
  function renderMoveCollection(){const moves=all(),book=gardenExtra.moveBook,saved=moves.filter(m=>book[m[0]]&&book[m[0]].saved);$('collectionStats').textContent='收藏 '+saved.length+'／'+moves.length+' 個動作卡　｜　每個動作可記錄熟悉程度';$('moveCollection').innerHTML=moves.map(m=>{const x=book[m[0]]||{saved:false,level:0},high=m[2].includes('高階');return '<div class="item"><b>'+m[1]+' '+esc(m[0])+'</b><p class="muted">'+esc(m[2])+'</p><p>熟練度：'+['🌱 初次認識','🌷 正在熟悉','⭐ 越來越穩','💎 熟悉掌握'][Math.min(3,x.level||0)]+'</p><button class="'+(x.saved?'alt':'')+'" data-movesave="'+esc(m[0])+'">'+(x.saved?'💗 已收藏':'🎀 收藏動作卡')+'</button><button class="alt" data-movelevel="'+esc(m[0])+'" style="margin-top:6px;width:100%">＋記錄一次熟悉度</button>'+(high?'<p class="muted">高階動作只作為圖鑑記錄，需由合格教練在合適場地指導。</p>':'')+'</div>'}).join('');document.querySelectorAll('[data-movesave]').forEach(b=>b.onclick=()=>{const x=book[b.dataset.movesave]||(book[b.dataset.movesave]={saved:false,level:0});x.saved=!x.saved;gardenSave();renderMoveCollection();});document.querySelectorAll('[data-movelevel]').forEach(b=>b.onclick=()=>{const name=b.dataset.movelevel,k='moveBook|'+today()+'|'+name;if(gardenExtra.claimed[k]){alert('這張動作卡今天已記錄過囉，明天可以再記錄！');return}const x=book[name]||(book[name]={saved:false,level:0});x.saved=true;x.level=Math.min(3,(x.level||0)+1);gardenExtra.claimed[k]=true;gardenSave();renderMoveCollection();});}
  function renderGarden(){$('gardenStats').textContent='可用星星：'+gardenExtra.points+' ⭐　｜　已解鎖裝飾：'+gardenExtra.gardenItems.length+'／'+decorItems.length;const owned=decorItems.filter(x=>gardenExtra.gardenItems.includes(x.id));$('gardenDisplay').textContent=['🌷','🦋','🌿','🐰',...owned.map(x=>x.e)].join('　');$('gardenCaption').textContent=owned.length?'花園已經有 '+owned.length+' 件專屬裝飾！':'先解鎖第一件裝飾，打造妳的夢幻花園。';$('gardenShop').innerHTML=decorItems.map(x=>'<div class="item" style="text-align:center"><div style="font-size:38px">'+x.e+'</div><b>'+x.n+'</b><p class="muted">'+x.d+'</p>'+(gardenExtra.gardenItems.includes(x.id)?'<p class="status">已解鎖 ✓</p>':'<p>⭐ '+x.cost+' 點</p><button data-decor="'+x.id+'" '+(gardenExtra.points<x.cost?'disabled':'')+'>🌷 解鎖裝飾</button>')+'</div>').join('');document.querySelectorAll('[data-decor]').forEach(b=>b.onclick=()=>{const x=decorItems.find(y=>y.id===b.dataset.decor);if(!x||gardenExtra.gardenItems.includes(x.id)||gardenExtra.points<x.cost)return;gardenExtra.points-=x.cost;gardenExtra.gardenItems.push(x.id);gardenSave();renderGarden();renderRewards();$('gardenMsg').textContent='解鎖成功！「'+x.n+'」已放進花園 🌈';});}
