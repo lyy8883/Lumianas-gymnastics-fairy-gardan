@@ -48,7 +48,7 @@ nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8p
 <section id="adventure" class="page hidden"><div class="panel"><h2>🏆 體操闖關冒險</h2><p>每天完成安全小任務累積冒險經驗，逐步解鎖徽章與關卡。可以休息，不需要為了過關勉強練習。</p><div id="questLevel" class="status"></div><div id="questBadges" class="grid"></div><h3>🌟 今日關卡</h3><div id="questList"></div><p id="questMsg" class="status">勾選已完成的任務，星星每天每項只會領一次。</p></div></section>
 <section id="pet" class="page hidden"><div class="panel"><h2>🐰 我的夢幻小兔子</h2><div class="item" style="text-align:center"><div id="petFace" style="font-size:76px">🐰</div><h3 id="petName">薄荷兔兔</h3><p id="petStats"></p><p id="petScene" class="status">住在薄荷花園裡 🌿</p></div><h3>💗 照顧兔兔</h3><div class="grid"><button data-petcare="feed">🥕 餵胡蘿蔔</button><button data-petcare="brush">🪮 梳理毛毛</button><button data-petcare="play">🦋 陪牠玩耍</button></div><p id="petMsg" class="status">每天可以照顧兔兔，累積親密度和裝飾解鎖進度。</p></div></section>
 <section id="collection" class="page hidden"><div class="panel"><h2>🎀 體操動作收藏冊</h2><p>把動作加入收藏，記錄熟悉程度。這裡記錄的是妳自己的感受，不代表必須立刻升級或嘗試更高難度。</p><div id="collectionStats" class="status"></div><div id="moveCollection" class="grid"></div></div></section>
-<section id="garden" class="page hidden"><div class="panel"><h2>🌈 夢幻花園建造</h2><p>使用集點收藏裡累積的星星點數，解鎖花朵、蝴蝶、噴泉和場景。已解鎖的裝飾會永久保存在這個瀏覽器。</p><div id="gardenStats" class="status"></div><div id="gardenScene" class="item" style="text-align:center"><div id="gardenDisplay" style="font-size:42px;line-height:1.8">🌷 🦋 🌿 🐰</div><p id="gardenCaption">小藍的夢幻花園</p></div><div id="gardenShop" class="grid"></div><p id="gardenMsg" class="status">挑選喜歡的裝飾來布置花園！</p></div></section>
+<section id="garden" class="page hidden"><div class="panel"><h2>🌈 夢幻花園建造</h2><p>使用星星點數解鎖 40 種花草、建築、天空、水景、燈光、魔法與小動物裝飾。已解鎖的裝飾會保存在這個瀏覽器。</p><div id="gardenStats" class="status"></div><div id="gardenScene" class="item" style="text-align:center"><div id="gardenDisplay" style="font-size:42px;line-height:1.8">🌷 🦋 🌿 🐰</div><p id="gardenCaption">小藍的夢幻花園</p></div><div id="gardenShop" class="grid"></div><p id="gardenMsg" class="status">挑選喜歡的裝飾來布置花園！</p></div></section>
 <section id="calendar" class="page hidden">
 <div class="panel">
  <h2>🗓️ 行事曆安排</h2>
@@ -523,7 +523,48 @@ renderRewards();
  // Five interactive features: wheel, quests, pet, move collection, garden builder.
  const magicTasks=[{e:'🌤️',n:'暖身小隊長',d:'做 2 分鐘舒服的原地踏步；若不舒服就停止。'},{e:'⭐',n:'平衡星星',d:'在平地單腳站穩 10 秒，再換邊；需要時扶穩固支撐。'},{e:'🎀',n:'姿勢定格',d:'練習站直、肩膀放鬆、手臂舉高，舒服地定格 10 秒，共 3 次。'},{e:'🦋',n:'動作觀察家',d:'看一張自己熟悉的動作卡，讀完練法和安全提醒。'},{e:'📔',n:'進步記錄員',d:'寫下一件今天做得好的事，也可以記下自己有好好休息。'},{e:'🌿',n:'恢復魔法',d:'安排休息、喝水，或慢慢走動幾分鐘；不需要加練。'}];
  const questDaily=[{id:'warm',e:'🌤️',n:'暖身準備',d:'舒服地活動身體，或在疲累時選擇休息。',p:1},{id:'control',e:'⭐',n:'控制力任務',d:'練習基本站姿或安全的平地平衡。',p:2},{id:'journal',e:'📔',n:'記下今天',d:'完成每日回顧，或寫下一個小小進步。',p:1}];
- const decorItems=[{id:'flower',e:'🌷',n:'櫻花花叢',cost:5,d:'讓花園開滿粉色花朵。'},{id:'butterfly',e:'🦋',n:'極光蝴蝶',cost:8,d:'讓蝴蝶在花園飛舞。'},{id:'fountain',e:'⛲',n:'星光噴泉',cost:12,d:'加上一座夢幻噴泉。'},{id:'rainbow',e:'🌈',n:'彩虹拱門',cost:15,d:'在花園入口放上彩虹。'},{id:'moon',e:'🌙',n:'月光小屋',cost:20,d:'解鎖安靜的月光角落。'},{id:'castle',e:'🏰',n:'夢幻城堡',cost:30,d:'解鎖花園裡的童話城堡。'}];
+ const decorItems=[
+{id:'flower',e:'🌷',n:'櫻花花叢',cost:5,d:'讓花園開滿粉色花朵。',cat:'花草'},
+{id:'butterfly',e:'🦋',n:'極光蝴蝶',cost:8,d:'讓蝴蝶在花園飛舞。',cat:'生物'},
+{id:'fountain',e:'⛲',n:'星光噴泉',cost:12,d:'加上一座夢幻噴泉。',cat:'建築'},
+{id:'rainbow',e:'🌈',n:'彩虹拱門',cost:15,d:'在花園入口放上彩虹。',cat:'天空'},
+{id:'moon',e:'🌙',n:'月光小屋',cost:20,d:'解鎖安靜的月光角落。',cat:'建築'},
+{id:'castle',e:'🏰',n:'夢幻城堡',cost:30,d:'解鎖花園裡的童話城堡。',cat:'建築'},
+{id:'rose',e:'🌹',n:'玫瑰花圃',cost:7,d:'浪漫的紅玫瑰花圃。',cat:'花草'},
+{id:'sunflower',e:'🌻',n:'向日葵小徑',cost:7,d:'沿著小徑種滿向日葵。',cat:'花草'},
+{id:'tulips',e:'💐',n:'夢幻花束',cost:9,d:'繽紛花束點亮角落。',cat:'花草'},
+{id:'clover',e:'🍀',n:'四葉幸運草',cost:6,d:'為花園添上一點好運。',cat:'花草'},
+{id:'mushroom',e:'🍄',n:'蘑菇小屋',cost:11,d:'森林裡的可愛蘑菇屋。',cat:'建築'},
+{id:'tree',e:'🌳',n:'薄荷大樹',cost:10,d:'在花園中央種下一棵樹。',cat:'花草'},
+{id:'palm',e:'🌴',n:'熱帶小樹',cost:10,d:'增添清新的度假氣氛。',cat:'花草'},
+{id:'grass',e:'🌱',n:'嫩芽花壇',cost:4,d:'小小嫩芽慢慢長大。',cat:'花草'},
+{id:'sparkles',e:'✨',n:'星塵魔法',cost:8,d:'讓花園閃爍細細星光。',cat:'魔法'},
+{id:'stars',e:'🌟',n:'星星燈串',cost:12,d:'夜晚也能亮晶晶。',cat:'燈光'},
+{id:'lantern',e:'🏮',n:'粉彩燈籠',cost:10,d:'掛起柔和的花園燈籠。',cat:'燈光'},
+{id:'crystal',e:'🔮',n:'水晶球',cost:14,d:'神秘的魔法裝飾。',cat:'魔法'},
+{id:'cloud',e:'☁️',n:'棉花糖雲朵',cost:9,d:'讓天空變得柔軟夢幻。',cat:'天空'},
+{id:'sun',e:'☀️',n:'微笑太陽',cost:8,d:'為花園帶來明亮陽光。',cat:'天空'},
+{id:'moonstar',e:'🌌',n:'星河夜空',cost:18,d:'把星河夜色帶進花園。',cat:'天空'},
+{id:'pond',e:'🪷',n:'荷花池塘',cost:13,d:'靜靜盛開的荷花池。',cat:'水景'},
+{id:'shell',e:'🐚',n:'珍珠貝殼',cost:8,d:'像海邊一樣閃亮的小角落。',cat:'水景'},
+{id:'swan',e:'🦢',n:'白天鵝池',cost:16,d:'優雅天鵝的池畔景色。',cat:'生物'},
+{id:'bird',e:'🐦',n:'唱歌小鳥',cost:7,d:'邀請小鳥來花園唱歌。',cat:'生物'},
+{id:'rabbit',e:'🐇',n:'花園兔兔',cost:12,d:'兔兔來花叢裡探險。',cat:'生物'},
+{id:'bee',e:'🐝',n:'蜜蜂花園',cost:9,d:'小蜜蜂來幫花朵授粉。',cat:'生物'},
+{id:'bench',e:'🪑',n:'休憩長椅',cost:10,d:'在花園裡留一個休息角落。',cat:'家具'},
+{id:'swing',e:'🎠',n:'夢幻旋轉木馬',cost:22,d:'像童話樂園一樣旋轉。',cat:'遊樂'},
+{id:'gift',e:'🎁',n:'驚喜禮物盒',cost:11,d:'打開花園裡的驚喜。',cat:'裝飾'},
+{id:'heart',e:'💖',n:'愛心花燈',cost:12,d:'柔柔的愛心光芒。',cat:'燈光'},
+{id:'crystalpath',e:'💎',n:'水晶小徑',cost:17,d:'閃亮水晶鋪成的路。',cat:'裝飾'},
+{id:'butterflyhouse',e:'🦋',n:'蝴蝶休憩亭',cost:19,d:'讓蝴蝶有一座小小涼亭。',cat:'建築'},
+{id:'fairy',e:'🧚',n:'花園精靈',cost:25,d:'夢幻精靈成為花園守護者。',cat:'魔法'},
+{id:'unicorn',e:'🦄',n:'彩虹獨角獸',cost:28,d:'傳說中的夢幻訪客。',cat:'生物'},
+{id:'magicwand',e:'🪄',n:'魔法星光柱',cost:24,d:'讓花園中心閃耀魔法。',cat:'魔法'},
+{id:'waterfall',e:'🏞️',n:'薄荷瀑布',cost:26,d:'清新的瀑布景觀。',cat:'水景'},
+{id:'cloudhouse',e:'🏡',n:'薄荷花園小屋',cost:21,d:'一座溫柔可愛的小屋。',cat:'建築'},
+{id:'firefly',e:'🪲',n:'螢火蟲夜景',cost:15,d:'夜晚有小小光點飛舞。',cat:'燈光'},
+{id:'music',e:'🎶',n:'花園音樂角',cost:14,d:'為花園加上輕快旋律。',cat:'裝飾'}
+];
  gardenExtra.wheel=gardenExtra.wheel||{};gardenExtra.quests=gardenExtra.quests||{};gardenExtra.pet=gardenExtra.pet||{name:'薄荷兔兔',bond:0,care:{}};gardenExtra.pet.care=gardenExtra.pet.care||{};gardenExtra.moveBook=gardenExtra.moveBook||{};gardenExtra.gardenItems=Array.isArray(gardenExtra.gardenItems)?gardenExtra.gardenItems:[];
  function addGardenPoints(amount){gardenExtra.points+=amount;gardenExtra.earnedTotal+=amount;gardenExtra.cardNo=Math.floor(gardenExtra.earnedTotal/100)+1;gardenSave();renderRewards();renderGarden();}
  function renderWheel(){const rec=gardenExtra.wheel[today()];if(rec&&rec.task!==undefined){$('wheelEmoji').textContent=magicTasks[rec.task].e;$('wheelTask').textContent=magicTasks[rec.task].n+'｜'+magicTasks[rec.task].d;$('completeWheel').disabled=!!rec.claimed;$('wheelMsg').textContent=rec.claimed?'✓ 今天的轉盤星星已領取！':'任務完成後可領取 2 點星星。';}else{$('wheelEmoji').textContent='🎀';$('wheelTask').textContent='準備好抽取今日任務了嗎？';$('completeWheel').disabled=true;$('wheelMsg').textContent='每日最多領取一次轉盤獎勵。';}}
