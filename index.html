@@ -15,7 +15,7 @@
 .sticker-corners{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}.sticker-corners span{position:absolute;font-size:clamp(22px,3vw,34px);filter:drop-shadow(0 2px 2px #d7badb66);opacity:.88}.sticker-corners span:nth-child(1){top:8px;left:8px;transform:rotate(-12deg)}.sticker-corners span:nth-child(2){top:9px;right:10px;transform:rotate(12deg)}.sticker-corners span:nth-child(3){bottom:10px;left:8px;transform:rotate(8deg)}.sticker-corners span:nth-child(4){bottom:10px;right:10px;transform:rotate(-10deg)}.panel h2:after{content:"  🎀";font-size:.72em}.panel:nth-of-type(3n) h2:after{content:"  🦋"}.panel:nth-of-type(3n + 1) h2:after{content:"  🐰"}.calendar-notes{display:grid;grid-template-columns:1fr;gap:8px;margin-top:14px}.calendar-notes textarea{min-height:62px}.calendar-note-preview{display:block;font-size:10px;line-height:1.25;max-height:26px;overflow:hidden;overflow-wrap:anywhere;color:#8d5c91;margin-top:2px}.hand-calendar .day-cell{position:relative}.hand-calendar .day-cell .holiday-mark{color:#bd638d}.hand-calendar .day-cell.has-notes{box-shadow:inset 0 0 0 1px #e3a8ce,2px 3px 0 #e7d9ee}@media(min-width:600px){.calendar-notes{grid-template-columns:1fr 1fr 1fr}}.calendar-notes-panel{border:2px dashed #d9a9d8;background:linear-gradient(145deg,#fffaff,#f1fff9)}.calendar-notes-panel h3{margin-top:0;color:#8d629c}.calendar-notes-panel label{display:block;margin:12px 0;font-weight:800;color:#7d658d}.calendar-notes-panel textarea{display:block;width:100%;min-height:74px;margin-top:5px;box-sizing:border-box;border:2px solid #ead7ed;border-radius:14px;background:#fffdfd;padding:10px;font:inherit;resize:vertical}.calendar-notes-panel textarea:focus{outline:2px solid #cba1df;border-color:#b98bcb}</style><div class="sticker-corners" aria-hidden="true"><span>🐰</span><span>🎀</span><span>🦋</span><span>💗</span></div><main>
 <header class="hero"><div style="font-size:30px">🌷 🦋 🎀 ⭐</div><h1>小藍的夢幻體操花園</h1><p>薄荷綠 × 櫻花粉｜今天練習、晚上回顧、明天再調整</p><small>自動儲存於此瀏覽器；記得定期下載備份。</small></header>
 <div class="row"><button id="export">⬇️ 備份紀錄</button><button class="alt" id="importBtn">⬆️ 還原備份</button><input id="file" type="file" accept=".json" class="hidden"></div><p id="saved" class="status">✓ 自動儲存已開啟</p>
-<nav><button class="tab active" data-page="today">📅 今日課表</button><button class="tab alt" data-page="calendar">🗓️ 行事曆安排</button><button class="tab alt" data-page="moves">🌷 動作圖鑑</button><button class="tab alt" data-page="add">🎀 加入新動作</button><button class="tab alt" data-page="explore">🆕 新動作探索</button><button class="tab alt" data-page="history">📔 每日紀錄</button></nav>
+<nav><button class="tab active" data-page="today">📅 今日課表</button><button class="tab alt" data-page="calendar">🗓️ 行事曆安排</button><button class="tab alt" data-page="moves">🌷 動作圖鑑</button><button class="tab alt" data-page="add">🎀 加入新動作</button><button class="tab alt" data-page="explore">🆕 新動作探索</button><button class="tab alt" data-page="history">📔 每日紀錄</button><button class="tab alt" data-page="report">📈 成長報告</button></nav>
 <button class="tab" data-page="play">🤸 夢幻體操影片館</button><button class="tab" data-page="rewards">⭐ 集點收藏</button>
 <section id="calendar" class="page hidden">
 <div class="panel">
@@ -146,6 +146,7 @@
   <div class="item"><h3>👗 我的穿搭方法</h3><p>先在寶庫把喜歡的衣服、髮飾、髮型、鞋子、包包或寵物設為「穿上／使用」，小女孩就會顯示目前搭配。食物則可以餵給她，已餵食的食物會從寶庫消耗。</p><div id="outfitSummary" class="status">還沒有裝備物品，去寶庫試試看吧！</div><button class="alt" id="clearOutfit">🧺 換回基本穿搭</button></div>
 </section>
 <section id="history" class="page hidden"><div class="panel"><h2>📔 每日紀錄</h2><div id="historyList"></div></div></section>
+<section id="report" class="page hidden"><div class="panel"><h2>📈 我的七日成長報告</h2><p>根據網站已儲存的課表與每日回顧，自動整理最近七天。沒有紀錄的日子不會被當成失敗；休息也是訓練的一部分。🌿</p><p class="status" id="reportRange">正在整理……</p><div class="grid" id="reportStats"></div><div class="item"><h3>🌷 這週的練習方向</h3><div id="reportFocus"></div></div><div class="item"><h3>✨ 我值得記下的進步</h3><div id="reportWins"></div></div><div class="item"><h3>🦋 給下一週的小建議</h3><div id="reportAdvice"></div></div><button id="refreshReport">🔄 更新報告</button></div></section>
 <div class="panel"><h3>🦋 安全小提醒</h3><p>高難度翻轉、倒立及極限後彎需要合格教練與合適墊面；有疼痛或不舒服就停止並告訴可信任的大人。</p><p class="muted">瀏覽器資料仍可能因清除網站資料、換裝置或瀏覽器而消失。請定期按「備份紀錄」下載 JSON 檔，必要時用「還原備份」匯回。</p></div>
 </main><script>
 const KEY='xiaolan_gym_garden_v1',base=[['橫劈','🌷','柔軟度'],['直劈','🩰','柔軟度'],['下腰','🌙','柔軟度'],['側手翻','⭐','體操技巧'],['後滾翻','☁️','體操技巧'],['靠牆倒立','🪄','平衡與力量'],['自由倒立','💫','平衡與力量'],['Needle 針式','🦢','柔軟與平衡'],['躺姿後彎柔軟','🦋','柔軟度'],['雙手支撐的倒立柔軟','🎀','高階柔軟與支撐']];
@@ -283,7 +284,7 @@ $('calPrev').onclick=()=>{calendarView=new Date(calendarView.getFullYear(),calen
 $('calNext').onclick=()=>{calendarView=new Date(calendarView.getFullYear(),calendarView.getMonth()+1,1);renderCalendar()};
 function review(){return {energy:$('energy').value,feeling:$('feeling').value,did:$('did').value,condition:$('condition').value,win:$('win').value,focus:$('focus').value}}
 function loadReview(){let r=D.reviews[today()];if(r)Object.keys(r).forEach(k=>{if($(k))$(k).value=r[k]})}
-document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>{document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));$(b.dataset.page).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));if(b.dataset.page==='moves')renderMoves();if(b.dataset.page==='history')renderHistory();if(b.dataset.page==='calendar')renderCalendar()});
+document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>{document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));$(b.dataset.page).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));if(b.dataset.page==='moves')renderMoves();if(b.dataset.page==='history')renderHistory();if(b.dataset.page==='report')renderGrowthReport();if(b.dataset.page==='calendar')renderCalendar()});
 $('date').value=new Date().toISOString().slice(0,10);$('date').onchange=()=>{renderPlan();loadReview()};
 $('extra').onchange=()=>{ensure(today()).extra=$('extra').value;save()};
 $('updatePlan').onclick=()=>{let p=ensure(today());p.items=planFor($('focus').value,$('energy').value,$('feeling').value);p.checked={};p.extra=$('extra').value;save();renderPlan()};
@@ -355,10 +356,24 @@ $('sendWeeklyMove').onclick=()=>{
 };
 
 $('addMove').onclick=()=>{let n=$('newName').value.trim();if(!n){$('addMsg').textContent='先填入動作名稱喔！';return}if(all().some(x=>x[0]===n)){$('addMsg').textContent='這個動作已經在圖鑑裡了。';return}D.custom.push({name:n,note:$('newNote').value});save();$('newName').value='';$('newNote').value='';$('addMsg').textContent='✓ 已加入並儲存！';renderMoves()};
+function renderGrowthReport(){
+ const anchor=today(), end=new Date(anchor+'T12:00:00'), dates=[];
+ for(let i=6;i>=0;i--){const d=new Date(end);d.setDate(end.getDate()-i);dates.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'))}
+ const reviewed=dates.filter(d=>D.reviews[d]), plans=dates.map(d=>({d,p:D.plans[d]})).filter(x=>x.p);
+ const total=plans.reduce((n,x)=>n+(x.p.items||[]).length,0), done=plans.reduce((n,x)=>n+(x.p.items||[]).filter((v,i)=>x.p.checked&&x.p.checked[i]).length,0);
+ const wins=dates.map(d=>({d,r:D.reviews[d]})).filter(x=>x.r&&String(x.r.win||'').trim());
+ const focuses={};reviewed.forEach(d=>{const f=D.reviews[d].focus||'尚未選擇';focuses[f]=(focuses[f]||0)+1});
+ $('reportRange').textContent='📅 '+dates[0]+' ～ '+dates[6]+'｜回顧 '+reviewed.length+' / 7 天';
+ $('reportStats').innerHTML=[['🌱','課表完成率',total?Math.round(done/total*100)+'%':'尚無課表紀錄',done+' / '+total+' 項完成'],['📔','已寫回顧',reviewed.length+' 天','記錄精神與身體狀況'],['🤸','有安排課表',plans.length+' 天','未記錄的日子不算失敗'],['⭐','寫下的進步',wins.length+' 則','從自己的文字裡找亮點']].map(x=>'<div class="item" style="text-align:center"><div style="font-size:28px">'+x[0]+'</div><b>'+x[1]+'</b><h2 style="margin:7px 0">'+x[2]+'</h2><small>'+x[3]+'</small></div>').join('');
+ $('reportFocus').innerHTML=Object.keys(focuses).length?Object.entries(focuses).sort((a,b)=>b[1]-a[1]).map(([f,n])=>'<p>🌸 '+esc(f)+'：'+n+' 天</p>').join(''):'<p>完成每日回顧後，這裡就會整理妳這週最常選的方向。</p>';
+ $('reportWins').innerHTML=wins.length?wins.map(x=>'<p><b>📅 '+x.d+'</b><br>'+esc(x.r.win)+'</p>').join(''):'<p>這週還沒有寫下「最滿意的地方」。下次回顧時，記得記錄一個小進步，像是更穩定、更專心，或知道什麼時候該休息。</p>';
+ const sore=reviewed.some(d=>D.reviews[d].feeling==='有疼痛或不舒服'), tired=reviewed.some(d=>D.reviews[d].feeling==='疲勞或僵硬'||D.reviews[d].energy==='很累');
+ $('reportAdvice').innerHTML=sore?'<p>🌿 回顧裡有記到疼痛或不舒服。先停止引起不適的動作，告訴可信任的大人；不要為了完成率補練。</p>':tired?'<p>🌙 這週有疲勞或僵硬的紀錄。下一週把休息和輕鬆恢復也排進去，不必追求每天都加練。</p>':done>0?'<p>🌟 挑一項已經熟悉的基礎，重視動作穩定與控制；休息日照樣可以是好安排。新技巧或高風險翻轉要由合格教練在合適場地指導。</p>':'<p>🍃 先照實記錄幾天就好，不需要為了讓報告好看而加練。穩定、舒服和安全比數字重要。</p>';
+}
 function renderHistory(){let a=Object.entries(D.reviews).sort((x,y)=>y[0].localeCompare(x[0]));$('historyList').innerHTML=a.length?a.map(([d,r])=>`<div class="item"><h3>📅 ${esc(d)}</h3><p>精神：${esc(r.energy)}｜身體：${esc(r.feeling)}</p><p>今天練了：${esc(r.did)}</p><p>練習狀況：${esc(r.condition)}</p><p>滿意的地方：${esc(r.win)}</p><p>方向：${esc(r.focus)}</p></div>`).join(''):'還沒有每日紀錄，晚上儲存回顧後就會出現在這裡 🌸'}
 $('export').onclick=()=>{let b=new Blob([JSON.stringify(D,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='小藍夢幻體操花園備份.json';a.click();URL.revokeObjectURL(u)};
 $('importBtn').onclick=()=>$('file').click();$('file').onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{D={...D,...JSON.parse(r.result)};save();renderPlan();renderMoves();renderHistory();alert('備份還原成功！')}catch(e){alert('檔案格式不正確，請選擇 JSON 備份')}};r.readAsText(f)};
-renderPlan();loadReview();renderMoves();
+renderPlan();loadReview();renderMoves();$('refreshReport').onclick=renderGrowthReport;
 
 // Integrated mini-games and persistent reward system
 const gardenKey='xiaolan_gym_garden_integrated_v1';
