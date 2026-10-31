@@ -43,6 +43,26 @@ nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8p
 
 /* Flexibility encyclopedia + silent motion preview */
 .flex-demo{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:linear-gradient(135deg,#e8fff4,#f1eaff,#fff0f6);border:1px solid #d9cce8;border-radius:22px;padding:14px;margin:12px 0}.flex-demo-figure{width:150px;height:150px;flex:0 0 150px;border-radius:20px;background:#fffdfd;display:grid;place-items:center;overflow:hidden}.flex-demo-figure svg{width:135px;height:135px}.flex-demo-copy{flex:1;min-width:170px}.flex-demo-copy p{margin:5px 0}.flex-demo .muted{font-size:12px}.flex-limb{stroke:#805b91;stroke-width:7;stroke-linecap:round;fill:none;transform-box:fill-box;transform-origin:center}.flex-head{fill:#ffd5bd;stroke:#805b91;stroke-width:2}.flex-demo[data-move="直劈"] .leg-a{animation:splitA 2.8s ease-in-out infinite alternate}.flex-demo[data-move="橫劈"] .leg-a{animation:sideA 2.8s ease-in-out infinite alternate}.flex-demo[data-move="下腰"] .torso{animation:backBend 2.8s ease-in-out infinite alternate}.flex-demo[data-move="蝴蝶式"] .leg-a,.flex-demo[data-move="蝴蝶式"] .leg-b{animation:butterfly 1.7s ease-in-out infinite alternate}.flex-demo[data-move="站姿前踢腿"] .leg-a{animation:legLift 2.2s ease-in-out infinite alternate}.flex-demo[data-move="跪姿大腿前側伸展"] .torso{animation:gentleRock 2.5s ease-in-out infinite alternate}@keyframes splitA{to{transform:rotate(-42deg)}}@keyframes sideA{to{transform:rotate(-35deg)}}@keyframes backBend{to{transform:rotate(-24deg) translateY(5px)}}@keyframes butterfly{to{transform:rotate(18deg)}}@keyframes legLift{to{transform:rotate(-48deg)}}@keyframes gentleRock{to{transform:rotate(-9deg)}}
+
+/* Visible animated previews on every encyclopedia card */
+.move-card{display:flex;align-items:center;gap:10px;padding:10px;border-radius:20px;background:linear-gradient(130deg,#f0fff7,#fff3fa);border:1px solid #dfd3e9;margin:8px 0}
+.move-card-art{width:104px;height:104px;flex:0 0 104px;border-radius:17px;background:#fff;display:grid;place-items:center;overflow:hidden}
+.move-card-art svg{width:100px;height:100px}
+.move-card-art .figure{transform-box:fill-box;transform-origin:50% 70%;animation:figureSway 2.4s ease-in-out infinite alternate}
+.move-card-art .moving-leg{transform-box:fill-box;transform-origin:top center;animation:legSway 2s ease-in-out infinite alternate}
+.move-card-art .moving-arm{transform-box:fill-box;transform-origin:top center;animation:armSway 2.3s ease-in-out infinite alternate}
+.move-card-art[data-kind="split"] .moving-leg{animation-name:splitLeg}
+.move-card-art[data-kind="butterfly"] .moving-leg{animation-name:butterflyLeg}
+.move-card-art[data-kind="back"] .figure{animation-name:backPose}
+.move-card-art[data-kind="lift"] .moving-leg{animation-name:liftLeg}
+@keyframes figureSway{to{transform:translateY(-3px)}}
+@keyframes legSway{to{transform:rotate(12deg)}}
+@keyframes armSway{to{transform:rotate(-10deg)}}
+@keyframes splitLeg{to{transform:rotate(28deg)}}
+@keyframes butterflyLeg{to{transform:rotate(-22deg)}}
+@keyframes backPose{to{transform:rotate(-12deg)}}
+@keyframes liftLeg{to{transform:rotate(-42deg)}}
+.move-card-info{flex:1;min-width:0}.move-card-info b{display:block;font-size:16px}.move-card-info small{display:block;color:#806b8b;margin:3px 0 8px}
 </style><div class="sticker-corners" aria-hidden="true"><span>🐰</span><span>🎀</span><span>🦋</span><span>💗</span></div><main>
 <header class="hero"><div style="font-size:30px">🌷 🦋 🎀 ⭐</div><h1>小藍的夢幻體操花園</h1><p>薄荷綠 × 櫻花粉｜今天練習、晚上回顧、明天再調整</p><small>自動儲存於此瀏覽器；記得定期下載備份。</small></header>
 <div class="row"><button id="export">⬇️ 備份紀錄</button><button class="alt" id="importBtn">⬆️ 還原備份</button><input id="file" type="file" accept=".json" class="hidden"></div><p id="saved" class="status">✓ 自動儲存已開啟</p>
@@ -317,13 +337,18 @@ function bindCalendarNotes(){
 }
 bindCalendarNotes();
 $('calPrev').onclick=()=>{calendarView=new Date(calendarView.getFullYear(),calendarView.getMonth()-1,1);renderCalendar()};
-$('calNext').onclick=()=>{calendarView=new Date(calendarView.getFullYear(),calendarView.getMonth()+1,1);renderCalendar()};
-function review(){return {energy:$('energy').value,feeling:$('feeling').value,did:$('did').value,condition:$('condition').value,win:$('win').value,focus:$('focus').value}}
-function loadReview(){let r=D.reviews[today()];if(r)Object.keys(r).forEach(k=>{if($(k))$(k).value=r[k]})}
-document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>{document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));$(b.dataset.page).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));if(b.dataset.page==='moves')renderMoves();if(b.dataset.page==='history')renderHistory();if(b.dataset.page==='report')renderGrowthReport();if(b.dataset.page==='calendar')renderCalendar()});
-$('date').value=new Date().toISOString().slice(0,10);$('date').onchange=()=>{renderPlan();loadReview()};
-$('extra').onchange=()=>{ensure(today()).extra=$('extra').value;save()};
-$('updatePlan').onclick=()=>{let p=ensure(today());p.items=planFor($('focus').value,$('energy').value,$('feeling').value);p.checked={};p.extra=$('extra').value;save();renderPlan()};
+$('calNext').onclick=()=>{calendarView=new Date(cafunction moveCardAnimation(name){
+ let kind=name.includes('劈')?'split':name.includes('蝴蝶')||name.includes('青蛙')?'butterfly':name.includes('下腰')?'back':name.includes('踢腿')?'lift':'basic';
+ return `<div class="move-card-art" data-kind="${kind}" aria-label="${esc(name)}無聲循環示意"><svg viewBox="0 0 100 100" role="img"><g class="figure"><circle cx="50" cy="17" r="7" fill="#ffd6bd" stroke="#80618e" stroke-width="2"/><path d="M50 25 L50 53" stroke="#80618e" stroke-width="6" stroke-linecap="round" fill="none"/><path class="moving-arm" d="M50 32 L30 46" stroke="#80618e" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M50 32 L69 45" stroke="#80618e" stroke-width="5" stroke-linecap="round" fill="none"/><path class="moving-leg" d="M50 53 L27 77" stroke="#80618e" stroke-width="6" stroke-linecap="round" fill="none"/><path d="M50 53 L72 77" stroke="#80618e" stroke-width="6" stroke-linecap="round" fill="none"/></g><path d="M8 84 Q50 80 92 84" fill="none" stroke="#b9dfd0" stroke-width="2"/></svg></div>`;
+}
+function renderMoves(){
+ const q=($('moveSearch')?.value||'').trim().toLowerCase();
+ const list=all().filter(m=>(m[2]||'').toLowerCase().includes(q)||m[0].toLowerCase().includes(q));
+ $('moveCount').textContent='已核實收錄 '+base.length+' 個基礎項目'+(D.custom.length?'；另有 '+D.custom.length+' 個自訂項目':'')+'｜目標 1,500 個。每個項目都是不同動作，不拆左右邊湊數。';
+ $('moveList').innerHTML=list.map(m=>{let score=D.ratings[today()+'|'+m[0]]||0;return `<div class="item move-card">${moveCardAnimation(m[0])}<div class="move-card-info"><b>${m[1]} ${esc(m[0])}</b><small>${esc(m[2])}｜🔇 無聲動態示意</small><button class="alt" data-m="${esc(m[0])}">查看動作介紹</button><button class="alt" data-rate="${esc(m[0])}" style="margin-top:5px">⭐ ${score?score+'/5':'今日評分'}</button></div></div>`}).join('');
+ document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>showMove(b.dataset.m));
+ document.querySelectorAll('[data-rate]').forEach(b=>b.onclick=()=>{showMove(b.dataset.rate);$('detail').querySelector('[data-f="rating"]').click()});
+}>{let p=ensure(today());p.items=planFor($('focus').value,$('energy').value,$('feeling').value);p.checked={};p.extra=$('extra').value;save();renderPlan()};
 $('saveReview').onclick=()=>{D.reviews[today()]=review();save();alert('今天的回顧已儲存！🌷')};
 $('tomorrow').onclick=()=>{let r=review();D.reviews[today()]=r;D.plans[next(today())]={items:planFor(r.focus,r.energy,r.feeling),checked:{},extra:'依前一天回顧調整'};save();$('tomorrowPlan').innerHTML='<div class="status"><b>🌸 '+next(today())+' 的課表已建立並保存</b><br>'+D.plans[next(today())].items.map(x=>esc(x[0]+' '+x[1]+'：'+x[2])).join('<br>')+'</div>'};
 function renderMoves(){
