@@ -40,29 +40,6 @@ nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8p
 .tab:nth-child(5n){border-color:#cce5f2;color:#538aa5}
 .tab.active{background:linear-gradient(135deg,#c15e8e,#d27fa8);color:white}
 @media(max-width:430px){nav{gap:7px;padding:11px;border-radius:22px}.tab{flex:1 1 calc(50% - 7px);padding:10px 8px;font-size:14px;min-height:42px}.hero,.panel,.item{box-shadow:0 4px 14px #9c72a50d}}
-
-/* Flexibility encyclopedia + silent motion preview */
-.flex-demo{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:linear-gradient(135deg,#e8fff4,#f1eaff,#fff0f6);border:1px solid #d9cce8;border-radius:22px;padding:14px;margin:12px 0}.flex-demo-figure{width:150px;height:150px;flex:0 0 150px;border-radius:20px;background:#fffdfd;display:grid;place-items:center;overflow:hidden}.flex-demo-figure svg{width:135px;height:135px}.flex-demo-copy{flex:1;min-width:170px}.flex-demo-copy p{margin:5px 0}.flex-demo .muted{font-size:12px}.flex-limb{stroke:#805b91;stroke-width:7;stroke-linecap:round;fill:none;transform-box:fill-box;transform-origin:center}.flex-head{fill:#ffd5bd;stroke:#805b91;stroke-width:2}.flex-demo[data-move="直劈"] .leg-a{animation:splitA 2.8s ease-in-out infinite alternate}.flex-demo[data-move="橫劈"] .leg-a{animation:sideA 2.8s ease-in-out infinite alternate}.flex-demo[data-move="下腰"] .torso{animation:backBend 2.8s ease-in-out infinite alternate}.flex-demo[data-move="蝴蝶式"] .leg-a,.flex-demo[data-move="蝴蝶式"] .leg-b{animation:butterfly 1.7s ease-in-out infinite alternate}.flex-demo[data-move="站姿前踢腿"] .leg-a{animation:legLift 2.2s ease-in-out infinite alternate}.flex-demo[data-move="跪姿大腿前側伸展"] .torso{animation:gentleRock 2.5s ease-in-out infinite alternate}@keyframes splitA{to{transform:rotate(-42deg)}}@keyframes sideA{to{transform:rotate(-35deg)}}@keyframes backBend{to{transform:rotate(-24deg) translateY(5px)}}@keyframes butterfly{to{transform:rotate(18deg)}}@keyframes legLift{to{transform:rotate(-48deg)}}@keyframes gentleRock{to{transform:rotate(-9deg)}}
-
-/* Visible animated previews on every encyclopedia card */
-.move-card{display:flex;align-items:center;gap:10px;padding:10px;border-radius:20px;background:linear-gradient(130deg,#f0fff7,#fff3fa);border:1px solid #dfd3e9;margin:8px 0}
-.move-card-art{width:104px;height:104px;flex:0 0 104px;border-radius:17px;background:#fff;display:grid;place-items:center;overflow:hidden}
-.move-card-art svg{width:100px;height:100px}
-.move-card-art .figure{transform-box:fill-box;transform-origin:50% 70%;animation:figureSway 2.4s ease-in-out infinite alternate}
-.move-card-art .moving-leg{transform-box:fill-box;transform-origin:top center;animation:legSway 2s ease-in-out infinite alternate}
-.move-card-art .moving-arm{transform-box:fill-box;transform-origin:top center;animation:armSway 2.3s ease-in-out infinite alternate}
-.move-card-art[data-kind="split"] .moving-leg{animation-name:splitLeg}
-.move-card-art[data-kind="butterfly"] .moving-leg{animation-name:butterflyLeg}
-.move-card-art[data-kind="back"] .figure{animation-name:backPose}
-.move-card-art[data-kind="lift"] .moving-leg{animation-name:liftLeg}
-@keyframes figureSway{to{transform:translateY(-3px)}}
-@keyframes legSway{to{transform:rotate(12deg)}}
-@keyframes armSway{to{transform:rotate(-10deg)}}
-@keyframes splitLeg{to{transform:rotate(28deg)}}
-@keyframes butterflyLeg{to{transform:rotate(-22deg)}}
-@keyframes backPose{to{transform:rotate(-12deg)}}
-@keyframes liftLeg{to{transform:rotate(-42deg)}}
-.move-card-info{flex:1;min-width:0}.move-card-info b{display:block;font-size:16px}.move-card-info small{display:block;color:#806b8b;margin:3px 0 8px}
 </style><div class="sticker-corners" aria-hidden="true"><span>🐰</span><span>🎀</span><span>🦋</span><span>💗</span></div><main>
 <header class="hero"><div style="font-size:30px">🌷 🦋 🎀 ⭐</div><h1>小藍的夢幻體操花園</h1><p>薄荷綠 × 櫻花粉｜今天練習、晚上回顧、明天再調整</p><small>自動儲存於此瀏覽器；記得定期下載備份。</small></header>
 <div class="row"><button id="export">⬇️ 備份紀錄</button><button class="alt" id="importBtn">⬆️ 還原備份</button><input id="file" type="file" accept=".json" class="hidden"></div><p id="saved" class="status">✓ 自動儲存已開啟</p>
@@ -91,7 +68,7 @@ nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8p
 <section id="today" class="page">
 <div class="panel"><h2>🌤️ 今天由我幫妳選課表</h2><label>日期</label><input id="date" type="date"><p>練完一項就點一下打勾！</p><div id="plan"></div><p id="progress" class="status"></p><label>今天想加上的項目（選填）</label><input id="extra" placeholder="例如：想多練平衡基礎"><button class="alt" id="updatePlan">✨ 依今天狀況更新建議課表</button></div>
 <div class="panel"><h2>🌙 晚上回顧今天</h2><label>今天的精神</label><select id="energy"><option>普通</option><option>精神很好</option><option>很累</option></select><label>身體感覺</label><select id="feeling"><option>正常</option><option>疲勞或僵硬</option><option>有疼痛或不舒服</option></select><label>今天實際練了什麼？</label><textarea id="did" placeholder="例如：橫劈基礎、平衡練習……"></textarea><label>今天練習狀況／遇到的困難</label><textarea id="condition" placeholder="哪個動作順利？哪個還不熟？練了多久？"></textarea><label>今天最滿意的地方</label><textarea id="win" placeholder="寫下一個小小的進步 ✨"></textarea><label>明天想練的方向</label><select id="focus"><option>柔軟度</option><option>力量與平衡</option><option>體操技巧基礎</option><option>輕鬆恢復</option></select><button id="saveReview">💾 儲存今天回顧</button> <button id="tomorrow" class="alt">🌸 依今天紀錄安排明天</button><div id="tomorrowPlan"></div></div></section>
-<section id="moves" class="page hidden"><div class="panel"><h2>🌷 動作圖鑑</h2><p>柔軟度動作專區｜只收錄不同的柔軟動作，不把左右邊或換手換腳拆成新項目。示範圖無聲循環；真人教學影片會逐項核實後加入。</p><div class="row"><label for="moveSearch">🔎 搜尋動作</label><input id="moveSearch" placeholder="輸入動作名稱或類別"></div><p id="moveCount" class="muted"></p><div id="moveList" class="grid"></div></div><div id="detail" class="panel hidden"></div></section>
+<section id="moves" class="page hidden"><div class="panel"><h2>🌷 動作圖鑑</h2><p>每個動作都有五個功能：練法、每日評分、延伸動作、練習前暖身、練習後收操。</p><div id="moveList" class="grid"></div></div><div id="detail" class="panel hidden"></div></section>
 <section id="add" class="page hidden"><div class="panel"><h2>🎀 加入新動作</h2><p>找到新動作時，把截圖直接傳到聊天中請我協助辨認；確認名稱後再加入圖鑑。</p><label>動作名稱</label><input id="newName" placeholder="例如：新動作（待確認）"><label>姿勢線索／備註</label><textarea id="newNote" placeholder="知道的線索可以寫在這裡"></textarea><button id="addMove">🌟 加入動作圖鑑</button><p id="addMsg"></p></div></section>
 
 <section id="explore" class="page hidden">
@@ -200,12 +177,7 @@ nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8p
 <section id="report" class="page hidden"><div class="panel"><h2>📈 我的七日成長報告</h2><p>根據網站已儲存的課表與每日回顧，自動整理最近七天。沒有紀錄的日子不會被當成失敗；休息也是訓練的一部分。🌿</p><p class="status" id="reportRange">正在整理……</p><div class="grid" id="reportStats"></div><div class="item"><h3>🌷 這週的練習方向</h3><div id="reportFocus"></div></div><div class="item"><h3>✨ 我值得記下的進步</h3><div id="reportWins"></div></div><div class="item"><h3>🦋 給下一週的小建議</h3><div id="reportAdvice"></div></div><button id="refreshReport">🔄 更新報告</button></div></section>
 <div class="panel"><h3>🦋 安全小提醒</h3><p>高難度翻轉、倒立及極限後彎需要合格教練與合適墊面；有疼痛或不舒服就停止並告訴可信任的大人。</p><p class="muted">瀏覽器資料仍可能因清除網站資料、換裝置或瀏覽器而消失。請定期按「備份紀錄」下載 JSON 檔，必要時用「還原備份」匯回。</p></div>
 </main><script>
-const KEY='xiaolan_gym_garden_v1',base=[
- ['直劈','🩰','腿部柔軟'],['橫劈','🌷','腿部柔軟'],['下腰','🌙','脊椎與肩部柔軟'],
- ['蝴蝶式','🦋','髖部柔軟'],['青蛙趴','🐸','髖部柔軟'],['坐姿前屈','🌿','腿後側柔軟'],
- ['站姿前踢腿','⭐','主動柔軟'],['跪姿大腿前側伸展','🌼','腿部柔軟'],['仰躺抱膝伸展','☁️','背部柔軟'],
- ['肩部開展伸展','🎀','肩部柔軟'],['弓箭步髖屈肌伸展','🌸','髖部柔軟'],['小腿靠牆伸展','🫧','腿部柔軟']
-];
+const KEY='xiaolan_gym_garden_v1',base=[['橫劈','🌷','柔軟度'],['直劈','🩰','柔軟度'],['下腰','🌙','柔軟度'],['側手翻','⭐','體操技巧'],['後滾翻','☁️','體操技巧'],['靠牆倒立','🪄','平衡與力量'],['自由倒立','💫','平衡與力量'],['Needle 針式','🦢','柔軟與平衡'],['躺姿後彎柔軟','🦋','柔軟度'],['雙手支撐的倒立柔軟','🎀','高階柔軟與支撐']];
 let D={custom:[],plans:{},reviews:{},ratings:{},notes:{},statuses:{}};
 try{D={...D,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){}
 const $=id=>document.getElementById(id),today=()=> $('date').value||new Date().toISOString().slice(0,10),next=d=>{let x=new Date(d+'T12:00:00');x.setDate(x.getDate()+1);return x.toISOString().slice(0,10)},all=()=>[...base,...D.custom.map(x=>[x.name,'🌟','新加入'])],esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -338,21 +310,16 @@ function bindCalendarNotes(){
 bindCalendarNotes();
 $('calPrev').onclick=()=>{calendarView=new Date(calendarView.getFullYear(),calendarView.getMonth()-1,1);renderCalendar()};
 $('calNext').onclick=()=>{calendarView=new Date(calendarView.getFullYear(),calendarView.getMonth()+1,1);renderCalendar()};
-function moveCardAnimation(name){
- let kind=name.includes('劈')?'split':name.includes('蝴蝶')||name.includes('青蛙')?'butterfly':name.includes('下腰')?'back':name.includes('踢腿')?'lift':'basic';
- return `<div class="move-card-art" data-kind="${kind}" aria-label="${esc(name)}無聲循環示意"><svg viewBox="0 0 100 100" role="img"><g class="figure"><circle cx="50" cy="17" r="7" fill="#ffd6bd" stroke="#80618e" stroke-width="2"/><path d="M50 25 L50 53" stroke="#80618e" stroke-width="6" stroke-linecap="round" fill="none"/><path class="moving-arm" d="M50 32 L30 46" stroke="#80618e" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M50 32 L69 45" stroke="#80618e" stroke-width="5" stroke-linecap="round" fill="none"/><path class="moving-leg" d="M50 53 L27 77" stroke="#80618e" stroke-width="6" stroke-linecap="round" fill="none"/><path d="M50 53 L72 77" stroke="#80618e" stroke-width="6" stroke-linecap="round" fill="none"/></g><path d="M8 84 Q50 80 92 84" fill="none" stroke="#b9dfd0" stroke-width="2"/></svg></div>`;
-}
+function review(){return {energy:$('energy').value,feeling:$('feeling').value,did:$('did').value,condition:$('condition').value,win:$('win').value,focus:$('focus').value}}
+function loadReview(){let r=D.reviews[today()];if(r)Object.keys(r).forEach(k=>{if($(k))$(k).value=r[k]})}
+document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>{document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));$(b.dataset.page).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));if(b.dataset.page==='moves')renderMoves();if(b.dataset.page==='history')renderHistory();if(b.dataset.page==='report')renderGrowthReport();if(b.dataset.page==='calendar')renderCalendar()});
+$('date').value=new Date().toISOString().slice(0,10);$('date').onchange=()=>{renderPlan();loadReview()};
+$('extra').onchange=()=>{ensure(today()).extra=$('extra').value;save()};
 $('updatePlan').onclick=()=>{let p=ensure(today());p.items=planFor($('focus').value,$('energy').value,$('feeling').value);p.checked={};p.extra=$('extra').value;save();renderPlan()};
-function renderMoves(){
- const q=($('moveSearch')?.value||'').trim().toLowerCase();
- const list=all().filter(m=>(m[2]||'').toLowerCase().includes(q)||m[0].toLowerCase().includes(q));
- $('moveCount').textContent='已核實收錄 '+base.length+' 個基礎項目'+(D.custom.length?'；另有 '+D.custom.length+' 個自訂項目':'')+'｜目標 1,500 個。每個項目都是不同動作，不拆左右邊湊數。';
- $('moveList').innerHTML=list.map(m=>{let score=D.ratings[today()+'|'+m[0]]||0;return `<div class="item move-card">${moveCardAnimation(m[0])}<div class="move-card-info"><b>${m[1]} ${esc(m[0])}</b><small>${esc(m[2])}｜🔇 無聲動態示意</small><button class="alt" data-m="${esc(m[0])}">查看動作介紹</button><button class="alt" data-rate="${esc(m[0])}" style="margin-top:5px">⭐ ${score?score+'/5':'今日評分'}</button></div></div>`}).join('');
- document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>showMove(b.dataset.m));
- document.querySelectorAll('[data-rate]').forEach(b=>b.onclick=()=>{showMove(b.dataset.rate);$('detail').querySelector('[data-f="rating"]').click()});
-}
-if($('moveSearch'))$('moveSearch').addEventListener('input',renderMoves);
-function showMove(name){let d=$('detail');d.classList.remove('hidden');let fs=[['practice','📖 練法'],['rating','⭐ 每日評分'],['extend','🌈 延伸動作'],['warmup','🌤️ 練習前暖身'],['cooldown','🌸 練習後收操']];d.innerHTML=`<h2>${esc(name)}</h2><div class="flex-demo" data-move="${esc(name)}"><div class="flex-demo-figure"><svg viewBox="0 0 120 120" role="img" aria-label="${esc(name)}無聲動態姿勢示意"><circle class="flex-head" cx="60" cy="19" r="9"/><path class="flex-limb torso" d="M60 30 L60 67"/><path class="flex-limb" d="M60 39 L43 54 M60 39 L77 54"/><path class="flex-limb leg-a" d="M60 67 L38 91"/><path class="flex-limb leg-b" d="M60 67 L82 91"/><path d="M12 102 Q60 98 108 102" stroke="#b7dcca" stroke-width="3" fill="none"/></svg></div><div class="flex-demo-copy"><b>🔇 無聲動態姿勢示意</b><p>人物線稿會循環活動，幫助辨認姿勢方向。</p><p class="muted">這是簡化動畫，不是真人教學影片；真人示範影片待逐項核實後補上。</p></div></div><div class="grid">${fs.map(f=>`<button class="alt" data-f="${f[0]}">${f[1]}</button>`).join('')}</div><div id="fc" class="item"><p>選擇上方功能查看內容。</p></div>`;d.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{let c=$('fc'),f=b.dataset.f;if(f==='rating'){let k=today()+'|'+name,n=D.ratings[k]||0;c.innerHTML=`<h3>⭐ 每日評分｜${esc(name)}</h3><p>${today()}</p><div class="stars">${[1,2,3,4,5].map(i=>`<button class="${i<=n?'on':''}" data-s="${i}">★</button>`).join('')}</div><p id="st">${n}/5 顆星</p><label>熟練狀態</label><select id="ms"><option>尚在學習</option><option>練習中</option><option>已熟練</option></select><label>今天的心得</label><textarea id="mn">${esc(D.notes[k]||'')}</textarea><button id="sm">💾 儲存評分與心得</button>`;c.querySelector('#ms').value=D.statuses[name]||'練習中';c.querySelectorAll('[data-s]').forEach(s=>s.onclick=()=>{n=+s.dataset.s;c.querySelectorAll('[data-s]').forEach(z=>z.classList.toggle('on',+z.dataset.s<=n));$('st').textContent=n+'/5 顆星'});$('sm').onclick=()=>{D.ratings[k]=n;D.notes[k]=$('mn').value;D.statuses[name]=$('ms').value;save();c.insertAdjacentHTML('beforeend','<p class="status">✓ 已儲存</p>')}}else{
+$('saveReview').onclick=()=>{D.reviews[today()]=review();save();alert('今天的回顧已儲存！🌷')};
+$('tomorrow').onclick=()=>{let r=review();D.reviews[today()]=r;D.plans[next(today())]={items:planFor(r.focus,r.energy,r.feeling),checked:{},extra:'依前一天回顧調整'};save();$('tomorrowPlan').innerHTML='<div class="status"><b>🌸 '+next(today())+' 的課表已建立並保存</b><br>'+D.plans[next(today())].items.map(x=>esc(x[0]+' '+x[1]+'：'+x[2])).join('<br>')+'</div>'};
+function renderMoves(){$('moveList').innerHTML=all().map(m=>{let score=D.ratings[today()+'|'+m[0]]||0;return `<div class="item"><button class="alt" data-m="${esc(m[0])}" style="width:100%;text-align:left;background:linear-gradient(135deg,#fff,#f4fff9 48%,#fff0f7);">${m[1]} ${esc(m[0])}<br><small>${esc(m[2])}</small></button><button class="alt" data-rate="${esc(m[0])}" style="width:100%;margin-top:6px">⭐ 今日評分：${score?score+'/5 顆星':'尚未評分'}</button></div>`}).join('');document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>showMove(b.dataset.m));document.querySelectorAll('[data-rate]').forEach(b=>b.onclick=()=>{showMove(b.dataset.rate);$('detail').querySelector('[data-f="rating"]').click()})}
+function showMove(name){let d=$('detail');d.classList.remove('hidden');let fs=[['practice','📖 練法'],['rating','⭐ 每日評分'],['extend','🌈 延伸動作'],['warmup','🌤️ 練習前暖身'],['cooldown','🌸 練習後收操']];d.innerHTML=`<h2>${esc(name)}</h2><div class="grid">${fs.map(f=>`<button class="alt" data-f="${f[0]}">${f[1]}</button>`).join('')}</div><div id="fc" class="item"><p>選擇上方功能查看內容。</p></div>`;d.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{let c=$('fc'),f=b.dataset.f;if(f==='rating'){let k=today()+'|'+name,n=D.ratings[k]||0;c.innerHTML=`<h3>⭐ 每日評分｜${esc(name)}</h3><p>${today()}</p><div class="stars">${[1,2,3,4,5].map(i=>`<button class="${i<=n?'on':''}" data-s="${i}">★</button>`).join('')}</div><p id="st">${n}/5 顆星</p><label>熟練狀態</label><select id="ms"><option>尚在學習</option><option>練習中</option><option>已熟練</option></select><label>今天的心得</label><textarea id="mn">${esc(D.notes[k]||'')}</textarea><button id="sm">💾 儲存評分與心得</button>`;c.querySelector('#ms').value=D.statuses[name]||'練習中';c.querySelectorAll('[data-s]').forEach(s=>s.onclick=()=>{n=+s.dataset.s;c.querySelectorAll('[data-s]').forEach(z=>z.classList.toggle('on',+z.dataset.s<=n));$('st').textContent=n+'/5 顆星'});$('sm').onclick=()=>{D.ratings[k]=n;D.notes[k]=$('mn').value;D.statuses[name]=$('ms').value;save();c.insertAdjacentHTML('beforeend','<p class="status">✓ 已儲存</p>')}}else{
 const moveGuides={
 '橫劈':{practice:['在穩固、防滑的地面上，先做輕鬆走動與髖部活動。','扶著穩固支撐物做小幅度前後站姿重心轉移，左右各 5 次。','若平常已有柔軟度練習經驗，可在墊上做短時間、無痛的溫和伸展；不向下壓腿。'],extend:['練習站姿前後重心轉移，保持骨盆朝前。','可做溫和的髖部活動度練習，不增加下壓幅度。','更深的劈腿幅度由教練評估。'],warmup:['輕鬆踏步 2 分鐘。','扶穩支撐物做小幅度抬膝與腿部前後擺動。','髖部畫小圈，動作慢且不疼痛。'],cooldown:['慢慢走動 1 分鐘。','舒適坐姿放鬆腿部，不向下壓。','正常呼吸，若有拉扯痛就停止。']},
 '直劈':{practice:['先輕鬆走動，再活動髖部、膝踝關節。','扶穩支撐物做小幅度弓箭步重心轉移，每側 5 次。','只在熟悉且舒服的活動範圍內做溫和伸展，不壓腿、不彈震。'],extend:['練習站姿弓箭步的平衡與軀幹穩定。','做小幅度髖部活動，不追求更低的位置。','更深的直劈變化需由教練評估。'],warmup:['輕鬆踏步 2 分鐘。','腳踝畫圈、膝蓋輕微屈伸。','扶穩支撐物做小幅度弓箭步重心轉移。'],cooldown:['慢慢走動至呼吸平穩。','輕鬆活動髖部與腿部，不壓向地面。','保持自然呼吸。']},
