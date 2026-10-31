@@ -337,25 +337,17 @@ function bindCalendarNotes(){
 }
 bindCalendarNotes();
 $('calPrev').onclick=()=>{calendarView=new Date(calendarView.getFullYear(),calendarView.getMonth()-1,1);renderCalendar()};
-$('calNext').onclick=()=>{calendarView=new Date(cafunction moveCardAnimation(name){
+$('calNext').onclick=()=>{calendarView=new Date(calendarView.getFullYear(),calendarView.getMonth()+1,1);renderCalendar()};
+function moveCardAnimation(name){
  let kind=name.includes('劈')?'split':name.includes('蝴蝶')||name.includes('青蛙')?'butterfly':name.includes('下腰')?'back':name.includes('踢腿')?'lift':'basic';
  return `<div class="move-card-art" data-kind="${kind}" aria-label="${esc(name)}無聲循環示意"><svg viewBox="0 0 100 100" role="img"><g class="figure"><circle cx="50" cy="17" r="7" fill="#ffd6bd" stroke="#80618e" stroke-width="2"/><path d="M50 25 L50 53" stroke="#80618e" stroke-width="6" stroke-linecap="round" fill="none"/><path class="moving-arm" d="M50 32 L30 46" stroke="#80618e" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M50 32 L69 45" stroke="#80618e" stroke-width="5" stroke-linecap="round" fill="none"/><path class="moving-leg" d="M50 53 L27 77" stroke="#80618e" stroke-width="6" stroke-linecap="round" fill="none"/><path d="M50 53 L72 77" stroke="#80618e" stroke-width="6" stroke-linecap="round" fill="none"/></g><path d="M8 84 Q50 80 92 84" fill="none" stroke="#b9dfd0" stroke-width="2"/></svg></div>`;
 }
+$('updatePlan').onclick=()=>{let p=ensure(today());p.items=planFor($('focus').value,$('energy').value,$('feeling').value);p.checked={};p.extra=$('extra').value;save();renderPlan()};
 function renderMoves(){
  const q=($('moveSearch')?.value||'').trim().toLowerCase();
  const list=all().filter(m=>(m[2]||'').toLowerCase().includes(q)||m[0].toLowerCase().includes(q));
  $('moveCount').textContent='已核實收錄 '+base.length+' 個基礎項目'+(D.custom.length?'；另有 '+D.custom.length+' 個自訂項目':'')+'｜目標 1,500 個。每個項目都是不同動作，不拆左右邊湊數。';
  $('moveList').innerHTML=list.map(m=>{let score=D.ratings[today()+'|'+m[0]]||0;return `<div class="item move-card">${moveCardAnimation(m[0])}<div class="move-card-info"><b>${m[1]} ${esc(m[0])}</b><small>${esc(m[2])}｜🔇 無聲動態示意</small><button class="alt" data-m="${esc(m[0])}">查看動作介紹</button><button class="alt" data-rate="${esc(m[0])}" style="margin-top:5px">⭐ ${score?score+'/5':'今日評分'}</button></div></div>`}).join('');
- document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>showMove(b.dataset.m));
- document.querySelectorAll('[data-rate]').forEach(b=>b.onclick=()=>{showMove(b.dataset.rate);$('detail').querySelector('[data-f="rating"]').click()});
-}>{let p=ensure(today());p.items=planFor($('focus').value,$('energy').value,$('feeling').value);p.checked={};p.extra=$('extra').value;save();renderPlan()};
-$('saveReview').onclick=()=>{D.reviews[today()]=review();save();alert('今天的回顧已儲存！🌷')};
-$('tomorrow').onclick=()=>{let r=review();D.reviews[today()]=r;D.plans[next(today())]={items:planFor(r.focus,r.energy,r.feeling),checked:{},extra:'依前一天回顧調整'};save();$('tomorrowPlan').innerHTML='<div class="status"><b>🌸 '+next(today())+' 的課表已建立並保存</b><br>'+D.plans[next(today())].items.map(x=>esc(x[0]+' '+x[1]+'：'+x[2])).join('<br>')+'</div>'};
-function renderMoves(){
- const q=($('moveSearch')?.value||'').trim().toLowerCase();
- const list=all().filter(m=>(m[2]||'').includes(q)||m[0].toLowerCase().includes(q));
- $('moveCount').textContent='目前收錄 '+all().length+' 個已命名項目｜目標 1,500 個；未核實項目不計數。';
- $('moveList').innerHTML=list.map(m=>{let score=D.ratings[today()+'|'+m[0]]||0;return `<div class="item"><button class="alt" data-m="${esc(m[0])}" style="width:100%;text-align:left;background:linear-gradient(135deg,#fff,#f4fff9 48%,#fff0f7);">${m[1]} ${esc(m[0])}<br><small>${esc(m[2])}</small></button><button class="alt" data-rate="${esc(m[0])}" style="width:100%;margin-top:6px">⭐ 今日評分：${score?score+'/5 顆星':'尚未評分'}</button></div>`}).join('');
  document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>showMove(b.dataset.m));
  document.querySelectorAll('[data-rate]').forEach(b=>b.onclick=()=>{showMove(b.dataset.rate);$('detail').querySelector('[data-f="rating"]').click()});
 }
